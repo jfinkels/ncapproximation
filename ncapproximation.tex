@@ -9,6 +9,7 @@
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}
 \newtheorem{proposition}{Proposition}
+\newtheorem{theorem}{Theorem}
 
 \mathchardef\mhyphen="2D
 
@@ -17,6 +18,40 @@
 \newcommand{\lb}{\left\{}
 \newcommand{\rb}{\right\}}
 \newcommand{\st}{\,\middle|\,}
+
+\newcommand{\apxncoproblems}{%
+  Induced Subgraph of High Weight for Linear Extremal Properties \cite{dsst97}
+  Maximum Acyclic Subgraph \cite[Section~7.4]{dsst97}
+  Minimum $k$-Center \cite[Section~7.4]{dsst97}
+  $k$-Switching Network \cite[Section~7.4]{dsst97}
+  Maximum Bounded Weighted Satisfiability \cite[Theorem~4]{sx95}
+}
+\newcommand{\expapxncoproblems}{}
+\newcommand{\frncasproblems}{%
+  Maximum Flow \cite[Theorem~4.5.2]{dsst97},
+  Maximum Weight Perfect Matching \cite[Theorem~4.5.2]{dsst97},
+  Maximum Weight Matching \cite[Theorem~4.5.2]{dsst97}
+}
+\newcommand{\fncasproblems}{%
+  Subset Sum \cite[Theorem~4.1.4]{dsst97},
+  Maximum Satisfiability \cite[Theorem~8]{trevisan98},
+  Minimum Weight Vertex Cover \cite[Theorem~5.3.6]{dsst97},
+  0-1 Knapsack \cite[Theorem~2]{mayr88}
+  Bin Packing \cite[Theorem~3]{mayr88}
+}
+\newcommand{\ncasproblems}{%
+  Positive Linear Programming \cite[Theorem~5.1.11]{dsst97},
+  Maximum $k$-Constraint Satisfaction Problem \cite[Corollary~13]{trevisan98},
+  Maximum Matching \cite[Theorem~5.2.1]{dsst97},
+  Maximum Flow \cite[Theorem~5.2.2]{dsst97},
+  Maximum Weight Matching \cite[Theorem~5.2.2]{dsst97},
+  Maximum Independent Set \cite[Theorem 6.4.1]{dsst97}
+}
+\newcommand{\rncasproblems}{%
+  Minimum Metric Traveling Salesperson \cite[Theorem~7.1.1]{dsst97}
+}
+\newcommand{\ncoproblems}{}
+\newcommand{\polyapxncoproblems}{}
 
 \author{Jef{}frey Finkelstein}
 \date{\today}
@@ -113,13 +148,14 @@ Throughout this work, $\Sigma=\{0, 1\}$ and inputs and outputs are encoded in bi
   \item $P\in\polyApxNCO$ if there exists an $r$-approximator in \FNC{} for $P$, where $r$ is a polynomial.
   %% \item $P\in\logApxNCO$ if there exists an $r$-approxiator in \FNC{} for $P$, where $r(n)=O(\lg n)$.
   \item $P\in\ApxNCO$ if there exists an $r$-approximator in \FNC{} for $P$, where $r$ is a constant function.
+    (This class is also known as \NCX.)
   \item $P\in\NCAS$ if there exists an approximation scheme $f$ for $P$ such that $f_k\in\FNC$ for each $k\in\mathbb{N}$, where $f_k(x)=f(x, k)$ for all $x\in\Sigma^*$.
   \item $P\in\FNCAS$ if there exists an approximation scheme $f$ for $P$ such that $f\in\FNC$ in the sense that the size of the circuit is polynomial in both $|x|$ and $k$ and the depth of the circuit is polylogarithmic in both $|x|$ and $k$.
   \end{enumerate}
 \end{definition}
 
 \begin{proposition}
-  $\NCO \subseteq \NCAS \subseteq \ApxNCO \subseteq \polyApxNCO \subseteq \expApxNCO \subseteq \NNCO$
+  $\NCO \subseteq \FNCAS \subseteq \NCAS \subseteq \ApxNCO \subseteq \polyApxNCO \subseteq \expApxNCO \subseteq \NNCO$
 \end{proposition}
 
 \section{Reductions among approximation problems}
@@ -130,7 +166,7 @@ We bound the E-reduction to logarithmic space instead of requiring that it be a 
 
 \begin{definition}
   let $P$ and $Q$ be optimization problems.
-  We write $P\Er Q$ if there exists a triple $(f, g, \alpha)$, where $f$ and $g$ are functions computable in logarithmic space and $\alpha\in\mathbb{N}$, such that for all $x\in P_\exists$ we have $f(x)\in Q_\exists$ and for all $y\in S_Q(f(x))$ we have $g(x, y)\in S_P(x)$ and $\frac{R_P(x, g(x, y)) - 1}{R_Q(f(x), y) - 1} \leq \alpha$.
+  We write $P\Er Q$ if there exists a triple $(f, g, \alpha)$, where $f$ and $g$ are functions computable in logarithmic space and $\alpha\in\mathbb{N}$, such that for all $x\in P_\exists$ we have $f(x)\in Q_\exists$ and for all $y\in S_Q(f(x))$ we have $g(x, y)\in S_P(x)$ and $R_P(x, g(x, y)) - 1 \leq \alpha \cdot (R_Q(f(x), y) - 1)$.
 \end{definition}
 
 \begin{proposition}
@@ -141,6 +177,43 @@ We bound the E-reduction to logarithmic space instead of requiring that it be a 
 \end{proposition}
 \begin{proof}
   TODO: fill me in by following the proof from \cite{tantau07}.
+\end{proof}
+
+\section{Complexity of extant parallel approximations}
+
+For a listing of somewhat contemporary results on efficient \emph{sequential} approximation, see \cite{compendium}.
+
+\begin{proposition}
+  \mbox{}
+  \begin{itemize}
+  \item \expApxNCO{} contains \expapxncoproblems.
+  \item \polyApxNCO{} contains \polyapxncoproblems.
+  \item \ApxNCO{} contains \apxncoproblems.
+  \item \NCAS{} contains \ncasproblems.
+  \item \FNCAS{} contains \fncasproblems.
+  \item \NCO{} contains \ncoproblems.
+  \end{itemize}
+\end{proposition}
+
+Some problems exhibit ``threshold'' behavior: for certain values of a parameter (for example, $0 < \epsilon < 1/2$) the approximation problem is computable in \NC, but for other values (for example, $1/2 \leq \epsilon < 1$) the approximation problem is \P-complete.
+
+\section{Complete problems}
+
+\begin{definition}
+  For $\mathcal{C}\in \{\NCO, \NCAS, \ApxNCO, \polyApxNCO, \expApxNCO, \NNCO\}$, an optimization problem $Q$ is \emph{$\mathcal{C}$-hard} if for all $P\in\mathcal{C}$, we have $P\Er Q$.
+  If further $Q\in\mathcal{C}$, we say it is $\mathcal{C}$-complete.
+\end{definition}
+
+We wish to demonstrate complete problems for each of these approximation classes.
+%To do this we start with \NP-complete optimization problems.
+
+In \cite{sx95}, the authors prove that Maximum Bounded Weighted Satisfiability is complete for \ApxNCO{} (there called ``\NCX'') under a less restrictive type of reduction called an ``\NCAS{} reduction''.
+We show that their proof works also for E-reductions.
+\begin{theorem}
+  Maximum Bounded Weighted Satisfiability is \ApxNCO-complete.
+\end{theorem}
+\begin{proof}
+  TODO: fill me in by following the proof from \cite{sx95}; unfortunately, their proof is very sketchy.
 \end{proof}
 
 \section{About this work}
