@@ -10,7 +10,9 @@
 \newtheorem{definition}{Definition}
 \newtheorem{proposition}{Proposition}
 
-\newcommand{\Er}{\leq_E^{\NC}}
+\mathchardef\mhyphen="2D
+
+\newcommand{\Er}{\leq_E^{L}}
 \newcommand{\email}[1]{\href{mailto:#1}{\nolinkurl{#1}}}
 \newcommand{\lb}{\left\{}
 \newcommand{\rb}{\right\}}
@@ -93,7 +95,10 @@ Throughout this work, $\Sigma=\{0, 1\}$ and inputs and outputs are encoded in bi
 \end{definition}
 
 \begin{definition}
-  Let $P$ be an optimization problem, let $r\colon \mathbb{N}\to\mathbb{N}$, and let $f\colon I\to \Sigma^*$. We say $f$ is an \emph{$r$-approximator for $P$} if it produces solutions for $P$ and $R(x, f(x)) \leq r(|x|)$ for all $x\in P_\exists$.
+  Let $P$ be an optimization problem, let $r\colon \mathbb{N}\to\mathbb{N}$, and let $f\colon I\to \Sigma^*$.
+  We say $f$ is an \emph{$r$-approximator for $P$} if it produces solutions for $P$ and $R(x, f(x)) \leq r(|x|)$ for all $x\in P_\exists$.
+
+  If $r$ is the constant function with value $\delta$, we simply say $f$ is a \emph{$\delta$-approximator for $P$}.
 \end{definition}
 
 \begin{definition}
@@ -106,8 +111,10 @@ Throughout this work, $\Sigma=\{0, 1\}$ and inputs and outputs are encoded in bi
   \begin{enumerate}
   \item $P\in\expApxNCO$ if there exists an $r$-approximator in \FNC{} for $P$, where $r(n)=2^{n^{O(1)}}$ for all $n\in\mathbb{N}$.
   \item $P\in\polyApxNCO$ if there exists an $r$-approximator in \FNC{} for $P$, where $r$ is a polynomial.
+  %% \item $P\in\logApxNCO$ if there exists an $r$-approxiator in \FNC{} for $P$, where $r(n)=O(\lg n)$.
   \item $P\in\ApxNCO$ if there exists an $r$-approximator in \FNC{} for $P$, where $r$ is a constant function.
-  \item $P\in\NCAS$ if there exists an approximation scheme $f$ for $P$ such that $f_k\in\FNC$ for all $k\in\mathbb{N}$, where $f_k(x)=f(x, k)$ for all $x\in\Sigma^*$.
+  \item $P\in\NCAS$ if there exists an approximation scheme $f$ for $P$ such that $f_k\in\FNC$ for each $k\in\mathbb{N}$, where $f_k(x)=f(x, k)$ for all $x\in\Sigma^*$.
+  \item $P\in\FNCAS$ if there exists an approximation scheme $f$ for $P$ such that $f\in\FNC$ in the sense that the size of the circuit is polynomial in both $|x|$ and $k$ and the depth of the circuit is polylogarithmic in both $|x|$ and $k$.
   \end{enumerate}
 \end{definition}
 
@@ -117,12 +124,13 @@ Throughout this work, $\Sigma=\{0, 1\}$ and inputs and outputs are encoded in bi
 
 \section{Reductions among approximation problems}
 
-There are many notions of reductions among approximation problems.
-The \emph{error-preserving reduction} (E-reduction) is the finest.
+There are many reductions for approximation problems.
+Although the authors of \cite{ckst95} consider it to be too restrictive for polynomial time approximation classes, we will use the \emph{error-preserving reduction} (E-reduction).
+We bound the E-reduction to logarithmic space instead of requiring that it be a \FNC{} circuit family because 1. the former is (probably) a stronger notion of reduction and hence implies the latter, 2. existing results on approximability and approximation classes use the former, and 3. it eases analysis in some proofs.
 
 \begin{definition}
   let $P$ and $Q$ be optimization problems.
-  We write $P\Er Q$ if there exists a triple $(f, g, \alpha)$, where $f,g\in FNC$ and $\alpha\in\mathbb{N}$, such that for all $x\in P_\exists$ we have $f(x)\in Q_\exists$ and for all $y\in S_Q(f(x))$ we have $g(x, y)\in S_P(x)$ and $\frac{R_P(x, g(x, y)) - 1}{R_Q(f(x), y) - 1} \leq \alpha$.
+  We write $P\Er Q$ if there exists a triple $(f, g, \alpha)$, where $f$ and $g$ are functions computable in logarithmic space and $\alpha\in\mathbb{N}$, such that for all $x\in P_\exists$ we have $f(x)\in Q_\exists$ and for all $y\in S_Q(f(x))$ we have $g(x, y)\in S_P(x)$ and $\frac{R_P(x, g(x, y)) - 1}{R_Q(f(x), y) - 1} \leq \alpha$.
 \end{definition}
 
 \begin{proposition}
@@ -132,8 +140,7 @@ The \emph{error-preserving reduction} (E-reduction) is the finest.
   In other words, $\mathcal{C}$ is closed under $\Er$ reductions.
 \end{proposition}
 \begin{proof}
-  TODO fill me in.
-  Follow the proof from \cite{tantau07}, but ensuring that the lengths of the outputs of \FNC{} circuits are not too long.
+  TODO: fill me in by following the proof from \cite{tantau07}.
 \end{proof}
 
 \section{About this work}
