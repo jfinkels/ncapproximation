@@ -14,7 +14,10 @@
 
 \mathchardef\mhyphen="2D
 
+\newenvironment{justification}{\begin{proof}[Justification]}{\end{proof}}
+
 \newcommand{\Er}{\leq_E^{L}}
+\newcommand{\APr}{\leq_AP^{L}}
 \newcommand{\email}[1]{\href{mailto:#1}{\nolinkurl{#1}}}
 \newcommand{\lb}{\left\{}
 \newcommand{\pb}{\textsf{pb}}
@@ -165,28 +168,33 @@ Cai and Chen \cite{cc97} prove that for each natural number $k$ and $i$, there i
 
 Each of these classes includes the one defined below it.
 
-Each class also has a ``polynomially bounded'' variant, denoted by the subscript \pb, in which an optimization problem with measure $m$ has the property that there exists a polynomial $p$ such that $m(x, y) \leq p(|x|)$ for all $(x, y)\in S$.
+Each class also has a ``polynomially bounded'' variant, denoted by the subscript \pb, in which an optimization problem with measure $m$ and solution set $S$ has the property that there exists a polynomial $p$ such that $m(x, y) \leq p(|x|)$ for all $(x, y)\in S$.
 Another common variant of these classes is the probabilistic versions of each (for example, randomized \NCAS{}, denoted \RNCAS), but we do not explore such classes in this work.
 
 \section{Reductions among approximation problems}
 
-There are many reductions for approximation problems.
-Although the authors of \cite{ckst95} consider it to be too restrictive for polynomial time approximation classes, we will use the \emph{error-preserving reduction} (E-reduction).
-We bound the E-reduction to logarithmic space instead of requiring that it be a \FNC{} circuit family because 1. the former notion of reduction is more restrictive and hence implies the latter, 2. existing results on approximability and approximation classes use the former, and 3. it eases analysis in some proofs.
+There are many reductions for approximation problems; nine of them are defined in a survey paper by Crescenzi \cite{crescenzi97}.
+%Although the authors of \cite{ckst95} consider it to be too restrictive for polynomial time approximation classes, we will use the \emph{error-preserving reduction} (E-reduction).
+%We bound the E-reduction to logarithmic space instead of requiring that it be a \FNC{} circuit family because 1. the former notion of reduction is more restrictive and hence implies the latter, 2. existing results on approximability and approximation classes use the former, and 3. it eases analysis in some proofs.
+We will use the ``AP reduction'', considered by experts to be the most reasonable reduction \cite[Section~8.6]{acgkmp99}, to compare approximation problems.
 
-\begin{definition}
-  let $P$ and $Q$ be optimization problems.
-  We write $P\Er Q$ if there exists a triple $(f, g, \alpha)$, where $f$ and $g$ are functions computable in logarithmic space and $\alpha\in\mathbb{N}$, such that for all $x\in P_\exists$ we have $f(x)\in Q_\exists$ and for all $y\in S_Q(f(x))$ we have $g(x, y)\in S_P(x)$ and $R_P(x, g(x, y)) - 1 \leq \alpha \cdot (R_Q(f(x), y) - 1)$.
-\end{definition}
+TODO add definition of AP reduction
+
+We bound the AP reduction to logarithmic space instead of allowing it be a \FNC{} circuit family because 1. the former notion of reduction is more restrictive and hence implies the latter, 2. existing results on approximability and approximation classes use the former, and 3. it eases analysis in some proofs.
+
+%% \begin{definition}
+%%   let $P$ and $Q$ be optimization problems.
+%%   We write $P\Er Q$ if there exists a triple $(f, g, \alpha)$, where $f$ and $g$ are functions computable in logarithmic space and $\alpha\in\mathbb{N}$, such that for all $x\in P_\exists$ we have $f(x)\in Q_\exists$ and for all $y\in S_Q(f(x))$ we have $g(x, y)\in S_P(x)$ and $R_P(x, g(x, y)) - 1 \leq \alpha \cdot (R_Q(f(x), y) - 1)$.
+%% \end{definition}
 
 \begin{proposition}
   Let $\mathcal{C}$ be one of the complexity classes \NCO, \NCAS, \ApxNCO, \polyApxNCO, \expApxNCO, or \NNCO.
   Suppose $P\in\NNCO$ and $Q\in\mathcal{C}$.
-  If $P\Er Q$ then $P\in \mathcal{C}$.
-  In other words, $\mathcal{C}$ is closed under $\Er$ reductions.
+  If $P\APr Q$ then $P\in \mathcal{C}$.
+  In other words, $\mathcal{C}$ is closed under $\APr$ reductions.
 \end{proposition}
 \begin{proof}
-  TODO: fill me in by following the proof from \cite{tantau07}.
+  TODO: fill me in.
 \end{proof}
 
 \section{Complexity of extant parallel approximations}
@@ -212,7 +220,7 @@ Some problems exhibit ``threshold'' behavior: for certain values of a parameter 
 
 \begin{definition}
   Let $\mathcal{C}$ be one of the complexity classes \NCO, \NCAS, \ApxNCO, \logApxNCO, \polyApxNCO, \expApxNCO, or \NNCO.
-  An optimization problem $Q$ is \emph{$\mathcal{C}$-hard} if for all $P\in\mathcal{C}$, we have $P\Er Q$.
+  An optimization problem $Q$ is \emph{$\mathcal{C}$-hard} if for all $P\in\mathcal{C}$, we have $P\APr Q$.
   If furthermore $Q\in\mathcal{C}$, we say it is $\mathcal{C}$-complete.
 \end{definition}
 
@@ -222,12 +230,30 @@ We wish to demonstrate complete problems for each of these approximation classes
 \begin{conjecture}
   \textsc{Partial Maximum Weighted Satisfiability} is \NNCO-complete.
 \end{conjecture}
+\begin{justification}
+  \textsc{Partial Maximum Weighted Satisfiability} is to \textsc{Maximum Weighted Satisfiability} as \textsc{Partial Most Valuable Vertex} is to \textsc{Most Valuable Vertex} (see \cite{tantau07}).
+\end{justification}
 
 \begin{conjecture}
   \textsc{Maximum Weighted Satisfiability} is \expApxNCO-complete.
 \end{conjecture}
+\begin{justification}
+  \textsc{Maximum Weighted Satisfiability} is to \textsc{Maximum Bounded Weighted Satisfiability} as \textsc{Most Valuable Vertex} is to \textsc{Most Valuable Vertex Ratio} (see \cite{tantau07}).
+\end{justification}
 
-Here we need a conjecture for a complete problem for both \polyApxNCO{} and \logApxNCO.
+\begin{conjecture}
+  \textsc{Maximum Clique} is \polyApxNCO-complete.
+\end{conjecture}
+\begin{justification}
+  \textsc{Maximum Clique} is \polyApxPO-complete \cite[Example~2.48]{cks01}.
+\end{justification}
+
+\begin{conjecture}
+  \textsc{Minimum Set Cover} is \logApxNCO-complete.
+\end{conjecture}
+\begin{justification}
+  \textsc{Minimum Set Cover} is \logApxPO-complete \cite[Example~2.48]{cks01}.
+\end{justification}
 
 In \cite{sx95}, the authors prove that Maximum Bounded Weighted Satisfiability is complete for \ApxNCO{} (there called ``\NCX'') under a less restrictive type of reduction called ``\NCAS{} reduction''.
 Their proof adapts the technique of \cite{cp91} for constructing a canonical complete problem for \ApxPO{} (there called ``\APX'').
@@ -241,10 +267,11 @@ We translate these results into the vocabulary of this paper and show that this 
 \end{proof}
 
 \begin{conjecture}
-  \textsc{Planar MPSAT} is \NCAS-complete.
+  \textsc{Planar Maximum Satisfiability} is \NCAS-complete.
 \end{conjecture}
-
-TODO: read ``Toward a Syntactic Characterization of PTAS'' by Khanna and Motwani, in which Planar MPSAT is posed.
+\begin{justification}
+  \textsc{Planar Maximum Satisfiability} is in \PMPSAT, which is a subset of \PTAS{} and \emph{may} be a syntactic characterization of \PTAS{} \cite{km96}.
+\end{justification}
 
 Here we need a conjecture for a \FNCAS-complete problem.
 
