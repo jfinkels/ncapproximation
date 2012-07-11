@@ -17,7 +17,7 @@
 \newenvironment{justification}{\begin{proof}[Justification]}{\end{proof}}
 
 \newcommand{\Er}{\leq_E^{L}}
-\newcommand{\APr}{\leq_AP^{L}}
+\newcommand{\APr}{\leq_{AP}^{L}}
 \newcommand{\email}[1]{\href{mailto:#1}{\nolinkurl{#1}}}
 \newcommand{\lb}{\left\{}
 \newcommand{\pb}{\textsf{pb}}
@@ -50,6 +50,7 @@
   \textsc{Maximum Weight Matching} \cite[Theorem~5.2.2]{dsst97},
   \textsc{Maximum Independent Set for Planar Graphs} \cite[Theorem 6.4.1]{dsst97}}
 \newcommand{\ncoproblems}{}
+\newcommand{\nncoproblems}{}
 \newcommand{\polyapxncoproblems}{}
 \newcommand{\rncasproblems}{%
   \textsc{Minimum Metric Traveling Salesperson} \cite[Theorem~7.1.1]{dsst97}}
@@ -76,7 +77,7 @@ Just as we hope to find efficient approximation algorithms for optimization prob
 Throughout this work, $\Sigma=\{0, 1\}$ and inputs and outputs are encoded in binary.
 We denote the set of all polynomials by \poly{} and the set of all polylogarithmic functions by \polylog.
 
-We adapt the clear and concise definitions of \cite{tantau07} from logspace approximability to \NC{} approximability.
+We adapt the clear and concise definitions of \cite{tantau07} from logarithmic space approximability to \NC{} approximability.
 
 \begin{definition}[\cite{acgkmp99}]
   An \emph{optimization problem} is a four-tuple, $(I, S, m, t)$, where $I\subseteq \Sigma^*$ and is called the \emph{instance set}, $S\subseteq I\times \Sigma^*$ and is called the \emph{solution relation}, $m\colon S\to \mathbb{N}^+$ and is called the \emph{measure function}, and $t\in\{\min, \max\}$ and is called the type (of the optimization).
@@ -130,6 +131,8 @@ We adapt the clear and concise definitions of \cite{tantau07} from logspace appr
 \NC{} has the same relationship to \NNC(\poly) as \P{} does to \NP{}.
 Wolf \cite{wolf94} notes that $\NNC(\log)=\NC$ and $\NNC(\poly)=\NP$, and suggests that \NNC(\polylog) may be an interesting intermediary class, possibly incomparable with \P.
 Cai and Chen \cite{cc97} prove that for each natural number $k$ and $i$, there is a complete problem for $\NNC^k(\log^i n)$ under logarithmic space reductions.
+
+For the sake of brevity, we write \NNCO{} instead of \NNCOpoly{} in the following definition and throughout this work since we consider only a polynomial amount of nondeterminism.
 
 \begin{definition}
   The complexity class \NNCO{} is the class of all optimization problems $(I, S, m, t)$ such that the following conditions hold.
@@ -188,7 +191,7 @@ We bound the AP reduction to logarithmic space instead of allowing it be a \FNC{
 %% \end{definition}
 
 \begin{proposition}
-  Let $\mathcal{C}$ be one of the complexity classes \NCO, \NCAS, \ApxNCO, \polyApxNCO, \expApxNCO, or \NNCO.
+  Let $\mathcal{C}$ be one of the complexity classes \NCO, \NCAS, \ApxNCO, \logApxNCO, \polyApxNCO, \expApxNCO, or \NNCO.
   Suppose $P\in\NNCO$ and $Q\in\mathcal{C}$.
   If $P\APr Q$ then $P\in \mathcal{C}$.
   In other words, $\mathcal{C}$ is closed under $\APr$ reductions.
@@ -204,6 +207,7 @@ For a listing of somewhat contemporary results on efficient \emph{sequential} ap
 \begin{proposition}
   \mbox{}
   \begin{itemize}
+  \item \NNCO{} contains \nncoproblems.
   \item \expApxNCO{} contains \expapxncoproblems.
   \item \polyApxNCO{} contains \polyapxncoproblems.
   \item \logApxNCO{} contains \logapxncoproblems
@@ -214,9 +218,10 @@ For a listing of somewhat contemporary results on efficient \emph{sequential} ap
   \end{itemize}
 \end{proposition}
 
-Some problems exhibit ``threshold'' behavior: for certain values of a parameter (for example, $0 < \epsilon < 1/2$) the approximation problem is computable in \NC, but for other values (for example, $1/2 \leq \epsilon < 1$) the approximation problem is \P-complete.
+Some problems exhibit ``threshold'' behavior: for certain values of a parameter (for example, $0 < \epsilon < 1/2$) the approximation problem is computable in \NC, but for other values (for example, $1/2 \leq \epsilon < 1$) the approximation problem is \P-complete (or \NP-complete).
 
-\section{Complete problems}
+\section{Completeness for classes of problems admitting parallel approximations}
+\label{sec:completeness}
 
 \begin{definition}
   Let $\mathcal{C}$ be one of the complexity classes \NCO, \NCAS, \ApxNCO, \logApxNCO, \polyApxNCO, \expApxNCO, or \NNCO.
@@ -228,34 +233,36 @@ We wish to demonstrate complete problems for each of these approximation classes
 %To do this we start with \NP-complete optimization problems.
 
 \begin{conjecture}
-  \textsc{Partial Maximum Weighted Satisfiability} is \NNCO-complete.
+  \textsc{Maximum Weighted Satisfiability} is \NNCO-complete.
 \end{conjecture}
 \begin{justification}
-  \textsc{Partial Maximum Weighted Satisfiability} is to \textsc{Maximum Weighted Satisfiability} as \textsc{Partial Most Valuable Vertex} is to \textsc{Most Valuable Vertex} (see \cite{tantau07}).
+  \textsc{Maximum Weighted Satisfiability} is \NPO-complete \cite{ckst95} and $\NNCO=\NPO$ (TODO this needs a proof).
 \end{justification}
 
 \begin{conjecture}
-  \textsc{Maximum Weighted Satisfiability} is \expApxNCO-complete.
+  \textsc{Minimum Traveling Salesperson Problem} is complete for \expApxNCO{} under $\APr$ reductions.
 \end{conjecture}
 \begin{justification}
-  \textsc{Maximum Weighted Satisfiability} is to \textsc{Maximum Bounded Weighted Satisfiability} as \textsc{Most Valuable Vertex} is to \textsc{Most Valuable Vertex Ratio} (see \cite{tantau07}).
+  \textsc{Minimum Traveling Salesperson Problem} is complete for \expApxPO{} under ``MPTAS reductions'' \cite[Corollary~1]{ep06}.
 \end{justification}
 
 \begin{conjecture}
   \textsc{Maximum Clique} is \polyApxNCO-complete.
 \end{conjecture}
 \begin{justification}
-  \textsc{Maximum Clique} is \polyApxPO-complete \cite[Example~2.48]{cks01}.
+  \textsc{Maximum Clique} is complete for \polyApxPO{} under ``PTAS reductions'' \cite[Example~2.48]{cks01} \cite{kmsv99} \cite{ep10}.
 \end{justification}
 
 \begin{conjecture}
   \textsc{Minimum Set Cover} is \logApxNCO-complete.
 \end{conjecture}
 \begin{justification}
-  \textsc{Minimum Set Cover} is \logApxPO-complete \cite[Example~2.48]{cks01}.
+  \textsc{Minimum Set Cover} is complete for \logApxPO{} under ``MPTAS reductions'' \cite[Example~2.48]{cks01} \cite[Theorem~5]{ep06} \cite[Theorem~27]{ep10}.
+
+  Also, \textsc{Minimum Set Cover} is complete for $\logApxPO_{pb}$ under ``E reductions''.
 \end{justification}
 
-In \cite{sx95}, the authors prove that Maximum Bounded Weighted Satisfiability is complete for \ApxNCO{} (there called ``\NCX'') under a less restrictive type of reduction called ``\NCAS{} reduction''.
+In \cite{sx95}, the authors prove that \textsc{Maximum Bounded Weighted Satisfiability} is complete for \ApxNCO{} (there called ``\NCX'') under a less restrictive type of reduction called ``\NCAS{} reduction''.
 Their proof adapts the technique of \cite{cp91} for constructing a canonical complete problem for \ApxPO{} (there called ``\APX'').
 We translate these results into the vocabulary of this paper and show that this technique works also for E-reductions.
 \begin{theorem}
@@ -273,7 +280,27 @@ We translate these results into the vocabulary of this paper and show that this 
   \textsc{Planar Maximum Satisfiability} is in \PMPSAT, which is a subset of \PTAS{} and \emph{may} be a syntactic characterization of \PTAS{} \cite{km96}.
 \end{justification}
 
-Here we need a conjecture for a \FNCAS-complete problem.
+\begin{conjecture}
+  \textsc{0-1 Knapsack} is \FNCAS-complete.
+\end{conjecture}
+\begin{justification}
+  \textsc{0-1 Knapsack} is in $\FPTAS\setminus\PO$ \cite[Section~3.2]{ep10} and is in \FNCAS{} \cite[Theorem~2]{mayr88}.
+\end{justification}
+
+\section{Problems for which parallel approximation is \texorpdfstring{\P}{P}-complete}
+
+In \cite[Section~10.2]{ghr95}, the authors provide a very informal statement that ``there are no \NC{} approximation algorithms'' for the following problems: \textsc{Lexicographically First Maximal Independent Set Size}, \textsc{Unit Resolution}, \textsc{Generability}, \textsc{Path Systems}, and \textsc{Circuit Value Problem}.
+They further state that the following problems exhibit threshold behavior, in the sense that computing an $\epsilon$-approximation is \P-complete if $\epsilon\geq 2$ but is in \NCAS{} if $\epsilon<2$: \textsc{High Degree Subgraph} and \textsc{High Connectivity Subgraph}.
+
+TODO figure out the formal results for each of these.
+
+\section{Parallel approximations for \texorpdfstring{\P}{P}-complete problems}
+
+Most of the parallel approximation results seen in \autoref{sec:completeness} (namely, complete problems for various classes of parallel approximation problems) are based on \NP-complete problems.
+While it is obviously important to provide efficient and highly parallel approximation algorithms for problems which are both intractible and inherently sequential, it is also desirable to provide highly parallel approximation algorithms for problems which are tractible but still inherently sequential.
+In this section, we will describe \P-complete problems which have parallel approximations.
+
+TODO fill me in.
 
 \section{About this work}
 
