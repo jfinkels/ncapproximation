@@ -7,14 +7,17 @@
 \usepackage[pdftitle={Definitions and reductions for NC approximation problems}, pdfauthor={Jeffrey Finkelstein}]{hyperref}
 
 \newtheorem{conjecture}{Conjecture}
-\theoremstyle{definition}
-\newtheorem{definition}{Definition}
+\theoremstyle{definition} \newtheorem{definition}{Definition}
+\theoremstyle{definition} \newtheorem{openquestion}{Open question}
 \newtheorem{proposition}{Proposition}
 \newtheorem{theorem}{Theorem}
+\newtheorem{todo}{TODO}
 
 \mathchardef\mhyphen="2D
 
 \newenvironment{justification}{\begin{proof}[Justification]}{\end{proof}}
+
+\newcommand{\definitionautorefname}{Definition}
 
 \newcommand{\Er}{\leq_E^{L}}
 \newcommand{\APr}{\leq_{AP}^{L}}
@@ -115,6 +118,22 @@ We adapt the clear and concise definitions of \cite{tantau07} from logarithmic s
   \end{enumerate}
 \end{definition}
 
+The study of \emph{efficient} approximations for \emph{intractable} problems begins with the following definition of \NP{} optimization problems.
+We will adapt this definition to explore \emph{efficient and highly parallel} approximations for \emph{inherently sequential} problems.
+
+\begin{definition}\label{def:npo}
+  The complexity class \NPO{} is the class of all optimization problems $(I, S, m, t)$ such that the following conditions hold.
+  \begin{enumerate}
+  \item The instance set $I$ is decidable by a deterministic polynomial time Turing machine.
+  \item The solution relation $S$ is decidable by a deterministic polynomial time Turing machine and is polynomially bounded (that is, the length of $y$ is bounded by a polynomial in the length of $x$ for all $(x, y)\in S$).
+  \item The measure function $m$ is computable by a deterministic polynomial time Turing machine.
+  \end{enumerate}
+\end{definition}
+
+The second condition is the most important in this definition; it is the analog of polynomial time verifiability in \NP.
+We now wish to translate this to the setting of efficient and highly parallel verifiability.
+First we define the necessary circuit classes, then we define classes of approximation problems for inherently sequential optimization problems.
+
 \begin{definition}
   \mbox{}
   \begin{enumerate}
@@ -123,25 +142,34 @@ We adapt the clear and concise definitions of \cite{tantau07} from logarithmic s
   \item $\NNC(f(n))$ is the class of languages computable by an \NC{} circuit family augmented with $O(f(n))$ nondeterministic gates for each input length $n$ \cite{wolf94}.
     A nondeterministic gate takes no inputs and yields a single (nondeterministic) output bit.
 
-    If $\mathcal{F}$ is a class of functions, then $\NNC(\mathcal{F})=\bigcup_{f\in\mathcal{F}}f(n)$.
+    If $\mathcal{F}$ is a class of functions, then $\NNC(\mathcal{F})=\bigcup_{f\in\mathcal{F}}{\NNC(f(n))}$.
   \end{enumerate}
 \end{definition}
 
-\NNC(\poly), also known as \GC(\poly, \NC) \cite{cc97} and $\beta\P$ \cite{kf80}, is an unusual class which may warrant some further explanation.
-\NC{} has the same relationship to \NNC(\poly) as \P{} does to \NP{}.
-Wolf \cite{wolf94} notes that $\NNC(\log)=\NC$ and $\NNC(\poly)=\NP$, and suggests that \NNC(\polylog) may be an interesting intermediary class, possibly incomparable with \P.
+\NNCpoly, also known as \GC(\poly, \NC) \cite{cc97} and $\beta\P$ \cite{kf80}, is an unusual class which may warrant some further explanation.
+\NC{} has the same relationship to \NNCpoly{} as \P{} does to \NP{} (thus an equivalent definition of \NNCpoly{} is one in which each language has an efficient and highly parallel verification procedure; as in the definition of \NPO{} in \autoref{def:npo}, it is this formulation which we use when defining \NNCO{} in \autoref{def:nnco}).
+Wolf \cite{wolf94} notes that $\NNC(\log n)=\NC$ and $\NNC(\poly)=\NP$, and suggests that \NNC(\polylog) may be an interesting intermediary class, possibly incomparable with \P.
 Cai and Chen \cite{cc97} prove that for each natural number $k$ and $i$, there is a complete problem for $\NNC^k(\log^i n)$ under logarithmic space reductions.
 
-For the sake of brevity, we write \NNCO{} instead of \NNCOpoly{} in the following definition and throughout this work since we consider only a polynomial amount of nondeterminism.
-
-\begin{definition}
-  The complexity class \NNCO{} is the class of all optimization problems $(I, S, m, t)$ such that the following conditions hold.
+\begin{definition}\label{def:nnco}
+  The complexity class \NNCOpoly{} is the class of all optimization problems $(I, S, m, t)$ such that the following conditions hold.
   \begin{enumerate}
   \item The instance set $I$ is decidable by an \NC{} circuit family.
   \item The solution relation $S$ is decidable by an \NC{} circuit family and is polynomially bounded (that is, the length of $y$ is bounded by a polynomial in the length of $x$ for all $(x, y)\in S$).
   \item The measure function $m$ is computable by an \FNC{} circuit family.
   \end{enumerate}
+  For the sake of brevity, we write \NNCO{} instead of \NNCOpoly{}.
 \end{definition}
+
+Since $\NC\subseteq\P$, the inclusion $\NNCO\subseteq\NPO$ follows immediately from the definitions.
+However, it is not immediately obvious from these definitions that the converse is true, since membership in \P{} does not imply membership in \NC.
+The original proof of \cite{wolf94} that $\NP\subseteq\NNCpoly$ uses a Cook-Levin simulation of a Turing machine (though the proof omits the details about the polylogarithmic depth of the simulating circuit), but that technique does not extend to a proof that $\NPO\subseteq\NNCO$ since the instance set $I$ and the measure function $m$ are computable in (deterministic) polynomial time and require a (deterministic) \NC{} circuit family.
+
+\begin{openquestion}
+  Does $\NNCO=\NPO$?
+\end{openquestion}
+
+With the definitions of approximating functions and approximation schemes we can now move on to define classes of approximable optimization problems contained in \NNCO.
 
 \begin{definition}
   Let $P$ be an optimization problem, let $r\colon \mathbb{N}\to\mathbb{N}$, and let $f\colon I\to \Sigma^*$.
@@ -181,7 +209,9 @@ There are many reductions for approximation problems; nine of them are defined i
 %We bound the E-reduction to logarithmic space instead of requiring that it be a \FNC{} circuit family because 1. the former notion of reduction is more restrictive and hence implies the latter, 2. existing results on approximability and approximation classes use the former, and 3. it eases analysis in some proofs.
 We will use the ``AP reduction'', considered by experts to be the most reasonable reduction \cite[Section~8.6]{acgkmp99}, to compare approximation problems.
 
-TODO add definition of AP reduction
+\begin{todo}
+  add definition of AP reduction here
+\end{todo}
 
 We bound the AP reduction to logarithmic space instead of allowing it be a \FNC{} circuit family because 1. the former notion of reduction is more restrictive and hence implies the latter, 2. existing results on approximability and approximation classes use the former, and 3. it eases analysis in some proofs.
 
@@ -197,7 +227,9 @@ We bound the AP reduction to logarithmic space instead of allowing it be a \FNC{
   In other words, $\mathcal{C}$ is closed under $\APr$ reductions.
 \end{proposition}
 \begin{proof}
-  TODO: fill me in.
+  \begin{todo}
+    fill me in
+  \end{todo}
 \end{proof}
 
 \section{Complexity of extant parallel approximations}
@@ -236,7 +268,7 @@ We wish to demonstrate complete problems for each of these approximation classes
   \textsc{Maximum Weighted Satisfiability} is \NNCO-complete.
 \end{conjecture}
 \begin{justification}
-  \textsc{Maximum Weighted Satisfiability} is \NPO-complete \cite{ckst95} and $\NNCO=\NPO$ (TODO this needs a proof).
+  \textsc{Maximum Weighted Satisfiability} is \NPO-complete \cite{ckst95} and $\NNCO\subseteq\NPO$.
 \end{justification}
 
 \begin{conjecture}
@@ -269,8 +301,10 @@ We translate these results into the vocabulary of this paper and show that this 
   \textsc{Maximum Bounded Weighted Satisfiability} is \ApxNCO-complete.
 \end{theorem}
 \begin{proof}
-  TODO: fill me in by following the proof from \cite{sx95}; unfortunately, their proof is very sketchy.
-  Instead, I need to find a copy of \cite{acgkmp99} which should have a clearer proof of \ApxPO-completeness (Ausiello has not posted Chapter 8, which includes the proof, on the Web).
+  \begin{todo}
+    fill me in by following the proof from \cite{sx95}; unfortunately, their proof is very sketchy.
+    Instead, I need to find a copy of \cite{acgkmp99} which should have a clearer proof of \ApxPO-completeness (Ausiello has not posted Chapter 8, which includes the proof, on the Web).
+  \end{todo}
 \end{proof}
 
 \begin{conjecture}
@@ -300,15 +334,19 @@ We translate these results into the vocabulary of this paper and show that this 
 In \cite[Section~10.2]{ghr95}, the authors provide a very informal statement that ``there are no \NC{} approximation algorithms'' for the following problems: \textsc{Lexicographically First Maximal Independent Set Size}, \textsc{Unit Resolution}, \textsc{Generability}, \textsc{Path Systems}, and \textsc{Circuit Value Problem}.
 They further state that the following problems exhibit threshold behavior, in the sense that computing an $\epsilon$-approximation is \P-complete if $\epsilon\geq 2$ but is in \NCAS{} if $\epsilon<2$: \textsc{High Degree Subgraph} and \textsc{High Connectivity Subgraph}.
 
-TODO figure out the formal results for each of these.
+\begin{todo}
+  figure out the formal results for each of these.
+\end{todo}
 
 \section{Parallel approximations for \texorpdfstring{\P}{P}-complete problems}
 
 Most of the parallel approximation results seen in \autoref{sec:completeness} (namely, complete problems for various classes of parallel approximation problems) are based on \NP-complete problems.
-While it is obviously important to provide efficient and highly parallel approximation algorithms for problems which are both intractible and inherently sequential, it is also desirable to provide highly parallel approximation algorithms for problems which are tractible but still inherently sequential.
+While it is obviously important to provide efficient and highly parallel approximation algorithms for problems which are both intractable and inherently sequential, it is also desirable to provide highly parallel approximation algorithms for problems which are tractable but still inherently sequential.
 In this section, we will describe \P-complete problems which have parallel approximations.
 
-TODO fill me in.
+\begin{todo}
+  fill me in.
+\end{todo}
 
 \section{About this work}
 
