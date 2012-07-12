@@ -284,8 +284,15 @@ Some problems exhibit ``threshold'' behavior: for certain values of a parameter 
   If furthermore $Q\in\mathcal{C}$, we say it is $\mathcal{C}$-complete.
 \end{definition}
 
-We wish to demonstrate complete problems for each of these approximation classes.
-%To do this we start with \NP-complete optimization problems.
+\subsection{Completeness of optimization problems corresponding to \texorpdfstring{\NP}{NP}-complete problems}
+
+We wish to demonstrate complete problems for each of these parallel approximation classes.
+To do this we start with optimization problems that have the following properties:
+\begin{enumerate}
+\item The corresponding budget problem is \NP-complete.
+\item The optimization problem is complete in one of the polynomial time approximation classes (\ApxPO, \PTAS, etc.).
+\end{enumerate}
+We then adapt the original proofs of completeness to show that the \emph{same problem} is complete in the corresponding \NC{} approximation class (\ApxNCO, \NCAS, etc.) under the (possibly) more restrictive logarithmic space AP reduction.
 
 \begin{conjecture}
   \textsc{Maximum Weighted Satisfiability} is \NNCO-complete.
@@ -352,14 +359,36 @@ We translate these results into the vocabulary of this paper and show that this 
   \textsc{0-1 Knapsack} is in $\FPTAS\setminus\PO$ \cite[Section~3.2]{ep10} and is in \FNCAS{} \cite[Theorem~2]{mayr88}.
 \end{justification}
 
-\section{Parallel approximations for \texorpdfstring{\P}{P}-complete problems}
+\subsection{Completeness of optimization problems corresponding to \texorpdfstring{\P}{P}-complete problems}
+\label{sec:pcompleteapprox}
 
-Most of the parallel approximation results seen in \autoref{sec:completeness} (namely, complete problems for various classes of parallel approximation problems) are based on \NP-complete problems.
+All of the completeness results seen in the previous section are based on the optimization form of \NP-complete problems.
 While it is obviously important to provide efficient and highly parallel approximation algorithms for problems which are both intractable and inherently sequential, it is also desirable to provide highly parallel approximation algorithms for problems which are tractable but still inherently sequential.
-In this section, we will describe \P-complete problems which have parallel approximations.
 
 \begin{todo}
-  fill me in.
+  Produce a \P-complete problem which is complete for \ApxNCO{} (and then for each of the other approximation classes) by considering a restriction of an \NP-complete problem and following the same proof.
+\end{todo}
+
+\begin{todo}
+  Produce a \P-complete problem which is complete for \ApxNCO{} (and then for each of the other approximation classes) by considering a relaxation of an \NL-complete problem and following a similar proof (this will be harder becase an \L{} machine can be described by a small directed graph representing its configurations and transitions).
+\end{todo}
+
+\subsection{Consequences of complete approximations for both \texorpdfstring{\NP}{NP}-complete and \texorpdfstring{\P}{P}-complete problems}
+
+It may, at first glance, be a bit unsettling to see that there exist, for example, \ApxNCO-complete optimization problems which are based on both \NP-complete problems and \P-complete problems, since this implies a logarithmic space reduction between them.
+Should such a reduction, from an optimization problem based on an \NP-complete problem to an optimization problem based on a \P-complete problem, distress us?
+
+\begin{todo}
+  What are the consequences of such a reduction?
+  Does this imply \P=\NP?
+\end{todo}
+
+\section{Parallel approximations for other \texorpdfstring{\P}{P}-complete problems}
+
+In this section, we will use our results from \autoref{sec:pcompleteapprox} to determine upper bounds on the approximation of other \P-complete problems.
+
+\begin{todo}
+  Create a list of \P-complete optimization problems, and determine reductions to the complete problems from the previous section.
 \end{todo}
 
 \section{Problems for which parallel approximation is \texorpdfstring{\P}{P}-complete}
@@ -367,9 +396,17 @@ In this section, we will describe \P-complete problems which have parallel appro
 
 In \cite[Section~10.2]{ghr95}, the authors provide a very informal statement that ``there are no \NC{} approximation algorithms'' for the following problems: \textsc{Lexicographically First Maximal Independent Set Size}, \textsc{Unit Resolution}, \textsc{Generability}, \textsc{Path Systems}, and \textsc{Circuit Value Problem}.
 They further state that the following problems exhibit threshold behavior, in the sense that computing an $\epsilon$-approximation is \P-complete if $\epsilon\geq 2$ but is in \NCAS{} if $\epsilon<2$: \textsc{High Degree Subgraph} and \textsc{High Connectivity Subgraph}.
+Most of these results come from \cite{ss89}.
 
 \begin{todo}
-  figure out the formal results for each of these.
+  State the formal results in the terminology of this work.
+\end{todo}
+
+An optimization problem for which a constant-factor approximation is \P-complete implies that the optimization problem is not in \ApxNCO{} (unless $\P=\NC$).
+However, it may still be the case that these \P-complete optimization problems are in \logApxNCO, \polyApxNCO, \expApxNCO, or \NNCO.
+
+\begin{todo}
+  Is that correct?
 \end{todo}
 
 \section{About this work}
