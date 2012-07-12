@@ -224,21 +224,21 @@ Another common variant of these classes is the probabilistic versions of each (f
 
 \section{Reductions among approximation problems}
 
-There are many reductions for approximation problems; nine of them are defined in a survey paper by Crescenzi \cite{crescenzi97}.
-%Although the authors of \cite{ckst95} consider it to be too restrictive for polynomial time approximation classes, we will use the \emph{error-preserving reduction} (E-reduction).
-%We bound the E-reduction to logarithmic space instead of requiring that it be a \FNC{} circuit family because 1. the former notion of reduction is more restrictive and hence implies the latter, 2. existing results on approximability and approximation classes use the former, and 3. it eases analysis in some proofs.
-We will use the ``AP reduction'', considered by experts to be the most reasonable reduction \cite[Section~8.6]{acgkmp99}, to compare approximation problems.
+There are many reductions for approximation problems; nine of them are defined in a survey paper by Crescenzi \cite{crescenzi97}, and there are more defined elsewhere.
+We will use a logarithmic space-bounded version of the ``AP reduction'', considered by approximation experts to be the a reasonable reduction to use when constructing complete problems \cite[Section~2]{crescenzi97} \cite[Section~8.6]{acgkmp99}.
 
-\begin{todo}
-  add definition of AP reduction here
-\end{todo}
+\begin{definition}{\cite[Definition~9]{ckst95}}
+  Let $P$ and $Q$ be optimization problems in \NNCO, with $P=(I_P, S_P, m_p, t_P)$ and $Q=(I_Q, S_Q, m_Q, t_Q)$.
+  We say \emph{$P$ \PTAS-reduces to $Q$} and write $P\APr Q$ if there exist functions $f\colon\Sigma^*\to\Sigma^*$ and $g\colon\Sigma^*\to\Sigma^*$, and there exists a constant $\alpha\in\mathbb{R}$ such that:
+  \begin{enumerate}
+  \item For all $x\in I_P$ and all $r > 1$, we have $f(x, r)\in I_Q$.
+  \item For all $x\in I_P$, all $r > 1$, and all $y\in S_Q(f(x, r))$, we have $g(x, y, r)\in S_A(x)$.
+  \item $f$ and $g$ are computable in logarithmic space for any fixed $r$.
+  \item For all $x\in I_P$, all $r > 1$, and all $y\in S_Q(f(x, r))$, we have $R_Q(f(x, r), y) \leq r \implies R_P(x, g(x, y, r)) \leq 1 + \alpha(r - 1)$.
+  \end{enumerate}
+\end{definition}
 
 We bound the AP reduction to logarithmic space instead of allowing it be a \FNC{} circuit family because 1. the former notion of reduction is more restrictive and hence implies the latter, 2. existing results on approximability and approximation classes use the former, and 3. it eases analysis in some proofs.
-
-%% \begin{definition}
-%%   let $P$ and $Q$ be optimization problems.
-%%   We write $P\Er Q$ if there exists a triple $(f, g, \alpha)$, where $f$ and $g$ are functions computable in logarithmic space and $\alpha\in\mathbb{N}$, such that for all $x\in P_\exists$ we have $f(x)\in Q_\exists$ and for all $y\in S_Q(f(x))$ we have $g(x, y)\in S_P(x)$ and $R_P(x, g(x, y)) - 1 \leq \alpha \cdot (R_Q(f(x), y) - 1)$.
-%% \end{definition}
 
 \begin{proposition}
   Let $\mathcal{C}$ be one of the complexity classes \NCO, \NCAS, \ApxNCO, \logApxNCO, \polyApxNCO, \expApxNCO, or \NNCO.
