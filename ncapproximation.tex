@@ -1,10 +1,12 @@
 \documentclass[]{article}
 
+% Package `hyperref` must come before package `complexity`.
+\usepackage[pdftitle={Definitions and reductions for NC approximation problems}, pdfauthor={Jeffrey Finkelstein}]{hyperref}
+
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsthm}
 \usepackage{complexity}
-\usepackage[pdftitle={Definitions and reductions for NC approximation problems}, pdfauthor={Jeffrey Finkelstein}]{hyperref}
 
 \theoremstyle{plain}
 \newtheorem{conjecture}{Conjecture}
@@ -370,12 +372,12 @@ While it is obviously important to provide efficient and highly parallel approxi
 \end{todo}
 
 \begin{todo}
-  Produce a \P-complete problem which is complete for \ApxNCO{} (and then for each of the other approximation classes) by considering a relaxation of an \NL-complete problem and following a similar proof (this will be harder becase an \L{} machine can be described by a small directed graph representing its configurations and transitions).
+  Produce a \P-complete problem which is complete for \ApxNCO{} (and then for each of the other approximation classes) by considering a relaxation of an \NL-complete problem and following a similar proof (this will be harder because a logarithmic space-bounded Turing machine can be described by a small directed graph representing its configurations and transitions).
 \end{todo}
 
 \begin{todo}
-  Suppose $P$ is an optimization problem, so $P=(I, S, m, t)$ and $\hat{P}$ is the budget problem for $P$ which corresponds to $t$.
-  Is it true that if $P$ is \PO-complete then $\hat{P}$ is \P-complete?
+  Suppose $Q$ is an optimization problem, so $Q=(I, S, m, t)$, and $\hat{Q}$ is the budget problem for $Q$ which corresponds to $t$.
+  Is it true that if $Q$ is \PO-complete then $\hat{Q}$ is \P-complete?
   Is the converse true?
 \end{todo}
 
