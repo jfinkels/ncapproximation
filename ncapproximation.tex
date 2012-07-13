@@ -373,6 +373,12 @@ While it is obviously important to provide efficient and highly parallel approxi
   Produce a \P-complete problem which is complete for \ApxNCO{} (and then for each of the other approximation classes) by considering a relaxation of an \NL-complete problem and following a similar proof (this will be harder becase an \L{} machine can be described by a small directed graph representing its configurations and transitions).
 \end{todo}
 
+\begin{todo}
+  Suppose $P$ is an optimization problem, so $P=(I, S, m, t)$ and $\hat{P}$ is the budget problem for $P$ which corresponds to $t$.
+  Is it true that if $P$ is \PO-complete then $\hat{P}$ is \P-complete?
+  Is the converse true?
+\end{todo}
+
 \subsection{Consequences of complete approximations for both \texorpdfstring{\NP}{NP}-complete and \texorpdfstring{\P}{P}-complete problems}
 
 It may, at first glance, be a bit unsettling to see that there exist, for example, \ApxNCO-complete optimization problems which are based on both \NP-complete problems and \P-complete problems, since this implies a logarithmic space reduction between them.
