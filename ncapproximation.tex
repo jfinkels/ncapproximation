@@ -234,10 +234,10 @@ We will use a logarithmic space-bounded version of the ``AP reduction'', conside
 
 \begin{definition}{\cite[Definition~9]{ckst95}}
   Let $P$ and $Q$ be optimization problems in \NNCO, with $P=(I_P, S_P, m_p, t_P)$ and $Q=(I_Q, S_Q, m_Q, t_Q)$.
-  We say \emph{$P$ \PTAS-reduces to $Q$} and write $P\APr Q$ if there exist functions $f\colon\Sigma^*\to\Sigma^*$ and $g\colon\Sigma^*\to\Sigma^*$, and there exists a constant $\alpha\in\mathbb{R}$ such that:
+  We say \emph{$P$ AP reduces to $Q$} and write $P\APr Q$ if there exist functions $f\colon\Sigma^*\to\Sigma^*$ and $g\colon\Sigma^*\to\Sigma^*$, and there exists a constant $\alpha\in\mathbb{R}$ such that:
   \begin{enumerate}
   \item For all $x\in I_P$ and all $r > 1$, we have $f(x, r)\in I_Q$.
-  \item For all $x\in I_P$, all $r > 1$, and all $y\in S_Q(f(x, r))$, we have $g(x, y, r)\in S_A(x)$.
+  \item For all $x\in I_P$, all $r > 1$, and all $y\in S_Q(f(x, r))$, we have $g(x, y, r)\in S_P(x)$.
   \item $f$ and $g$ are computable in logarithmic space for any fixed $r$.
   \item For all $x\in I_P$, all $r > 1$, and all $y\in S_Q(f(x, r))$, we have $R_Q(f(x, r), y) \leq r \implies R_P(x, g(x, y, r)) \leq 1 + \alpha(r - 1)$.
   \end{enumerate}
@@ -389,6 +389,20 @@ Should such a reduction, from an optimization problem based on an \NP-complete p
 \begin{todo}
   What are the consequences of such a reduction?
   Does this imply \P=\NP?
+\end{todo}
+
+Suppose that $P$ is the \ApxNCO-complete optimization problem with an \NP-complete budget problem, $P_{opt>}$.
+Suppose that $Q$ is the \ApxNCO-complete optimization problem with a \P-complete budget problem, $Q_{opt>}$.
+In order to show that this situation implies, say, $\P=\NP$, a likely course of attack would be to produce a sequence of reductions (of an appropriate type) showing that $P_{opt>} \leq P \leq Q \leq Q_{opt>}$.
+The middle reduction exists since $Q$ is \ApxNCO-complete and $P\in\ApxNCO$ (note that $P$ needs only to be in \ApxNCO; it does not need to be complete for the class), so we would need to prove the first and last reductions.
+
+To prove the first reduction would require using an algorithm which produces approximate solutions for $P$ to decide if there exists \emph{any} solution whose measure meets some bound.
+Since we don't know which approximate solution will be produced by the algorithm, it seems difficult to explore all possible solutions to find one which meets the bound.
+
+To prove the last reduction would require using an algorithm which decides if there exists any solution whose measure meets some bound to produce an approximate solution.
+
+\begin{todo}
+  Explain why this last reduction is unlikely to exist.
 \end{todo}
 
 \section{Parallel approximations for other \texorpdfstring{\P}{P}-complete problems}
