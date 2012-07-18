@@ -405,6 +405,16 @@ To prove the last reduction would require using an algorithm which decides if th
   Explain why this last reduction is unlikely to exist.
 \end{todo}
 
+\section{Translating hardness of approximation results to \texorpdfstring{\NC}{NC}}
+
+The celebrated \PCP{} theorem gives a precise characterization of \NP{} in terms of probabilistic verifiers with bounded randomness and queries, specifically that $\NP = \PCP(\lg n, 1)$ \cite{pcp}.
+This characterization allowed many hardness of approximation results for optimization problems in \NPO{} corresponding to \NP-complete decision problems.
+
+\begin{todo}
+  Can the same be done for \NNC?
+  Is there a \PCP{} characterization for \NNC?
+\end{todo}
+
 \section{Parallel approximations for other \texorpdfstring{\P}{P}-complete problems}
 
 In this section, we will use our results from \autoref{sec:pcompleteapprox} to determine upper bounds on the approximation of other \P-complete problems.
