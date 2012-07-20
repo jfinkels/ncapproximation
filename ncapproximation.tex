@@ -275,7 +275,8 @@ For a listing of somewhat contemporary results on efficient \emph{sequential} ap
   \end{itemize}
 \end{proposition}
 
-Some problems exhibit ``threshold'' behavior: for certain values of a parameter (for example, $0 < \epsilon < 1/2$) the approximation problem is computable in \NC, but for other values (for example, $1/2 \leq \epsilon < 1$) the approximation problem is \P-complete (or \NP-complete).
+Some problems exhibit ``threshold'' behavior: for certain values of a parameter (for example, $0 < \epsilon < \frac{1}{2}$) the approximation problem is computable in \NC, but for other values (for example, $\frac{1}{2} \leq \epsilon < 1$) the approximation problem is \P-complete (or \NP-complete).
+This implies that those problems cannot have a polynomial time approximation scheme (that is, they are not in \PTAS), unless $\P = \NP$.
 
 \section{Completeness for classes of problems admitting parallel approximations}
 \label{sec:completeness}
