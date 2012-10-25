@@ -282,7 +282,7 @@ Therefore we define the following subclasses of \PO{} in order to more accuratel
 \autoref{fig:inclusions} shows the inclusions among some of the complexity classes defined in this section.
 \begin{figure}
   \caption{Inclusions among class of approximable optimization problems.\label{fig:inclusions}}
-  \centering{
+  \begin{center}
     \begin{tikzpicture}
 
       \draw (0, 7) node(NPO) {\NPO};
@@ -291,12 +291,12 @@ Therefore we define the following subclasses of \PO{} in order to more accuratel
       \draw (-2, 4) node(ApxNCO) {\ApxNCO};
       \draw (-2, 3) node(NCAS) {\NCAS};
 
-      \draw (2, 6) node(ApxPO) {\ApxPO};
-      \draw (2, 5) node(PTAS) {\PTAS};
-      \draw (2, 4) node(PO) {\PO};
-      \draw (2, 3) node(POp) {\POp};
-      \draw (2, 2) node(ApxNCOp) {\ApxNCOp};
-      \draw (2, 1) node(NCASp) {\NCASp};
+      \draw (1, 6) node(ApxPO) {\ApxPO};
+      \draw (1, 5) node(PTAS) {\PTAS};
+      \draw (1, 4) node(PO) {\PO};
+      \draw (0, 3) node(POp) {\POp};
+      \draw (0, 2) node(ApxNCOp) {\ApxNCOp};
+      \draw (0, 1) node(NCASp) {\NCASp};
 
       \draw (0, 0) node(NCO) {\NCO};
 
@@ -309,6 +309,9 @@ Therefore we define the following subclasses of \PO{} in order to more accuratel
       (PTAS) edge (ApxPO)
       (ApxPO) edge (NPO)
 
+      (NCAS) edge (ApxNCO)
+      (ApxNCO) edge (NNCO)
+
       (NCASp) edge (NCAS)
       (ApxNCOp) edge (ApxNCO)
       (POp) edge (NNCO)
@@ -317,7 +320,7 @@ Therefore we define the following subclasses of \PO{} in order to more accuratel
       (ApxNCO) edge (ApxPO)
       (NNCO) edge (NPO);
     \end{tikzpicture}
-  }
+  \end{center}
 \end{figure}
 
 \section{Reductions among approximation problems}
