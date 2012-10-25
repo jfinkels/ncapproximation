@@ -191,12 +191,35 @@ Cai and Chen \cite{cc97} prove that for each natural number $k$ and $i$, there i
 \end{definition}
 
 Since $\NC\subseteq\P$, the inclusion $\NNCO\subseteq\NPO$ follows immediately from the definitions.
-However, it is not immediately obvious from these definitions that the converse is true, since membership in \P{} does not imply membership in \NC.
-The original proof of \cite{wolf94} that $\NP\subseteq\NNCpoly$ uses a Cook-Levin simulation of a Turing machine (though the proof omits the details about the polylogarithmic depth of the simulating circuit), but that technique does not extend to a proof that $\NPO\subseteq\NNCO$ since the instance set $I$ and the measure function $m$ are computable in (deterministic) polynomial time and require a (deterministic) \NC{} circuit family.
+However, these definitions do not imply that the converse is true, since membership in \P{} does not imply membership in \NC.
+In fact, there is evidence that $\NNCO \neq \NPO$.
+\begin{proposition}[Thanks to Sam for this one.]
+  $\NNCO = \NPO$ if and only if $\P = \NC$.
+\end{proposition}
+\begin{proof}
+  We know $\NNCO \subseteq \NPO$ unconditionally from the preceding paragraph.
+  If we suppose $\P = \NC$, then it follows immediately from the definitions that any optimization problem in $\NPO$ is also in $\NNCO$.
 
-\begin{openquestion}
-  Does $\NNCO=\NPO$?
-\end{openquestion}
+  Now suppose $\NNCO = \NPO$.
+  If $C$ is a Boolean circuit with a single output, let $C(x)$ denote the output of $C$ (as a bit).
+  Consider the optimization problem $Q$ defined by $Q = (I, S, m, t)$, where
+  \begin{align*}
+    I & = \{ C \, | \, C \text{ is a Boolean circuit} \} \\
+    S & = \{ (C, x) \, | \, C(x) = 1 \} \\
+    m(C, x) & = C(x) \\
+    t & = \max
+  \end{align*}
+  (Observe that $Q$ is an optimization form of the \textsc{Circuit Satisfiability} problem, where we have $m(C, x) \in \{0, 1\}$ for all circuits $C$ and all strings $x$.)
+  $I \in \P$ because a correctly formatted Boolean circuit is a directed acyclic graph, and a depth first search (computable in deterministic polynomial time) can reveal if a given directed graph has a cycle.
+  $S \in \P$ because it is exactly the \textsc{Circuit Value} problem, which is known to be in \P{} (in fact, it is \P-complete \cite[Problem~A.1.1]{ghr95}).
+  $m \in \P$ because it is simply the function form of the \textsc{Circuit Value} problem.
+  Therefore, $Q \in \NPO$.
+
+  Since $\NNCO = \NPO$ by hypothesis, $Q \in \NNCO$.
+  Hence, $S \in \NC$.
+  The existence of an \NC{} algorithm for a \P-complete problem implies $\P = \NC$.
+  Therefore, $\NNCO = \NPO$ if and only if $\P = \NC$.
+\end{proof}
 
 We can now proceed to define classes of approximable optimization problems contained in \NNCO.
 
