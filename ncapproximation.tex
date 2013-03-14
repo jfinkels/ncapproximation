@@ -427,18 +427,13 @@ We then adapt the original proofs of completeness to show that the \emph{same pr
   Also, \textsc{Minimum Set Cover} is complete for $\logApxPO_{pb}$ under ``E reductions''.
 \end{justification}
 
-In \cite{sx95}, the authors prove that \textsc{Maximum Bounded Weighted Satisfiability} is complete for \ApxNCO{} (there called ``\NCX'') under a less restrictive type of reduction called ``\NCAS{} reduction''.
+In \cite{sx95}, the authors prove that \textsc{Maximum Bounded Weighted Satisfiability} is complete for \ApxNCO{} (there called ``\NCX'') under a very unrestrictive type of reduction called an ``\NCAS{} reduction''.
+Unfortunately, the proof there is very sketchy.
 Their proof adapts the technique of \cite{cp91} for constructing a canonical complete problem for \ApxPO{} (there called ``\APX'').
-We translate these results into the vocabulary of this paper and show that this technique works also for E-reductions.
+
 \begin{theorem}
-  \textsc{Maximum Bounded Weighted Satisfiability} is \ApxNCO-complete.
+  \textsc{Maximum Bounded Weighted Satisfiability} is complete for \ApxNCO{} under \NCAS{} reductions.
 \end{theorem}
-\begin{proof}
-  \begin{todo}
-    fill me in by following the proof from \cite{sx95}; unfortunately, their proof is very sketchy.
-    Instead, I need to find a copy of \cite{acgkmp99} which should have a clearer proof of \ApxPO-completeness (Ausiello has not posted Chapter 8, which includes the proof, on the Web).
-  \end{todo}
-\end{proof}
 
 \begin{conjecture}
   \mbox{}
