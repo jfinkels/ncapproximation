@@ -204,10 +204,10 @@ In fact, there is evidence that $\NNCO \neq \NPO$.
   If $C$ is a Boolean circuit with a single output, let $C(x)$ denote the output of $C$ (as a bit).
   Consider the optimization problem $Q$ defined by $Q = (I, S, m, t)$, where
   \begin{align*}
-    I & = \{ C \, | \, C \text{ is a Boolean circuit} \} \\
-    S & = \{ (C, x) \, | \, C(x) = 1 \} \\
-    m(C, x) & = C(x) \\
-    t & = \max
+    I & = \{ C \, | \, C \text{ is a Boolean circuit} \}, \\
+    S & = \{ (C, x) \, | \, C(x) = 1 \}, \\
+    m(C, x) & = C(x), \text{ and} \\
+    t & = \max.
   \end{align*}
   (Observe that $Q$ is an optimization form of the \textsc{Circuit Satisfiability} problem, where we have $m(C, x) \in \{0, 1\}$ for all circuits $C$ and all strings $x$.)
   $I \in \P$ because a correctly formatted Boolean circuit is a directed acyclic graph, and a depth first search (computable in deterministic polynomial time) can reveal if a given directed graph has a cycle.
