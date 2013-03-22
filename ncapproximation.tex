@@ -411,6 +411,9 @@ We then adapt the original proofs of completeness to show that the \emph{same pr
   \textsc{Minimum Traveling Salesperson Problem} is complete for \expApxPO{} under ``MPTAS reductions'' \cite[Corollary~1]{ep06}.
 \end{justification}
 
+It is \P-complete to compute a $\rho$-approximation for \textsc{Minimum-cost Maximum Flow} where $\rho$ is a polynomial in the length of the input \cite{sw92}.
+It seems that this is true for all polynomials $\rho$, perhaps implying that this problem is not in \polyApxNCO{}, but it is not totally clear from the proof.
+
 \begin{conjecture}
   \textsc{Maximum Clique} is \polyApxNCO-complete.
 \end{conjecture}
@@ -540,8 +543,6 @@ In this section, we will use our results from \autoref{sec:pcompleteapprox} to d
 In \cite[Section~10.2]{ghr95}, the authors provide a very informal statement that ``there are no \NC{} approximation algorithms'' for the following problems: \textsc{Lexicographically First Maximal Independent Set Size}, \textsc{Unit Resolution}, \textsc{Generability}, \textsc{Path Systems}, and \textsc{Circuit Value Problem}.
 They further state that the following problems exhibit threshold behavior, in the sense that computing an $\epsilon$-approximation is \P-complete if $\epsilon\geq 2$ but is in \NCAS{} if $\epsilon<2$: \textsc{High Degree Subgraph} and \textsc{High Connectivity Subgraph}.
 Most of these results come from \cite{ss89}.
-
-It is \P-complete to compute an $\epsilon$-approximation for \textsc{Minimum-cost Maximum Flow} for some fixed $\epsilon$ \cite{sw92}.
 
 \begin{todo}
   State the formal results in the terminology of this work.
