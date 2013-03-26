@@ -31,8 +31,8 @@
 \newcommand{\rb}{\right\}}
 \newcommand{\st}{\,\middle|\,}
 
-\newcommand{\npoproblems}{}
-\newcommand{\nncoproblems}{}
+\newcommand{\nncoproblems}{%
+  \textsc{Maximum Variable Weighted Satisfiability} \cite[Theorem~3.1]{om87} \cite[Theorem~8.3]{acgkmp99}}
 \newcommand{\expapxncoproblems}{}
 \newcommand{\polyapxncoproblems}{}
 \newcommand{\logapxncoproblems}{}
@@ -366,7 +366,6 @@ The list here summarizes best known approximation upper bounds for optimization 
 \end{todo}
 
 \begin{itemize}
-\item \NPO{} contains \npoproblems.
 \item \NNCO{} contains \nncoproblems.
 \item \expApxNCO{} contains \expapxncoproblems.
 \item \polyApxNCO{} contains \polyapxncoproblems.
@@ -381,6 +380,8 @@ The list here summarizes best known approximation upper bounds for optimization 
 
 \section{Completeness for classes of problems admitting parallel approximations}
 
+We wish to demonstrate complete problems for each class of optimization problems admitting parallel approximations.
+
 \begin{definition}
   Let $\mathcal{C}$ be one of the complexity classes \NCO, \NCAS, \ApxNCO, \logApxNCO, \polyApxNCO, \expApxNCO, or \NNCO.
   An optimization problem $Q$ is \emph{$\mathcal{C}$-hard} if for all $P\in\mathcal{C}$, we have $P\APr Q$.
@@ -389,20 +390,20 @@ The list here summarizes best known approximation upper bounds for optimization 
 
 \subsection{Completeness of optimization problems corresponding to \texorpdfstring{\NP}{NP}-complete problems}
 
-We wish to demonstrate complete problems for each of these parallel approximation classes.
-To do this we start with optimization problems that have the following properties:
-\begin{enumerate}
-\item The corresponding budget problem is \NP-complete.
-\item The optimization problem is complete in one of the polynomial time approximation classes (\ApxPO, \PTAS, etc.).
-\end{enumerate}
-We then adapt the original proofs of completeness to show that the \emph{same problem} is complete in the corresponding \NC{} approximation class (\ApxNCO, \NCAS, etc.) under the (possibly) more restrictive logarithmic space AP reduction.
+We start with optimization problems whose corresponding budget problem is \NP-complete.
+These problems may have highly parallel approximation algorithms, but do not admit polynomial time functions that produce optimal solutions unless $\P = \NP$.
 
-\begin{conjecture}
-  \textsc{Maximum Weighted Satisfiability} is \NNCO-complete.
-\end{conjecture}
-\begin{justification}
-  \textsc{Maximum Weighted Satisfiability} is \NPO-complete \cite{ckst95} and $\NNCO\subseteq\NPO$.
-\end{justification}
+\begin{theorem}
+  \textsc{Maximum Variable Weighted Satisfiability} is complete for \NNCO{} under $\APr$ reductions.
+\end{theorem}
+\begin{proof}
+  First, this problem is in \NNCO.
+  The measure function is computable in \FNC{} because arithmetic and summation are both computable in \FNC{}.
+  The solution set is decidable in \NC{} because Boolean formula evaluation is computable in \NC{} \cite{buss87}.
+
+  The proof that shows the problem is hard for \NNCO{} is similar to the one that shows \textsc{Maximum Variable Weighted Satisfiability} is hard for \NPO{} \cite[Theorem~3.1]{om87} \cite[Theorem~8.3]{acgkmp99}.
+  The only difference is that the underlying machines are \NC{} and \NNC{} machines instead of \P{} and \NP{} machines.
+\end{proof}
 
 \begin{conjecture}
   \textsc{Minimum Traveling Salesperson Problem} is complete for \expApxNCO{} under $\APr$ reductions.
