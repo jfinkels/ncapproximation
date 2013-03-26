@@ -31,36 +31,39 @@
 \newcommand{\rb}{\right\}}
 \newcommand{\st}{\,\middle|\,}
 
+\newcommand{\npoproblems}{}
+\newcommand{\nncoproblems}{}
+\newcommand{\expapxncoproblems}{}
+\newcommand{\polyapxncoproblems}{}
+\newcommand{\logapxncoproblems}{}
 \newcommand{\apxncoproblems}{%
-  \textsc{Induced Subgraph of High Weight for Linear Extremal Properties} \cite{dsst97},
   \textsc{Maximum Acyclic Subgraph} \cite[Section~7.4]{dsst97},
   \textsc{Minimum $k$-Center} \cite[Section~7.4]{dsst97},
-  \textsc{$k$-Switching Network} \cite[Section~7.4]{dsst97},
+  \textsc{$k$-Switching Network} \cite[Section~7.4]{dsst97}, and
   \textsc{Maximum Bounded Weighted Satisfiability} \cite[Theorem~4]{sx95}}
-\newcommand{\expapxncoproblems}{}
-\newcommand{\frncasproblems}{%
+\newcommand{\apxncopproblems}{%
+  \textsc{Induced Subgraph of High Weight for Linear Extremal Properties} \cite{dsst97}}
+\newcommand{\rncasproblems}{%
+  \textsc{Minimum Metric Traveling Salesperson} \cite[Theorem~7.1.1]{dsst97}}
+\newcommand{\ncasproblems}{%
+  \textsc{Maximum $k$-Constraint Satisfaction Problem} \cite[Corollary~13]{trevisan98}, and
+  \textsc{Maximum Independent Set for Planar Graphs} \cite[Theorem 6.4.1]{dsst97}}
+\newcommand{\ncaspproblems}{%
+  \textsc{Maximum Matching} \cite[Theorem~5.2.1]{dsst97},
+  \textsc{Maximum Weight Matching} \cite[Theorem~5.2.2]{dsst97},
+  \textsc{Positive Linear Programming} \cite[Theorem~5.1.11]{dsst97} \cite{tx98}, and
+  \textsc{Maximum Flow} \cite[Theorem~5.2.2]{dsst97}}
+\newcommand{\frncaspproblems}{%
   \textsc{Maximum Flow} \cite[Theorem~4.5.2]{dsst97},
-  \textsc{Maximum Weight Perfect Matching} \cite[Theorem~4.5.2]{dsst97},
+  \textsc{Maximum Weight Perfect Matching} \cite[Theorem~4.5.2]{dsst97}, and
   \textsc{Maximum Weight Matching} \cite[Theorem~4.5.2]{dsst97}}
 \newcommand{\fncasproblems}{%
   \textsc{Subset Sum} \cite[Theorem~4.1.4]{dsst97},
   \textsc{Maximum Satisfiability} \cite[Theorem~8]{trevisan98},
   \textsc{Minimum Weight Vertex Cover} \cite[Theorem~5.3.6]{dsst97},
-  \textsc{0-1 Knapsack} \cite[Theorem~2]{mayr88},
+  \textsc{0-1 Knapsack} \cite[Theorem~2]{mayr88}, and
   \textsc{Bin Packing} \cite[Theorem~3]{mayr88}}
-\newcommand{\logapxncoproblems}{}
-\newcommand{\ncasproblems}{%
-  \textsc{Positive Linear Programming} \cite[Theorem~5.1.11]{dsst97},
-  \textsc{Maximum $k$-Constraint Satisfaction Problem} \cite[Corollary~13]{trevisan98},
-  \textsc{Maximum Matching} \cite[Theorem~5.2.1]{dsst97},
-  \textsc{Maximum Flow} \cite[Theorem~5.2.2]{dsst97},
-  \textsc{Maximum Weight Matching} \cite[Theorem~5.2.2]{dsst97},
-  \textsc{Maximum Independent Set for Planar Graphs} \cite[Theorem 6.4.1]{dsst97}}
 \newcommand{\ncoproblems}{}
-\newcommand{\nncoproblems}{}
-\newcommand{\polyapxncoproblems}{}
-\newcommand{\rncasproblems}{%
-  \textsc{Minimum Metric Traveling Salesperson} \cite[Theorem~7.1.1]{dsst97}}
 
 \author{Jef{}frey Finkelstein}
 \date{\today}
@@ -72,12 +75,12 @@
 
 \section{Introduction}
 
-\NC{} is the class of computational problems decidable by a Boolean circuit of polynomial size and polylogarithmic depth.
-Such problems are considered both ``efficient'' (since $\NC\subseteq\P$) and ``highly parallel'' (since we might consider each gate in the circuit to be a processor working in parallel and the low depth of the circuit a small number of steps).
-By contrast, problems which are \P-complete (under \NC{} reductions) are considered ``inherently sequential''.
-Furthermore, all \NP-hard and \PSPACE-hard problems are also inherently sequential, since $\P\subseteq\NP\subseteq\PSPACE$.
+\NC{} is the class of computational problems decidable by a logarithmic space uniform family of Boolean circuits of bounded fan-in, polynomial size, and polylogarithmic depth.
+Such problems are considered both ``efficient'' (since $\NC \subseteq \P$) and ``highly parallel'' (since we might consider each gate in the circuit to be a processor working in parallel and the small depth of the circuit a small number of steps).
+By contrast, problems which are \P-complete (under logarithmic space or even \NC{} many-one reductions) are considered ``inherently sequential''.
+Furthermore, all \NP-hard and \PSPACE-hard problems are also inherently sequential, since $\P \subseteq \NP \subseteq \PSPACE$.
 Just as we hope to find efficient approximation algorithms for optimization problems for which it is intractable to compute an exact solution, so too do we hope to find efficient and highly parallel approximation algorithms for optimization problems for which computing the exact solution is inherently sequential.
-(However, just like hardness of approximation for \NP-hard problems, in some cases even \emph{approximating} a solution within a constant factor is inherently sequential!)
+(However, just like hardness of approximation for \NP-hard problems, in some cases even \emph{approximating} a solution inherently sequential!)
 
 \section{Definitions for \texorpdfstring{\NC}{NC} approximation classes}
 
@@ -90,13 +93,13 @@ We denote the set of all polynomials by \poly{} and the set of all polylogarithm
 We adapt the clear and concise definitions of \cite{tantau07} from logarithmic space approximability to \NC{} approximability.
 
 \begin{definition}[\cite{acgkmp99}]
-  An \emph{optimization problem} is a four-tuple, $(I, S, m, t)$, where $I\subseteq \Sigma^*$ and is called the \emph{instance set}, $S\subseteq I\times \Sigma^*$ and is called the \emph{solution relation}, $m\colon S\to \mathbb{N}^+$ and is called the \emph{measure function}, and $t\in\{\min, \max\}$ and is called the type (of the optimization).
+  An \emph{optimization problem} is a four-tuple, $(I, S, m, t)$, where the set $I \subseteq \Sigma^*$ is called the \emph{instance set}, the set $S \subseteq I \times \Sigma^*$ is called the \emph{solution relation}, the function $m \colon S \to \mathbb{N}^+$ is called the \emph{measure function}, and $t \in \{\min, \max\}$ is called the \emph{type} of the optimization.
 \end{definition}
 
 \begin{definition}[\cite{tantau07}]
-  Let $P$ be an optimization problem, so $P=(I, S, m, t)$, and let $x\in I$.
+  Let $P$ be an optimization problem, so $P = (I, S, m, t)$, and let $x\in I$.
   \begin{enumerate}
-  \item Let $S(x)=\lb y\in\Sigma^* \st (x, y)\in S \rb$; call this the \emph{solutions for $x$}.
+  \item Let $S(x)=\lb y\in\Sigma^* \st (x, y)\in S \rb$; we call this the \emph{solutions for $x$}.
   \item Define $m^*(x)$ by
     \begin{displaymath}
       m^*(x) =
@@ -105,11 +108,11 @@ We adapt the clear and concise definitions of \cite{tantau07} from logarithmic s
         \max \lb m(x, y) \st y\in S(x) \rb & \text{if } t = \max
       \end{cases}
     \end{displaymath}
-    for all $x\in \Sigma^*$; call this the \emph{optimal measure for $x$}.
+    for all $x\in \Sigma^*$; we call this the \emph{optimal measure for $x$}.
     Let $m^*(x)$ be undefined if $S(x)=\emptyset$.
-  \item Let $S^*(x)=\lb y\in\Sigma^* \st m(x, y) = m^*(x) \rb$; call this the \emph{set of optimal solutions for $x$}.
-  \item Let $R(x, y)=\max\left( \frac{m(x, y)}{m^*(x)}, \frac{m^*(x)}{m(x, y)} \right)$; call this the \emph{performance ratio of the solution $y$}.
-  \item Let $P_\exists = \lb x\in \Sigma^* \st S(x) \neq \emptyset \rb$; call this the \emph{existence problem}.
+  \item Let $S^*(x)=\lb y\in\Sigma^* \st m(x, y) = m^*(x) \rb$; we call this the \emph{set of optimal solutions for $x$}.
+  \item Let $R(x, y)=\max\left( \frac{m(x, y)}{m^*(x)}, \frac{m^*(x)}{m(x, y)} \right)$; we call this the \emph{performance ratio of the solution $y$}.
+  \item Let $P_\exists = \lb x\in \Sigma^* \st S(x) \neq \emptyset \rb$; we call this the \emph{existence problem}.
   \item Let
     \begin{displaymath}
       P_{opt<}=\lb (x, z) \in P_\exists\times\mathbb{N} \st \exists y\in\Sigma^*\colon m(x, y) < z \rb
@@ -125,6 +128,9 @@ We adapt the clear and concise definitions of \cite{tantau07} from logarithmic s
   \end{enumerate}
 \end{definition}
 
+The performance ratio $R(x, y)$ is a number in the interval $[1, \infty)$.
+The closer $R(x, y)$ is to 1, the better the solution $y$ is for $x$, and the closer $R(x, y)$ to $\infty$, the worse the solution.
+
 \begin{definition}
   Let $P$ be an optimization problem, let $r\colon \mathbb{N}\to\mathbb{N}$, and let $f\colon I\to \Sigma^*$.
   We say $f$ is an \emph{$r$-approximator for $P$} if it produces solutions for $P$ and $R(x, f(x)) \leq r(|x|)$ for all $x\in P_\exists$.
@@ -134,7 +140,7 @@ We adapt the clear and concise definitions of \cite{tantau07} from logarithmic s
 
 \begin{definition}
   Let $P$ be an optimization problem and let $f\colon I\times\mathbb{N}\to\Sigma^*$.
-  We say $f$ is an \emph{approximation scheme for $P$} if for all $x\in P_\exists$ and all positive integers $k$ we have $f(x, k)\in S(x)$ and $R(x, f(x, k)) \leq 1 + 1 / k$.
+  We say $f$ is an \emph{approximation scheme for $P$} if for all $x\in P_\exists$ and all positive integers $k$ we have $f(x, k)\in S(x)$ and $R(x, f(x, k)) \leq 1 + \frac{1}{k}$.
 \end{definition}
 
 \subsection{Classes of optimization problems}
@@ -164,7 +170,7 @@ First we define the necessary circuit classes, then we define the corresponding 
 \begin{definition}
   \mbox{}
   \begin{enumerate}
-  \item \NC{} is the class of decision problems decidable by a uniform family of Boolean circuits with polynomial size, polylogarithmic depth, and fan-in two.
+  \item \NC{} is the class of decision problems decidable by a logarithmic space uniform family of Boolean circuits with polynomial size, polylogarithmic depth, and fan-in two.
   \item \FNC{} is the class of functions computable by an \NC{} circuit in which the output of the circuit is (the binary encoding of) $f(x)$.
   \item $\NNC(f(n))$ is the class of languages computable by an \NC{} circuit family augmented with $O(f(n))$ nondeterministic gates for each input length $n$ \cite{wolf94}.
     A nondeterministic gate takes no inputs and yields a single (nondeterministic) output bit.
@@ -176,7 +182,7 @@ First we define the necessary circuit classes, then we define the corresponding 
 \NNCpoly, also known as \GC(\poly, \NC) \cite{cc97} and $\beta\P$ \cite{kf80}, is an unusual class which may warrant some further explanation.
 \NC{} has the same relationship to \NNCpoly{} as \P{} does to \NP{} (thus an equivalent definition of \NNCpoly{} is one in which each language has an efficient and highly parallel verification procedure; as in the definition of \NPO{} in \autoref{def:npo}, it is this formulation which we use when defining \NNCO{} in \autoref{def:nnco}).
 Wolf \cite{wolf94} notes that $\NNC(\log n)=\NC$ and $\NNC(\poly)=\NP$, and suggests that \NNC(\polylog) may be an interesting intermediary class, possibly incomparable with \P.
-Cai and Chen \cite{cc97} prove that for each natural number $k$ and $i$, there is a complete problem for $\NNC^k(\log^i n)$ under logarithmic space reductions.
+Cai and Chen \cite{cc97} prove that for each natural number $k$ and $i$, there is a complete problem for $\NNC^k(\log^i n)$ under logarithmic space many-one reductions.
 
 \begin{definition}\label{def:nnco}
   The complexity class \NNCOpoly{} is the class of all optimization problems $(I, S, m, t)$ such that the following conditions hold.
@@ -242,7 +248,7 @@ Another common variant of these classes is the probabilistic versions of each (f
 
 \begin{todo}
   What are the \PO-complete problems?
-  Are these the problems for which it is \P-complete to produce an $\epsilon$ approximation for all $\epsilon$ (see \autoref{sec:approximationispcomplete})?
+  Are these the problems for which it is \P-complete to produce an $\epsilon$ approximation for all $\epsilon$ (see \autoref{sec:pcompleteapprox})?
 \end{todo}
 
 \begin{todo}
@@ -358,23 +364,25 @@ We bound the AP reduction to logarithmic space instead of allowing it be a \FNC{
 \section{Complexity of extant parallel approximations}
 
 For a listing of somewhat contemporary results on efficient \emph{sequential} approximation, see \cite{compendium}.
+The list here summarizes best known approximation upper bounds for optimization problems.
+\begin{todo}
+  This list \emph{assumes} that the instance set and solution set for each optimization problem are decidable in \NC{} and that the measure function is computable in \FNC{}.
+  The complexity of the instance set, solution set, and measure function must be verified for each problem individually, which will take some time.
+\end{todo}
 
-\begin{proposition}
-  \mbox{}
-  \begin{itemize}
-  \item \NNCO{} contains \nncoproblems.
-  \item \expApxNCO{} contains \expapxncoproblems.
-  \item \polyApxNCO{} contains \polyapxncoproblems.
-  \item \logApxNCO{} contains \logapxncoproblems
-  \item \ApxNCO{} contains \apxncoproblems.
-  \item \NCAS{} contains \ncasproblems.
-  \item \FNCAS{} contains \fncasproblems.
-  \item \NCO{} contains \ncoproblems.
-  \end{itemize}
-\end{proposition}
-
-Some problems exhibit ``threshold'' behavior: for certain values of a parameter (for example, $0 < \epsilon < \frac{1}{2}$) the approximation problem is computable in \NC, but for other values (for example, $\frac{1}{2} \leq \epsilon < 1$) the approximation problem is \P-complete (or \NP-complete).
-This implies that those problems cannot have a polynomial time approximation scheme (that is, they are not in \PTAS), unless $\P = \NP$.
+\begin{itemize}
+\item \NPO{} contains \npoproblems.
+\item \NNCO{} contains \nncoproblems.
+\item \expApxNCO{} contains \expapxncoproblems.
+\item \polyApxNCO{} contains \polyapxncoproblems.
+\item \logApxNCO{} contains \logapxncoproblems
+\item \ApxNCO{} contains \apxncoproblems.
+\item \ApxNCOp{} contains \apxncopproblems.
+\item \NCAS{} contains \ncasproblems.
+\item \NCASp{} contains \ncaspproblems.
+\item \FNCAS{} contains \fncasproblems.
+\item \NCO{} contains \ncoproblems.
+\end{itemize}
 
 \section{Completeness for classes of problems admitting parallel approximations}
 \label{sec:completeness}
@@ -408,9 +416,6 @@ We then adapt the original proofs of completeness to show that the \emph{same pr
 \begin{justification}
   \textsc{Minimum Traveling Salesperson Problem} is complete for \expApxPO{} under ``MPTAS reductions'' \cite[Corollary~1]{ep06}.
 \end{justification}
-
-It is \P-complete to compute a $\rho$-approximation for \textsc{Minimum-cost Maximum Flow} where $\rho$ is a polynomial in the length of the input \cite{sw92}.
-It seems that this is true for all polynomials $\rho$, perhaps implying that this problem is not in \polyApxNCO{}, but it is not totally clear from the proof.
 
 \begin{conjecture}
   \textsc{Maximum Clique} is \polyApxNCO-complete.
@@ -447,7 +452,7 @@ Their proof adapts the technique of \cite{cp91} for constructing a canonical com
   \mbox{}
   \begin{enumerate}
   \item \textsc{Planar Maximum Satisfiability} is in \PMPSAT, which is a subset of \PTAS{} and \emph{may} be a syntactic characterization of \PTAS{} \cite{km96}.
-  \item \textsc{Planar Maximum Independent Set} is complete for \PTAS{} under ``FT reductions'' \cite[Theorem~6]{bep06}.
+  \item \textsc{Planar Maximum Independent Set} is complete for \PTAS{} under ``FT reductions'' \cite[Theorem~6]{bep06}. \qedhere
   \end{enumerate}
 \end{justification}
 
@@ -458,21 +463,61 @@ Their proof adapts the technique of \cite{cp91} for constructing a canonical com
   \textsc{0-1 Knapsack} is in $\FPTAS\setminus\PO$ \cite[Section~3.2]{ep10} and is in \FNCAS{} \cite[Theorem~2]{mayr88}.
 \end{justification}
 
-\subsection{Syntactic characterization of \texorpdfstring{\ApxNCO}{ApxNCO}}
-
-In \cite{py91}, the authors introduce a wealth of problems which are complete under ``L reductions'' for \MaxSNP, the class of maximization problems in strict \NP{} (\SNP), which is a syntactic characterization of \NP.
-Further work showed that the closure of \MaxSNP{} under ``\PTAS{} reductions'' equals $\ApxPO_{pb}$ \cite{kmsv99}.
-
-\begin{todo}
-  We know that $\FO[\log^{O(1)} n] = \NC$ \cite[Theorem~5.2]{immerman99}; can we use this to construct a syntactic definition of $\ApxNCO$?
-  Can we more easily construct a complete problem using this characterization?
-\end{todo}
-
 \subsection{Completeness of optimization problems corresponding to \texorpdfstring{\P}{P}-complete problems}
 \label{sec:pcompleteapprox}
 
-All of the completeness results seen in the previous section are based on the optimization form of \NP-complete problems.
-While it is obviously important to provide efficient and highly parallel approximation algorithms for problems which are both intractable and inherently sequential, it is also desirable to provide highly parallel approximation algorithms for problems which are tractable but still inherently sequential.
+It is \P-complete to compute a $\rho$-approximation for \textsc{Minimum-cost Maximum Flow} where $\rho$ is a polynomial in the length of the input \cite{sw92}.
+It seems that this is true for all polynomials $\rho$, perhaps implying that this problem is not in \polyApxNCO{}, but it is not totally clear from the proof.
+
+\begin{theorem}
+  All of the following problems are \P-complete for all $\epsilon > 1$.
+  \begin{itemize}
+  \item \textsc{$\epsilon$-DPATH} \cite[Theorem~1]{ss89}
+  \item \textsc{$\epsilon$-DUNIT} \cite[Theorem~2]{ss89}
+  \item \textsc{$\epsilon$-Circuit Depth of Ones} \cite{kl88}
+  \item \textsc{$\epsilon$-DGEN} \cite[Theorem~4]{ss89}
+  \item \textsc{$\epsilon$-Linear Programming} (for both solution approximation and value approximation) \cite{serna91}
+  \item \textsc{$\epsilon$-Reliable Connectivity Problem for in-edges} \cite[Theorem~4]{kks91}
+  \end{itemize}
+\end{theorem}
+
+\begin{conjecture}
+  All of the following problems are complete for \polyApxNCOp{} under $\APr$ reductions.
+  \begin{itemize}
+  \item \textsc{Maximum DPATH}
+  \item \textsc{Maximum DUNIT}
+  \item \textsc{Maximum Circuit Depth of Ones}
+  \item \textsc{Minimum Solution Distance Linear Programming}
+  \item \textsc{Minimum Objective Distance Linear Programming}
+  \end{itemize}
+\end{conjecture}
+
+\begin{conjecture}
+  All of the following problems are complete for \logApxNCOp{} under $\APr$ reductions.
+  \begin{itemize}
+  \item \textsc{Maximum DGEN}
+  \item \textsc{Maximum Reliable Connectivity Problem for in-edges}
+  \end{itemize}
+\end{conjecture}
+
+\begin{theorem}[{\cite[{Theorem~4 and Theorem~5}]{am84}}]
+  All of the following problems are in \NC{} for all $\epsilon > 2$ but \P-complete for all $\epsilon \in [1, 2)$.
+  \begin{itemize}
+  \item \textsc{$\epsilon$-High Degree Subgraph} \cite[Theorem~4 and Theorem~5]{am84}
+  \item \textsc{$\epsilon$-High Connectivity Subgraph} \cite[Theorem~6]{ss89}
+  \end{itemize}
+\end{theorem}
+
+\begin{conjecture}
+  All of the following problems are complete for \ApxNCOp{} under $\APr$ reductions.
+  \begin{itemize}
+  \item \textsc{Maximum High Degree Subgraph}
+  \item \textsc{Maximum High Connectivity Subgraph}
+  \end{itemize}
+\end{conjecture}
+
+An optimization problem for which any constant-factor approximation is \P-complete implies that the optimization problem is not in \ApxNCO{} (unless $\P=\NC$).
+However, it may still be the case that these \P-complete optimization problems are in \logApxNCO, \polyApxNCO, \expApxNCO, or \NNCO.
 
 \begin{todo}
   Produce a \P-complete problem which is complete for \ApxNCO{} (and then for each of the other approximation classes) by considering a restriction of an \NP-complete problem and following the same proof.
@@ -488,148 +533,32 @@ While it is obviously important to provide efficient and highly parallel approxi
   Is the converse true?
 \end{todo}
 
-\subsection{Consequences of complete approximations for both \texorpdfstring{\NP}{NP}-complete and \texorpdfstring{\P}{P}-complete problems}
-
-It may, at first glance, be a bit unsettling to see that there exist, for example, \ApxNCO-complete optimization problems which are based on both \NP-complete problems and \P-complete problems, since this implies a logarithmic space approximation-preserving reduction between the optimization problems.
-Should such a reduction, from an optimization problem based on an \NP-complete problem to an optimization problem based on a \P-complete problem, distress us?
-
-\begin{todo}
-  What are the consequences of such a reduction?
-  Does this imply \P=\NP?
-  It shouldn't, because approximations of optimization problems shouldn't define solutions to decision problems.
-\end{todo}
 \begin{todo}[Thanks to Rita for this one]
   Do there exist, for example, \ApxPO-complete optimization problems which are based on both \NP-complete problems and \PSPACE-complete problems?
   \STP-complete problems?
 \end{todo}
 
-Suppose that $P$ is the \ApxNCO-complete optimization problem with an \NP-complete budget problem, $P_{opt>}$.
-Suppose that $Q$ is the \ApxNCO-complete optimization problem with a \P-complete budget problem, $Q_{opt>}$.
-In order to show that this situation implies, say, $\P=\NP$, a likely course of attack would be to produce a sequence of reductions (of an appropriate type) showing that $P_{opt>} \leq P \leq Q \leq Q_{opt>}$.
-The middle reduction exists since $Q$ is \ApxNCO-complete and $P\in\ApxNCO$ (note that $P$ needs only to be in \ApxNCO; it does not need to be complete for the class), so we would need to prove the first and last reductions.
+\subsection{Syntactic characterization of \texorpdfstring{\ApxNCO}{ApxNCO}}
 
-To prove the first reduction would require using an algorithm which produces approximate solutions for $P$ to decide if there exists \emph{any} solution whose measure meets some bound.
-Since we don't know which approximate solution will be produced by the algorithm, it seems difficult to explore all possible solutions to find one which meets the bound.
-
-To prove the last reduction would require using an algorithm which decides if there exists any solution whose measure meets some bound to produce an approximate solution.
+In \cite{py91}, the authors introduce a wealth of problems which are complete under ``L reductions'' for \MaxSNP, the class of maximization problems in strict \NP{} (\SNP), which is a syntactic characterization of \NP.
+Further work showed that the closure of \MaxSNP{} under ``\PTAS{} reductions'' equals $\ApxPO_{pb}$ \cite{kmsv99}.
 
 \begin{todo}
-  Explain why this last reduction is unlikely to exist.
+  We know that $\FO[\log^{O(1)} n] = \NC$ \cite[Theorem~5.2]{immerman99}; can we use this to construct a syntactic definition of $\ApxNCO$?
+  Can we more easily construct a complete problem using this characterization?
 \end{todo}
 
 \section{Translating hardness of approximation results to \texorpdfstring{\NC}{NC}}
 
-The celebrated \PCP{} theorem gives a precise characterization of \NP{} in terms of probabilistic verifiers with bounded randomness and queries, specifically that $\NP = \PCP(\lg n, 1)$ \cite{pcp}.
-This characterization allowed many hardness of approximation results for optimization problems in \NPO{} corresponding to \NP-complete decision problems.
+The celebrated \PCP{} theorem gives a precise characterization of \NP{} in terms of probabilistic verifiers with bounded randomness and queries, specifically that $\NP = \PCP(\log n, 1)$ \cite{pcp}.
+This characterization allows many hardness of approximation results for optimization problems in \NPO{} corresponding to \NP-complete decision problems.
 
 \begin{todo}
   Can the same be done for \NNC?
   Is there a \PCP{} characterization for \NNC?
 \end{todo}
 
-\section{Parallel approximations for other \texorpdfstring{\P}{P}-complete problems}
-
-In this section, we will use our results from \autoref{sec:pcompleteapprox} to determine upper bounds on the approximation of other \P-complete problems.
-
-\begin{todo}
-  Create a list of \P-complete optimization problems, and determine reductions to the complete problems from the previous section.
-\end{todo}
-
-\section{Problems for which parallel approximation is \texorpdfstring{\P}{P}-complete}
-\label{sec:approximationispcomplete}
-
-In \cite[Section~10.2]{ghr95}, the authors provide a very informal statement that ``there are no \NC{} approximation algorithms'' for the following problems: \textsc{Lexicographically First Maximal Independent Set Size}, \textsc{Unit Resolution}, \textsc{Generability}, \textsc{Path Systems}, and \textsc{Circuit Value Problem}.
-They further state that the following problems exhibit threshold behavior, in the sense that computing an $\epsilon$-approximation is \P-complete if $\epsilon\geq 2$ but is in \NCAS{} if $\epsilon<2$: \textsc{High Degree Subgraph} and \textsc{High Connectivity Subgraph}.
-Most of these results come from \cite{ss89}.
-
-\begin{todo}
-  State the formal results in the terminology of this work.
-\end{todo}
-
-An optimization problem for which any constant-factor approximation is \P-complete implies that the optimization problem is not in \ApxNCO{} (unless $\P=\NC$).
-However, it may still be the case that these \P-complete optimization problems are in \logApxNCO, \polyApxNCO, \expApxNCO, or \NNCO.
-
-\begin{todo}
-  Is that correct?
-\end{todo}
-
-\subsection{Classifying existing results}
-
-\begin{conjecture}
-  \textsc{Maximum Bounded Weighted Circuit Evaluation} is complete for \ApxNCOp{} under \NCAS{} reductions.
-\end{conjecture}
-
-\begin{theorem}[{\cite[Theorem~1]{ss89}}]
-  For all $\epsilon \in (0, 1)$, \textsc{$\epsilon$-DPATH} is \P-complete.
-\end{theorem}
-
-\begin{conjecture}
-  \textsc{Maximum DPATH} is complete for \logApxNCOp{} under $\APr$ reductions.
-\end{conjecture}
-
-\begin{theorem}[{\cite[Theorem~2]{ss89}}]
-  For all $\epsilon \in (0, 1)$, \textsc{$\epsilon$-DUNIT} is \P-complete.
-\end{theorem}
-
-\begin{conjecture}
-  \textsc{Maximum DUNIT} is complete for \logApxNCOp{} under $\APr$ reductions.
-\end{conjecture}
-
-\begin{theorem}[{\cite{kl88}}]
-  For all $\epsilon \in (0, 1)$, \textsc{$\epsilon$-Circuit Depth of Ones} is \P-complete.
-\end{theorem}
-
-\begin{conjecture}
-  \textsc{Maximum Circuit Depth of Ones} is complete for the class \logApxNCOp{} under $\APr$ reductions.
-\end{conjecture}
-
-\begin{theorem}[{\cite[Theorem~4]{ss89}}]
-  For all $\epsilon \in (0, 1)$, \textsc{$\epsilon$-DGEN} is \P-complete.
-\end{theorem}
-
-\begin{conjecture}
-  \textsc{Maximum DGEN} is complete for \logApxNCOp{} under $\APr$ reductions.
-\end{conjecture}
-
-\begin{theorem}[{\cite{serna91}}]
-  For all $\epsilon \in (0, 1)$, \textsc{$\epsilon$-Linear Programming} is \P-complete (for both solution approximation and value approximation).
-\end{theorem}
-
-\begin{conjecture}
-  \textsc{Maximum Linear Programming} is complete for the class \logApxNCOp{} under $\APr$ reductions.
-\end{conjecture}
-
-\begin{theorem}[{\cite[Theorem~4]{kks91}}]
-  For all $\epsilon \in (0, 1)$, \textsc{$\epsilon$-Reliable Connectivity Problem for in-edges} is \P-complete.
-\end{theorem}
-
-\begin{conjecture}
-  \textsc{Maximum Reliable Connectivity Problem for in-edges} is complete for \logApxNCOp{} under $\APr$ reductions.
-\end{conjecture}
-
-\begin{theorem}[{\cite[{Theorem~4 and Theorem~5}]{am84}}]
-  \mbox{}
-  \begin{enumerate}
-  \item For all $\epsilon \in (0, \frac{1}{2})$, \textsc{$\epsilon$-High Degree Subgraph} is \P-complete.
-  \item For all $\epsilon \in (\frac{1}{2}, 1)$, \textsc{$\epsilon$-High Degree Subgraph} is in $\NC$.
-  \end{enumerate}
-\end{theorem}
-
-\begin{conjecture}
-  \textsc{Maximum High Degree Subgraph} is complete for the class \ApxNCOp{} under $\APr$ reductions.
-\end{conjecture}
-
-\begin{theorem}[{\cite[{Theorem~6}]{ss89}}]
-  \mbox{}
-  \begin{enumerate}
-  \item For all $\epsilon \in (0, \frac{1}{2})$, \textsc{$\epsilon$-High Connectivity Subgraph} is \P-complete.
-  \item For all $\epsilon \in (\frac{1}{2}, 1)$, \textsc{$\epsilon$-High Connectivity Subgraph} is in $\NC$.
-  \end{enumerate}
-\end{theorem}
-
-\begin{conjecture}
-  \textsc{Maximum High Connectivity Subgraph} is complete for \ApxNCO{} under $\APr$ reductions.
-\end{conjecture}
+We have some initial results in this line of research \cite{finkelstein13}.
 
 \section{About this work}
 
