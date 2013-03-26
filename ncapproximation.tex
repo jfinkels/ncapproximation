@@ -247,11 +247,6 @@ Each class also has a ``polynomially bounded'' variant, denoted by the subscript
 Another common variant of these classes is the probabilistic versions of each (for example, randomized \NCAS{}, denoted \RNCAS), but we do not explore such classes in this work.
 
 \begin{todo}
-  What are the \PO-complete problems?
-  Are these the problems for which it is \P-complete to produce an $\epsilon$ approximation for all $\epsilon$ (see \autoref{sec:pcompleteapprox})?
-\end{todo}
-
-\begin{todo}
   How does \PO{} compare to the \NC{} approximation classes?
   \cite[Figure~2.2]{dsst97} suggests that \P{} is incomparable to each of \FNCAS, \NCAS, and \ApxNCO, but provides no other explanation.
 \end{todo}
@@ -347,7 +342,7 @@ We will use a logarithmic space-bounded version of the ``AP reduction'', conside
   \end{enumerate}
 \end{definition}
 
-We bound the AP reduction to logarithmic space instead of allowing it be a \FNC{} circuit family because 1. the former notion of reduction is more restrictive and hence implies the latter, 2. existing results on approximability and approximation classes use the former, and 3. it eases analysis in some proofs.
+We bound the AP reduction to logarithmic space instead of allowing it be a \FNC{} circuit family because 1.~the former notion of reduction is more restrictive and hence implies the latter, 2.~existing results on approximability and approximation classes use the former, and 3.~it eases analysis in some proofs.
 
 \begin{proposition}
   Let $\mathcal{C}$ be one of the complexity classes \NCO, \NCAS, \ApxNCO, \logApxNCO, \polyApxNCO, \expApxNCO, or \NNCO.
@@ -385,7 +380,6 @@ The list here summarizes best known approximation upper bounds for optimization 
 \end{itemize}
 
 \section{Completeness for classes of problems admitting parallel approximations}
-\label{sec:completeness}
 
 \begin{definition}
   Let $\mathcal{C}$ be one of the complexity classes \NCO, \NCAS, \ApxNCO, \logApxNCO, \polyApxNCO, \expApxNCO, or \NNCO.
@@ -464,7 +458,6 @@ Their proof adapts the technique of \cite{cp91} for constructing a canonical com
 \end{justification}
 
 \subsection{Completeness of optimization problems corresponding to \texorpdfstring{\P}{P}-complete problems}
-\label{sec:pcompleteapprox}
 
 It is \P-complete to compute a $\rho$-approximation for \textsc{Minimum-cost Maximum Flow} where $\rho$ is a polynomial in the length of the input \cite{sw92}.
 It seems that this is true for all polynomials $\rho$, perhaps implying that this problem is not in \polyApxNCO{}, but it is not totally clear from the proof.
