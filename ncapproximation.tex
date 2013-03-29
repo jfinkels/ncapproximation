@@ -37,6 +37,7 @@
 \newcommand{\polyapxncoproblems}{}
 \newcommand{\logapxncoproblems}{}
 \newcommand{\apxncoproblems}{%
+  \textsc{Maximum $k$-CNF Satisfiability} \cite[Theorem~8.6]{acgkmp99},
   \textsc{Maximum Acyclic Subgraph} \cite[Section~7.4]{dsst97},
   \textsc{Minimum $k$-Center} \cite[Section~7.4]{dsst97},
   \textsc{$k$-Switching Network} \cite[Section~7.4]{dsst97}, and
@@ -378,6 +379,23 @@ The list here summarizes best known approximation upper bounds for optimization 
 \item \NCO{} contains \ncoproblems.
 \end{itemize}
 
+\begin{todo}
+  There is a problem here.
+
+  First, \textsc{Maximum 3-CNF Satisfiability} is complete for \APX{} under polynomial time AP reductions \cite[Theorem~8.6]{acgkmp99}.
+  It is also complete for \NCX{} under \NC{} AP reductions \cite{finkelstein13b}.
+
+  Next, \textsc{Maximum Clause-Weighted CNF Satisfiability} has a fully \NC{} approximation scheme \cite[Theorem~8]{trevisan98}.
+  Given an assignment to the variables, each disjunctive clause can be verified in constant time, so the solution set is decidable in \NC{}.
+  The measure of an assignment, the sum of the weights of the satisfied clauses, can also be computed in \NC{}.
+  Therefore, \textsc{Maximum Clause-Weighted CNF Satisfiability} is in \FNCAS.
+
+  There is a trivial logarithmic space approximation preserving reduction from the former problem to the latter problem.
+  (In fact the approximation is preserved exactly.)
+  \FNCAS{} is closed under such an approximation preserving reduction.
+  Therefore \textsc{Maximum 3-CNF Satisfiability} is in \FNCAS and hence $\NCX = \FNCAS$, which implies $\NC = \NP$.
+\end{todo}
+
 \section{Completeness for classes of problems admitting parallel approximations}
 
 We wish to demonstrate complete problems for each class of optimization problems admitting parallel approximations.
@@ -434,6 +452,13 @@ Their proof adapts the technique of \cite{cp91} for constructing a canonical com
 
 \begin{theorem}
   \textsc{Maximum Bounded Weighted Satisfiability} is complete for \ApxNCO{} under \NCAS{} reductions.
+\end{theorem}
+
+In \cite[Theorem~8.6]{acgkmp99}, the authors prove that \textsc{Maximum $k$-Satisfiability} is complete for \ApxPO{} under polynomial time \AP{} reductions.
+We believe that this proof translates to the \NC{} setting; for more information, see \cite{finkelstein13b}.
+
+\begin{theorem}{\cite{finkelstein13b}}
+  \textsc{Maximum $k$-CNF Satisfiability} is complete for \ApxNCO{} under \NC{} AP reductions.
 \end{theorem}
 
 \begin{conjecture}
