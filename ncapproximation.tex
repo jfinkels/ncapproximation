@@ -11,6 +11,7 @@
 
 \theoremstyle{plain}
 \newtheorem{conjecture}{Conjecture}
+\newtheorem{corollary}{Corollary}
 \newtheorem{proposition}{Proposition}
 \newtheorem{theorem}{Theorem}
 \newtheorem{todo}{TODO}
@@ -22,6 +23,7 @@
 \newenvironment{justification}{\begin{proof}[Justification]}{\end{proof}}
 
 \newcommand{\definitionautorefname}{Definition}
+\newcommand{\propositionautorefname}{Proposition}
 
 \newcommand{\Er}{\leq_E^{L}}
 \newcommand{\APr}{\leq_{AP}^{L}}
@@ -199,7 +201,7 @@ Cai and Chen \cite{cc97} prove that for each natural number $k$ and $i$, there i
 Since $\NC\subseteq\P$, the inclusion $\NNCO\subseteq\NPO$ follows immediately from the definitions.
 However, these definitions do not imply that the converse is true, since membership in \P{} does not imply membership in \NC.
 In fact, there is evidence that $\NNCO \neq \NPO$.
-\begin{proposition}[Thanks to Sam for this one.]
+\begin{proposition}[Thanks to Sam for this one.]\label{prop:nnconpo}
   $\NNCO = \NPO$ if and only if $\P = \NC$.
 \end{proposition}
 \begin{proof}
@@ -247,11 +249,6 @@ Each of these classes includes the one defined below it.
 
 Each class also has a ``polynomially bounded'' variant, denoted by the subscript \pb, in which an optimization problem with measure $m$ and solution set $S$ has the property that there exists a polynomial $p$ such that $m(x, y) \leq p(|x|)$ for all $(x, y)\in S$.
 Another common variant of these classes is the probabilistic versions of each (for example, randomized \NCAS{}, denoted \RNCAS), but we do not explore such classes in this work.
-
-\begin{todo}
-  How does \PO{} compare to the \NC{} approximation classes?
-  \cite[Figure~2.2]{dsst97} suggests that \P{} is incomparable to each of \FNCAS, \NCAS, and \ApxNCO, but provides no other explanation.
-\end{todo}
 
 The chain of inclusions given in \autoref{def:ncx} provides a hierarchy of classes which classify approximability of problems in \NNCO{}, and hence in \NPO.
 However, our intention is to determine the approximability of optimization problems corresponding to \P-complete decision problems, not those corresponding to \NP-complete decision problems.
@@ -327,6 +324,37 @@ Observe that $\POp = \PO \cap \NNCO$ by definition, and similarly $\ApxNCOp = \P
     \end{tikzpicture}
   \end{center}
 \end{figure}
+
+\subsection{Relations among classes of optimization problems}
+
+What is the relationship between the class \POp{} and the \NC{} approximation classes?
+
+\begin{proposition}[adapted from {\cite[Theorem~8.2.9]{dsst97}}]
+  If $\POp \subseteq \ApxNCO$ then $\P = \NC$.
+\end{proposition}
+\begin{proof}
+  Suppose $\POp \subseteq \ApxNCO$.
+  Consider the maximization problem \textsc{Linear Programming}, defined as follows.
+  \begin{align*}
+    I & = \{(A, \mathbf{b}, \mathbf{c}) \, | \, A \in \mathbb{Z}^{m \times n}, \mathbf{b} \in \mathbb{Z}^m, \mathbf{c} \in \mathbb{Z}^n \} \\
+    S & = \{((A, \mathbf{b}, \mathbf{c}), \mathbf{x}) \, | \, \mathbf{x} \in \mathbb{Z}^n \text{ and } A\mathbf{x} \leq \mathbf{b}\} \\
+    m((A, \mathbf{b}, \mathbf{c}), \mathbf{x}) & = \mathbf{c}^\intercal\mathbf{x} \\
+    t & = \max
+  \end{align*}
+  This problem is in \PO{} by the ellipsoid algorithm \cite{khachian79}.
+  The problem is also in \NNCO{}, since a solution can be verified in \NC{} (via matrix multiplication and comparison of rational numbers) and the measure can be computed in \NC{} (again by matrix multiplication).
+  Therefore it is in the class \POp.
+
+  By hypothesis, the problem is also in \ApxNCO{}, so the problem has an $r$-approximator computable in \NC{} for some $r > 0$.
+  By \cite[Theorem~8.2.7]{dsst97}, the decision problem of $r$-approximating \textsc{Linear Programming} is \P-complete for all $r > 0$.
+  Thus we have an \NC{} algorithm for a \P-complete problem, and hence $\NC = \P$.
+\end{proof}
+
+As an analog to \autoref{prop:nnconpo}, we have the following corollary of the previous proposition.
+
+\begin{corollary}
+  $\ApxNCO = \ApxPO$ if and only if $\P = \NC$.
+\end{corollary}
 
 \section{Reductions among approximation problems}
 
