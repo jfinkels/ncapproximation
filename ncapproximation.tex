@@ -599,12 +599,12 @@ However, it may still be the case that these \P-complete optimization problems a
 In this section, $\cl(\mathcal{C}, \leq)$ denotes the closure of the complexity class $\mathcal{C}$ under $\leq$ reductions.
 
 In \cite{py91}, the authors introduce a wealth of problems which are complete under ``L reductions'' for \MaxSNP, the class of maximization problems in strict \NP{} (\SNP), which is a syntactic characterization of \NP.
-Further work showed that $\cl(\MaxSNP, \leq^P_E) = \ApxPO_{pb}$ \cite[Theorem~1]{kmsv99}, and since $\cl(\ApxPO_{pb}, \leq^P_{PTAS}) = \ApxPO$ \cite{ct00}, we conclude $\cl(\MaxSNP, \leq^P_{PTAS}) = \ApxPO$ \cite{kmsv99}.
-We also have $\cl(\MaxSNP, \leq^P_E) = \cl(\MaxNP, \leq^P_E)$ \cite[Theorem~2]{kmsv99} and \textsc{Maximum Satisfiability} is complete for \MaxNP{} under $\leq^P_E$ reductions.
+Further work showed that $\cl\left(\MaxSNP, \leq^P_E\right) = \ApxPO_{pb}$ \cite[Theorem~1]{kmsv99}, and since $\cl\left(\ApxPO_{pb}, \leq^P_{PTAS}\right) = \ApxPO$ \cite{ct00}, we conclude $\cl\left(\MaxSNP, \leq^P_{PTAS}\right) = \ApxPO$ \cite{kmsv99}.
+We also have $\cl\left(\MaxSNP, \leq^P_E\right) = \cl\left(\MaxNP, \leq^P_E\right)$ \cite[Theorem~2]{kmsv99} and \textsc{Maximum Satisfiability} is complete for \MaxNP{} under $\leq^P_E$ reductions.
 Can these results translate to \NC{} in any way?
 
 According to \cite[Theorem~9.1.3]{dsst97}, $\MaxSNP \subseteq \NCX$.
-They also ask the provide the following open question: is there a (possibly weaker) reduction $\leq^?_?$ such that $\cl(\MaxSNP, \leq^?_?) = \NCX$?
+They also ask the provide the following open question: is there a (possibly weaker) reduction $\leq^?_?$ such that $\cl\left(\MaxSNP, \leq^?_?\right) = \NCX$?
 It may help to know that if $P$ is complete for $\MaxSNP$ under $\leq^L_L$ reductions, then $P$ exhibits threshold behavior for constant factor \NC{} approximation algorithms \cite[Theorem~9]{sx95} (see also \cite[Theorem~9.2.3]{dsst97}).
 
 \begin{todo}
