@@ -1,7 +1,7 @@
 \documentclass[]{article}
 
 % Package `hyperref` must come before package `complexity`.
-\usepackage[pdftitle={Definitions and reductions for NC approximation problems}, pdfauthor={Jeffrey Finkelstein}]{hyperref}
+\usepackage[pdftitle={Highly parallel approximations for inherently sequential problems}, pdfauthor={Jeffrey Finkelstein}]{hyperref}
 
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -33,6 +33,13 @@
 \newcommand{\rb}{\right\}}
 \newcommand{\st}{\,\middle|\,}
 \newcommand{\cl}{\operatorname{cl}}
+
+%% Fixes spacing around \left and \right operators.
+%% Source: http://tex.stackexchange.com/a/2610
+\let\originalleft\left
+\let\originalright\right
+\renewcommand{\left}{\mathopen{}\mathclose\bgroup\originalleft}
+\renewcommand{\right}{\aftergroup\egroup\originalright}
 
 \newcommand{\nncoproblems}{%
   \textsc{Maximum Variable Weighted Satisfiability} \cite[Theorem~3.1]{om87} \cite[Theorem~8.3]{acgkmp99}}
@@ -71,7 +78,7 @@
 
 \author{Jef{}frey Finkelstein}
 \date{\today}
-\title{Definitions and reductions for \texorpdfstring{\NC}{NC} approximation problems}
+\title{Highly parallel approximations for inherently sequential problems}
 
 \begin{document}
 
@@ -79,6 +86,7 @@
 
 \section{Introduction}
 
+In this work we study classes of optimization problems that require inherently sequential algorithms to solve exactly but permit highly parallel algorithms for approximation solutions.
 \NC{} is the class of computational problems decidable by a logarithmic space uniform family of Boolean circuits of bounded fan-in, polynomial size, and polylogarithmic depth.
 Such problems are considered both ``efficient'' (since $\NC \subseteq \P$) and ``highly parallel'' (since we might consider each gate in the circuit to be a processor working in parallel and the small depth of the circuit a small number of steps).
 By contrast, problems which are \P-complete (under logarithmic space or even \NC{} many-one reductions) are considered ``inherently sequential''.
@@ -176,17 +184,17 @@ First we define the necessary circuit classes, then we define the corresponding 
   \begin{enumerate}
   \item \NC{} is the class of decision problems decidable by a logarithmic space uniform family of Boolean circuits with polynomial size, polylogarithmic depth, and fan-in two.
   \item \FNC{} is the class of functions computable by an \NC{} circuit in which the output of the circuit is (the binary encoding of) $f(x)$.
-  \item $\NNC(f(n))$ is the class of languages computable by an \NC{} circuit family augmented with $O(f(n))$ nondeterministic gates for each input length $n$ \cite{wolf94}.
+  \item $\NNC(f(n))$ is the class of languages computable by a logarithmic space uniform \NC{} circuit family augmented with $O(f(n))$ nondeterministic gates for each input length $n$ \cite{wolf94}.
     A nondeterministic gate takes no inputs and yields a single (nondeterministic) output bit.
 
     If $\mathcal{F}$ is a class of functions, then $\NNC(\mathcal{F})=\bigcup_{f\in\mathcal{F}}{\NNC(f(n))}$.
   \end{enumerate}
 \end{definition}
 
-\NNCpoly, also known as \GC(\poly, \NC) \cite{cc97} and $\beta\P$ \cite{kf80}, is an unusual class which may warrant some further explanation.
+\NNCpoly, also known as $\GC(\poly, \NC)$ \cite{cc97} and $\beta\P$ \cite{kf80}, is an unusual class which may warrant some further explanation.
 \NC{} has the same relationship to \NNCpoly{} as \P{} does to \NP{} (thus an equivalent definition of \NNCpoly{} is one in which each language has an efficient and highly parallel verification procedure; as in the definition of \NPO{} in \autoref{def:npo}, it is this formulation which we use when defining \NNCO{} in \autoref{def:nnco}).
 Wolf \cite{wolf94} notes that $\NNC(\log n)=\NC$ and $\NNC(\poly)=\NP$, and suggests that \NNC(\polylog) may be an interesting intermediary class, possibly incomparable with \P.
-Cai and Chen \cite{cc97} prove that for each natural number $k$ and $i$, there is a complete problem for $\NNC^k(\log^i n)$ under logarithmic space many-one reductions.
+Cai and Chen \cite{cc97} prove that for each natural number $k$ and $i$, there is a complete problem for $\NNC^k\left(\log^i n\right)$ under logarithmic space many-one reductions.
 
 \begin{definition}\label{def:nnco}
   The complexity class \NNCOpoly{} is the class of all optimization problems $(I, S, m, t)$ such that the following conditions hold.
@@ -336,8 +344,8 @@ What is the relationship between the class \POp{} and the \NC{} approximation cl
   Suppose $\POp \subseteq \ApxNCO$.
   Consider the maximization problem \textsc{Linear Programming}, defined as follows.
   \begin{align*}
-    I & = \{(A, \mathbf{b}, \mathbf{c}) \, | \, A \in \mathbb{Z}^{m \times n}, \mathbf{b} \in \mathbb{Z}^m, \mathbf{c} \in \mathbb{Z}^n \} \\
-    S & = \{((A, \mathbf{b}, \mathbf{c}), \mathbf{x}) \, | \, \mathbf{x} \in \mathbb{Z}^n \text{ and } A\mathbf{x} \leq \mathbf{b}\} \\
+    I & = \left\{(A, \mathbf{b}, \mathbf{c}) \, \middle| \, A \in \mathbb{Z}^{m \times n}, \mathbf{b} \in \mathbb{Z}^m, \mathbf{c} \in \mathbb{Z}^n \right\} \\
+    S & = \left\{((A, \mathbf{b}, \mathbf{c}), \mathbf{x}) \, \middle| \, \mathbf{x} \in \mathbb{Z}^n \text{ and } A\mathbf{x} \leq \mathbf{b}\right\} \\
     m((A, \mathbf{b}, \mathbf{c}), \mathbf{x}) & = \mathbf{c}^\intercal\mathbf{x} \\
     t & = \max
   \end{align*}
