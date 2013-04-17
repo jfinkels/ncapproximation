@@ -206,37 +206,6 @@ Cai and Chen \cite{cc97} prove that for each natural number $k$ and $i$, there i
   For the sake of brevity, we write \NNCO{} instead of \NNCOpoly{}.
 \end{definition}
 
-Since $\NC\subseteq\P$, the inclusion $\NNCO\subseteq\NPO$ follows immediately from the definitions.
-However, these definitions do not imply that the converse is true, since membership in \P{} does not imply membership in \NC.
-In fact, there is evidence that $\NNCO \neq \NPO$.
-\begin{proposition}[Thanks to Sam for this one.]\label{prop:nnconpo}
-  $\NNCO = \NPO$ if and only if $\P = \NC$.
-\end{proposition}
-\begin{proof}
-  We know $\NNCO \subseteq \NPO$ unconditionally from the preceding paragraph.
-  If we suppose $\P = \NC$, then it follows immediately from the definitions that any optimization problem in $\NPO$ is also in $\NNCO$.
-
-  Now suppose $\NNCO = \NPO$.
-  If $C$ is a Boolean circuit with a single output, let $C(x)$ denote the output of $C$ (as a bit).
-  Consider the optimization problem $Q$ defined by $Q = (I, S, m, t)$, where
-  \begin{align*}
-    I & = \{ C \, | \, C \text{ is a Boolean circuit} \}, \\
-    S & = \{ (C, x) \, | \, C(x) = 1 \}, \\
-    m(C, x) & = C(x), \text{ and} \\
-    t & = \max.
-  \end{align*}
-  (Observe that $Q$ is an optimization form of the \textsc{Circuit Satisfiability} problem, where we have $m(C, x) \in \{0, 1\}$ for all circuits $C$ and all strings $x$.)
-  $I \in \P$ because a correctly formatted Boolean circuit is a directed acyclic graph, and a depth first search (computable in deterministic polynomial time) can reveal if a given directed graph has a cycle.
-  $S \in \P$ because it is exactly the \textsc{Circuit Value} problem, which is known to be in \P{} (in fact, it is \P-complete \cite[Problem~A.1.1]{ghr95}).
-  $m \in \P$ because it is simply the function form of the \textsc{Circuit Value} problem.
-  Therefore, $Q \in \NPO$.
-
-  Since $\NNCO = \NPO$ by hypothesis, $Q \in \NNCO$.
-  Hence, $S \in \NC$.
-  The existence of an \NC{} algorithm for a \P-complete problem implies $\P = \NC$.
-  Therefore, $\NNCO = \NPO$ if and only if $\P = \NC$.
-\end{proof}
-
 We can now proceed to define classes of approximable optimization problems contained in \NNCO.
 
 \begin{definition}\label{def:ncx}
@@ -254,11 +223,14 @@ We can now proceed to define classes of approximable optimization problems conta
 \end{definition}
 
 Each of these classes includes the one defined below it.
-
 Each class also has a ``polynomially bounded'' variant, denoted by the subscript \pb, in which an optimization problem with measure $m$ and solution set $S$ has the property that there exists a polynomial $p$ such that $m(x, y) \leq p(|x|)$ for all $(x, y)\in S$.
 Another common variant of these classes is the probabilistic versions of each (for example, randomized \NCAS{}, denoted \RNCAS), but we do not explore such classes in this work.
 
-The chain of inclusions given in \autoref{def:ncx} provides a hierarchy of classes which classify approximability of problems in \NNCO{}, and hence in \NPO.
+For the \NC{} approximation classes defined above, it is crucial that the solution relation is verifiable in \NC{}.
+In all previous works (for example, \cite{dsst97, sx95}), the implicit definition of, say, \NCX{}, which corresponds to our class \ApxNCO, requires only that the solution relation is verifiable \emph{in polynomial time}.
+We believe we are the first to make this important distinction; the maximization problem defined in the proof of \autoref{prop:nnconpo} below shows that some solution relations are harder to verify than others.
+
+The chain of inclusions given in \autoref{def:ncx} provides a hierarchy that classifies approximability of problems in \NNCO{}, and hence in \NPO.
 However, our intention is to determine the approximability of optimization problems corresponding to \P-complete decision problems, not those corresponding to \NP-complete decision problems.
 Therefore we define the following subclasses of \PO{} in order to more accurately capture the notion of highly efficient approximability of inherently sequential problems.
 
@@ -334,6 +306,37 @@ Observe that $\POp = \PO \cap \NNCO$ by definition, and similarly $\ApxNCOp = \P
 \end{figure}
 
 \subsection{Relations among classes of optimization problems}
+
+Since $\NC \subseteq \P$, the inclusion $\NNCO \subseteq \NPO$ follows immediately from the definitions.
+However, these definitions do not imply that the converse is true, since membership in \P{} does not imply membership in \NC.
+In fact, there is evidence that $\NNCO \neq \NPO$.
+\begin{proposition}[Thanks to Sam for this one.]\label{prop:nnconpo}
+  $\NNCO = \NPO$ if and only if $\P = \NC$.
+\end{proposition}
+\begin{proof}
+  We know $\NNCO \subseteq \NPO$ unconditionally from the preceding paragraph.
+  If we suppose $\P = \NC$, then it follows immediately from the definitions that any optimization problem in $\NPO$ is also in $\NNCO$.
+
+  Now suppose $\NNCO = \NPO$.
+  If $C$ is a Boolean circuit with a single output, let $C(x)$ denote the output of $C$ (as a bit).
+  Consider the optimization problem $Q$ defined by $Q = (I, S, m, t)$, where
+  \begin{align*}
+    I & = \{ C \, | \, C \text{ is a Boolean circuit} \}, \\
+    S & = \{ (C, x) \, | \, C(x) = 1 \}, \\
+    m(C, x) & = C(x), \text{ and} \\
+    t & = \max.
+  \end{align*}
+  (Observe that $Q$ is an optimization form of the \textsc{Circuit Satisfiability} problem, where we have $m(C, x) \in \{0, 1\}$ for all circuits $C$ and all strings $x$.)
+  $I \in \P$ because a correctly formatted Boolean circuit is a directed acyclic graph, and a depth first search (computable in deterministic polynomial time) can reveal if a given directed graph has a cycle.
+  $S \in \P$ because it is exactly the \textsc{Circuit Value} problem, which is known to be in \P{} (in fact, it is \P-complete \cite[Problem~A.1.1]{ghr95}).
+  $m \in \P$ because it is simply the function form of the \textsc{Circuit Value} problem.
+  Therefore, $Q \in \NPO$.
+
+  Since $\NNCO = \NPO$ by hypothesis, $Q \in \NNCO$.
+  Hence, $S \in \NC$.
+  The existence of an \NC{} algorithm for a \P-complete problem implies $\P = \NC$.
+  Therefore, $\NNCO = \NPO$ if and only if $\P = \NC$.
+\end{proof}
 
 What is the relationship between the class \POp{} and the \NC{} approximation classes?
 
