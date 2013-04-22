@@ -1,29 +1,24 @@
 \documentclass[]{article}
 
+% Package `amsthm` and `thmtools` must come before package `hyperref`.
+\usepackage{amsthm}
+\usepackage{thmtools}
 % Package `hyperref` must come before package `complexity`.
 \usepackage[pdftitle={Highly parallel approximations for inherently sequential problems}, pdfauthor={Jeffrey Finkelstein}]{hyperref}
-
 \usepackage{amsmath}
 \usepackage{amssymb}
-\usepackage{amsthm}
 \usepackage{complexity}
 \usepackage{tikz}
 
-\theoremstyle{plain}
-\newtheorem{conjecture}{Conjecture}
-\newtheorem{corollary}{Corollary}
-\newtheorem{proposition}{Proposition}
-\newtheorem{theorem}{Theorem}
-\newtheorem{todo}{TODO}
-
-\theoremstyle{definition}
-\newtheorem{definition}{Definition}
-\newtheorem{openquestion}{Open question}
+\declaretheorem[numberwithin=section]{theorem}
+\declaretheorem[numberlike=theorem]{conjecture}
+\declaretheorem[numberlike=theorem]{corollary}
+\declaretheorem[numberlike=theorem]{proposition}
+\declaretheorem[numberlike=theorem]{todo}
+\declaretheorem[numberlike=theorem, style=definition]{definition}
+\declaretheorem[numberlike=theorem, style=definition, name=Open question]{openquestion}
 
 \newenvironment{justification}{\begin{proof}[Justification]}{\end{proof}}
-
-\newcommand{\definitionautorefname}{Definition}
-\newcommand{\propositionautorefname}{Proposition}
 
 \newcommand{\Er}{\leq_E^{L}}
 \newcommand{\APr}{\leq_{AP}^{L}}
@@ -336,9 +331,44 @@ In fact, there is evidence that $\NNCO \neq \NPO$.
   Therefore, $\NNCO = \NPO$ if and only if $\P = \NC$.
 \end{proof}
 
-What is the relationship between the class \POp{} and the \NC{} approximation classes?
+The same result holds in the intersection with $\PO$.
 
-\begin{proposition}[adapted from {\cite[Theorem~8.2.9]{dsst97}}]
+\begin{proposition}
+  $\POp = \PO$ if and only if $\P = \NC$.
+\end{proposition}
+\begin{proof}
+  As in \autoref{prop:nnconpo}, we consider a language in \PO{} that is unlikely to have a solution relation decidable in \NC{}.
+  Consider the optimization problem $Q$ defined by $Q = (I, S, m, t)$, where
+  \begin{align*}
+    I & = \{ (C, x) \, | \, C \text{ is a Boolean circuit and } x \text{ is an input to } C \}, \\
+    S & = \{ ((C, x), b) \, | \, b \in \{0, 1\} \text{ and } C(x) = b \}, \\
+    m((C, x), b) & = b, \text{ and} \\
+    t & = \max.
+  \end{align*}
+  Here we have an optimization version of the \textsc{Circuit Value} problem.
+  The solution relation $S$ is in \P, and again it is \P-complete.
+  If $\PO = \POp$, then there is an \NC{} algorithm for this \P-complete problem, and hence $\P = \NC$.
+\end{proof}
+
+The classes of approximable optimization problems are also likely distinct.
+
+\begin{theorem}
+  \mbox{}
+  \begin{enumerate}
+  \item If $\NC \neq \NP$ then $\NCO \subsetneq \NCAS \subsetneq \ApxNCO \subsetneq \NNCO$.
+  \item If $\NC \neq \P$ then $\NCO \subsetneq \NCASp \subsetneq \ApxNCOp \subseteq \POp \subsetneq \PO$.
+  \end{enumerate}
+\end{theorem}
+\begin{proof}
+  \begin{todo}
+    Fill me in.
+  \end{todo}
+\end{proof}
+
+What is the relationship between the class \POp{} and the \NC{} approximation classes?
+We adapt \cite[Theorem~8.2.9]{dsst97} to our setting.
+
+\begin{proposition}\label{prop:popapxnco}
   If $\POp \subseteq \ApxNCO$ then $\P = \NC$.
 \end{proposition}
 \begin{proof}
@@ -354,8 +384,8 @@ What is the relationship between the class \POp{} and the \NC{} approximation cl
   The problem is also in \NNCO{}, since a solution can be verified in \NC{} (via matrix multiplication and comparison of rational numbers) and the measure can be computed in \NC{} (again by matrix multiplication).
   Therefore it is in the class \POp.
 
-  By hypothesis, the problem is also in \ApxNCO{}, so the problem has an $r$-approximator computable in \NC{} for some $r > 0$.
-  By \cite[Theorem~8.2.7]{dsst97}, the decision problem of $r$-approximating \textsc{Linear Programming} is \P-complete for all $r > 0$.
+  By hypothesis, the problem is also in \ApxNCO{}, so the problem has an $r$-approximator computable in \NC{} for some $r > 1$.
+  By \cite[Theorem~8.2.7]{dsst97}, the decision problem of $r$-approximating \textsc{Linear Programming} is \P-complete for all $r > 1$.
   Thus we have an \NC{} algorithm for a \P-complete problem, and hence $\NC = \P$.
 \end{proof}
 
@@ -366,7 +396,7 @@ What is the relationship between the class \POp{} and the \NC{} approximation cl
 
 As an analog to \autoref{prop:nnconpo}, we have the following corollary of the previous proposition.
 
-\begin{corollary}
+\begin{corollary}[{\cite[Theorem~8.2.9]{dsst97}}]
   $\ApxNCO = \ApxPO$ if and only if $\P = \NC$.
 \end{corollary}
 
@@ -399,6 +429,29 @@ We bound the AP reduction to logarithmic space instead of allowing it be a \FNC{
     fill me in
   \end{todo}
 \end{proof}
+
+\begin{theorem}
+  \textsc{Linear Programming} is complete for the class of all maximization problems in \PO{} under logarithmic space ??? reductions.
+\end{theorem}
+\begin{proof}
+\end{proof}
+
+As discussed in \autoref{prop:popapxnco}, \textsc{Linear Programming} is in \POp.
+This yields the following corollary.
+
+\begin{corollary}
+  \textsc{Linear Programming} is complete for the class of all maximization problems \POp{} under logarithmic space ??? reductions.
+\end{corollary}
+
+This corollary suggests a generalization of \autoref{prop:popapxnco}, since a constant factor \NC{} approximation algorithm for a problem complete for \POp{} induces a constant factor \NC{} approximation algorithm for all maximization problems in \POp.
+
+\begin{todo}
+  Show that LP is complete for minimization problems as well, then change the nearby theorems and discussion.
+\end{todo}
+
+\begin{corollary}
+  If \textsc{Linear Programming} is in \ApxNCO{} then $\P = \NC$.
+\end{corollary}
 
 \section{Complexity of extant parallel approximations}
 
