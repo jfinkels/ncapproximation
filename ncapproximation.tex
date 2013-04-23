@@ -452,8 +452,8 @@ However, there are problems that are both complete for \PO{} and in \NNCO.
   Suppose $(C_1, C_2, x)$ is an instance of \textsc{Double Circuit Value}, and let $x = x_1 \dotsb x_n$.
   For each of the circuits $C_1$ and $C_2$, the transducer $f$ adds the following inequalities to the linear program.
   \begin{enumerate}
-  \item For each bit $x_i$, represent a 1 bit at index $i$ by $x_i = 1$ and a 0 bit by $x_i = 0$.
-  \item Represent a \textsc{not} gate, $g = \lnot h$, by the inequalities $g = 1 - h$ and inequality $0 \leq g \leq 1$.
+  \item For each bit of $x$, represent a 1 bit at index $i$ by $x_i = 1$ and a 0 bit by $x_i = 0$.
+  \item Represent a \textsc{not} gate, $g = \lnot h$, by the equation $g = 1 - h$ and the inequality $0 \leq g \leq 1$.
   \item Represent a \textsc{and} gate, $g = h_1 \land h_2$, by the inequalities $g \leq h_1$, $g \leq h_2$, $h_1 + h_2 - 1 \leq g$, and $0 \leq g \leq 1$.
   \item Represent an \textsc{or} gate, $g = h_1 \lor h_2$, by the inequalities $h_1 \leq g$, $h_2 \leq g$, $g \leq h_1 + h_2$, and $0 \leq g \leq 1$.
   \end{enumerate}
