@@ -53,49 +53,51 @@ Furthermore, all \NP-hard and \PSPACE-hard problems are also inherently sequenti
 Just as we hope to find efficient approximation algorithms for optimization problems for which it is intractable to compute an exact solution, so too do we hope to find efficient and highly parallel approximation algorithms for optimization problems for which computing the exact solution is inherently sequential.
 (However, just like hardness of approximation for \NP-hard problems, in some cases even \emph{approximating} a solution is inherently sequential!)
 
-\section{Definitions for \texorpdfstring{\NC}{NC} approximation classes}
+\section{Definitions}
 
 Throughout this work, $\Sigma=\{0, 1\}$ and inputs and outputs are encoded in binary.
-The set of all finite strings is denoted $\Sigma^*$, and for each $x\in\Sigma^*$, we denote the length of $x$ by $|x|$.
+The set of all finite strings is denoted $\Sigma^*$, and for each $x \in \Sigma^*$, we denote the length of $x$ by $|x|$.
 We denote the set of all polynomials by \poly{} and the set of all polylogarithmic functions by \polylog.
+The set of integers is denoted $\mathbb{Z}$, the set of rationals $\mathbb{Q}$, and their positive subsets $\mathbb{Z}^+$ and $\mathbb{Q}^+$.
+The natural numbers, defined as $\mathbb{Z}^+ \cup \{0\}$, is denoted $\mathbb{N}$.
 
-\subsection{Optimization problems, approximators, and approximation schemes}
+\subsection{Optimization problems and approximation algorithms}
 
-We adapt the clear and concise definitions of \cite{tantau07} from logarithmic space approximability to \NC{} approximability.
+We adapt the definitions of \cite{tantau07} from logarithmic space approximability to \NC{} approximability.
 
 \begin{definition}[\cite{acgkmp99}]
-  An \emph{optimization problem} is a four-tuple, $(I, S, m, t)$, where the set $I \subseteq \Sigma^*$ is called the \emph{instance set}, the set $S \subseteq I \times \Sigma^*$ is called the \emph{solution relation}, the function $m \colon S \to \mathbb{N}^+$ is called the \emph{measure function}, and $t \in \{\min, \max\}$ is called the \emph{type} of the optimization.
+  An \emph{optimization problem} is a four-tuple, $(I, S, m, t)$, where the set $I \subseteq \Sigma^*$ is called the \emph{instance set}, the set $S \subseteq I \times \Sigma^*$ is called the \emph{solution relation}, the function $m \colon S \to \mathbb{Z}^+$ is called the \emph{measure function}, and $t \in \{\min, \max\}$ is called the \emph{type} of the optimization.
 \end{definition}
 
 \begin{definition}[\cite{tantau07}]
-  Let $P$ be an optimization problem, so $P = (I, S, m, t)$, and let $x\in I$.
+  Let $P$ be an optimization problem, so $P = (I, S, m, t)$, and let $x \in I$.
   \begin{enumerate}
-  \item Let $S(x)=\lb y\in\Sigma^* \st (x, y)\in S \rb$; we call this the \emph{solutions for $x$}.
+  \item Let $S(x)=\lb y \in \Sigma^* \st (x, y) \in S \rb$; we call this the \emph{solutions for $x$}.
   \item Define $m^*(x)$ by
     \begin{displaymath}
       m^*(x) =
       \begin{cases}
-        \min \lb m(x, y) \st y\in S(x) \rb & \text{if } t = \min \\
-        \max \lb m(x, y) \st y\in S(x) \rb & \text{if } t = \max
+        \min \lb m(x, y) \st y \in S(x) \rb & \text{if } t = \min \\
+        \max \lb m(x, y) \st y \in S(x) \rb & \text{if } t = \max
       \end{cases}
     \end{displaymath}
-    for all $x\in \Sigma^*$; we call this the \emph{optimal measure for $x$}.
-    Let $m^*(x)$ be undefined if $S(x)=\emptyset$.
-  \item Let $S^*(x)=\lb y\in\Sigma^* \st m(x, y) = m^*(x) \rb$; we call this the \emph{set of optimal solutions for $x$}.
-  \item Let $R(x, y)=\max\left( \frac{m(x, y)}{m^*(x)}, \frac{m^*(x)}{m(x, y)} \right)$; we call this the \emph{performance ratio of the solution $y$}.
-  \item Let $P_\exists = \lb x\in \Sigma^* \st S(x) \neq \emptyset \rb$; we call this the \emph{existence problem}.
+    for all $x \in \Sigma^*$; we call this the \emph{optimal measure for $x$}.
+    Let $m^*(x)$ be undefined if $S(x) = \emptyset$.
+  \item Let $S^*(x) = \lb y \in \Sigma^* \st m(x, y) = m^*(x) \rb$; we call this the \emph{set of optimal solutions for $x$}.
+  \item Let $R(x, y) = \max \left(\frac{m(x, y)}{m^*(x)}, \frac{m^*(x)}{m(x, y)}\right)$; we call this the \emph{performance ratio of the solution $y$}.
+  \item Let $P_\exists = \lb x \in \Sigma^* \st S(x) \neq \emptyset \rb$; we call this the \emph{existence problem}.
   \item Let
     \begin{displaymath}
-      P_{opt<}=\lb (x, z) \in P_\exists\times\mathbb{N} \st \exists y\in\Sigma^*\colon m(x, y) < z \rb
+      P_{opt<} = \lb (x, z) \in P_\exists \times \mathbb{N} \st \exists y \in \Sigma^* \colon m(x, y) < z \rb
     \end{displaymath}
     and
     \begin{displaymath}
-      P_{opt>}=\lb (x, z) \in P_\exists\times\mathbb{N} \st \exists y\in\Sigma^*\colon m(x, y) > z \rb;
+      P_{opt>}=\lb (x, z) \in P_\exists \times \mathbb{N} \st \exists y \in \Sigma^* \colon m(x, y) > z \rb;
     \end{displaymath}
-    call these the \emph{budget problems}.
-  \item Let $f\colon \Sigma^*\to\Sigma^*$.
-    We say \emph{$f$ produces solutions for $P$} if for all $x\in P_\exists$ we have $f(x)\in S(x)$.
-    We say \emph{$f$ produces optimal solutions for $P$} if for all $x\in P_\exists$ we have $f(x)\in S^*(x)$.
+    we call these the \emph{budget problems}.
+  \item Let $f \colon \Sigma^* \to \Sigma^*$.
+    We say \emph{$f$ produces solutions for $P$} if for all $x \in P_\exists$ we have $f(x) \in S(x)$.
+    We say \emph{$f$ produces optimal solutions for $P$} if for all $x \in P_\exists$ we have $f(x) \in S^*(x)$.
   \end{enumerate}
 \end{definition}
 
@@ -103,15 +105,15 @@ The performance ratio $R(x, y)$ is a number in the interval $[1, \infty)$.
 The closer $R(x, y)$ is to 1, the better the solution $y$ is for $x$, and the closer $R(x, y)$ to $\infty$, the worse the solution.
 
 \begin{definition}
-  Let $P$ be an optimization problem, let $r\colon \mathbb{N}\to\mathbb{N}$, and let $f\colon I\to \Sigma^*$.
-  We say $f$ is an \emph{$r$-approximator for $P$} if it produces solutions for $P$ and $R(x, f(x)) \leq r(|x|)$ for all $x\in P_\exists$.
+  Let $P$ be an optimization problem, let $r \colon \mathbb{N} \to \mathbb{Q}^+$, and let $f \colon I \to \Sigma^*$.
+  We say $f$ is an \emph{$r$-approximator for $P$} if it produces solutions for $P$ and $R(x, f(x)) \leq r(|x|)$ for all $x \in P_\exists$.
 
   If $r$ is the constant function with value $\delta$, we simply say $f$ is a \emph{$\delta$-approximator for $P$}.
 \end{definition}
 
 \begin{definition}
-  Let $P$ be an optimization problem and let $f\colon I\times\mathbb{N}\to\Sigma^*$.
-  We say $f$ is an \emph{approximation scheme for $P$} if for all $x\in P_\exists$ and all positive integers $k$ we have $f(x, k)\in S(x)$ and $R(x, f(x, k)) \leq 1 + \frac{1}{k}$.
+  Let $P$ be an optimization problem and let $f \colon I \times \mathbb{N} \to \Sigma^*$.
+  We say $f$ is an \emph{approximation scheme for $P$} if for all $x \in P_\exists$ and all positive integers $k$ we have $f(x, k)\in S(x)$ and $R(x, f(x, k)) \leq 1 + \frac{1}{k}$.
 \end{definition}
 
 \subsection{Classes of optimization problems}
@@ -135,8 +137,8 @@ The second condition is the most important in this definition; it is the analog 
 \end{definition}
 
 We now wish to translate these definitions to the setting of efficient and highly parallel verifiability.
-In order to take advantage of results and techniques from the study of \NPO{} and \PO, we will start by considering the nondeterministic analog of \PO.
-First we define the necessary circuit classes, then we define the corresponding classes of approximation problems.
+In order to take advantage of results and techniques from the study of \NPO{} and \PO, we will start by considering a model of computation in which we allow highly parallel computation access to a polynomial amount of nondeterminism.
+First we define the necessary circuit classes, then we define the corresponding classes of optimization problems.
 
 \begin{definition}
   \mbox{}
@@ -168,7 +170,7 @@ Cai and Chen \cite{cc97} prove that for each natural number $k$ and $i$, there i
 We can now proceed to define classes of approximable optimization problems contained in \NNCO.
 
 \begin{definition}\label{def:ncx}
-  Suppose $P$ be an optimization problem in \NNCO.
+  Suppose $P$ is an optimization problem in \NNCO.
   \begin{enumerate}
   \item $P \in \ApxNCO$ if there is an $r$-approximator in \FNC{} for $P$, where $r(n) \in O(1)$ for all $n \in \mathbb{N}$.
   \item $P \in \NCAS$ if there is an approximation scheme $f$ for $P$ such that $f_k \in \FNC$ for each $k \in \mathbb{N}$, where $f_k(x) = f(x, k)$ for all $x \in \Sigma^*$.
@@ -357,6 +359,12 @@ As an analog to \autoref{prop:nnconpo}, we have the following corollary of the p
 
 \section{Completeness in classes of approximable optimization problems}
 
+\subsection{NPO versus NNCO}
+
+\begin{todo}
+  Show Max Circuit Sat is complete for NPO but not in NNCO unless NC = NP.
+\end{todo}
+
 First, we show that \textsc{Maximum Variable-Weighted Satisfiability} is complete for the class of maximization problems in \NNCO.
 
 \begin{definition}[\textsc{Maximum Variable-Weighted Satisfiability}]
@@ -380,6 +388,8 @@ First, we show that \textsc{Maximum Variable-Weighted Satisfiability} is complet
   The proof that shows the problem is hard for \NNCO{} is similar to the one that shows \textsc{Maximum Variable-Weighted Satisfiability} is hard for \NPO{} \cite[Theorem~3.1]{om87} \cite[Theorem~8.3]{acgkmp99}.
   The only difference is that the underlying machines are \NC{} and \NNC{} machines instead of \P{} and \NP{} machines.
 \end{proof}
+
+\subsection{PO cap NPO (= PO) versus PO cap NNCO}
 
 Next, we show a maximization problem that is complete for the class of maximization problems in \PO.
 
