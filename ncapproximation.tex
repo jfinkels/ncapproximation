@@ -24,7 +24,6 @@
 \newcommand{\APr}{\leq_{AP}^{L}}
 \newcommand{\email}[1]{\href{mailto:#1}{\nolinkurl{#1}}}
 \newcommand{\lb}{\left\{}
-\newcommand{\pb}{\textsf{pb}}
 \newcommand{\rb}{\right\}}
 \newcommand{\st}{\,\middle|\,}
 \newcommand{\cl}{\operatorname{cl}}
@@ -35,41 +34,6 @@
 \let\originalright\right
 \renewcommand{\left}{\mathopen{}\mathclose\bgroup\originalleft}
 \renewcommand{\right}{\aftergroup\egroup\originalright}
-
-\newcommand{\nncoproblems}{%
-  \textsc{Maximum Variable Weighted Satisfiability} \cite[Theorem~3.1]{om87} \cite[Theorem~8.3]{acgkmp99}}
-\newcommand{\expapxncoproblems}{}
-\newcommand{\polyapxncoproblems}{}
-\newcommand{\logapxncoproblems}{}
-\newcommand{\apxncoproblems}{%
-  \textsc{Maximum $k$-CNF Satisfiability} \cite[Theorem~8.6]{acgkmp99},
-  \textsc{Maximum Acyclic Subgraph} \cite[Section~7.4]{dsst97},
-  \textsc{Minimum $k$-Center} \cite[Section~7.4]{dsst97},
-  \textsc{$k$-Switching Network} \cite[Section~7.4]{dsst97}, and
-  \textsc{Maximum Bounded Weighted Satisfiability} \cite[Theorem~4]{sx95}}
-\newcommand{\apxncopproblems}{%
-  \textsc{Induced Subgraph of High Weight for Linear Extremal Properties} \cite{dsst97}}
-\newcommand{\rncasproblems}{%
-  \textsc{Minimum Metric Traveling Salesperson} \cite[Theorem~7.1.1]{dsst97}}
-\newcommand{\ncasproblems}{%
-  \textsc{Maximum $k$-Constraint Satisfaction Problem} \cite[Corollary~13]{trevisan98}, and
-  \textsc{Maximum Independent Set for Planar Graphs} \cite[Theorem 6.4.1]{dsst97}}
-\newcommand{\ncaspproblems}{%
-  \textsc{Maximum Matching} \cite[Theorem~5.2.1]{dsst97},
-  \textsc{Maximum Weight Matching} \cite[Theorem~5.2.2]{dsst97},
-  \textsc{Positive Linear Programming} \cite[Theorem~5.1.11]{dsst97} \cite{tx98}, and
-  \textsc{Maximum Flow} \cite[Theorem~5.2.2]{dsst97}}
-\newcommand{\frncaspproblems}{%
-  \textsc{Maximum Flow} \cite[Theorem~4.5.2]{dsst97},
-  \textsc{Maximum Weight Perfect Matching} \cite[Theorem~4.5.2]{dsst97}, and
-  \textsc{Maximum Weight Matching} \cite[Theorem~4.5.2]{dsst97}}
-\newcommand{\fncasproblems}{%
-  \textsc{Subset Sum} \cite[Theorem~4.1.4]{dsst97},
-  \textsc{Maximum Clause Weighted CNF Satisfiability} \cite[Theorem~8]{trevisan98},
-  \textsc{Minimum Weight Vertex Cover} \cite[Theorem~5.3.6]{dsst97},
-  \textsc{0-1 Knapsack} \cite[Theorem~2]{mayr88}, and
-  \textsc{Bin Packing} \cite[Theorem~3]{mayr88}}
-\newcommand{\ncoproblems}{}
 
 \author{Jef{}frey Finkelstein}
 \date{\today}
@@ -87,7 +51,7 @@ Such problems are considered both ``efficient'' (since $\NC \subseteq \P$) and `
 By contrast, problems which are \P-complete (under logarithmic space or even \NC{} many-one reductions) are considered ``inherently sequential''.
 Furthermore, all \NP-hard and \PSPACE-hard problems are also inherently sequential, since $\P \subseteq \NP \subseteq \PSPACE$.
 Just as we hope to find efficient approximation algorithms for optimization problems for which it is intractable to compute an exact solution, so too do we hope to find efficient and highly parallel approximation algorithms for optimization problems for which computing the exact solution is inherently sequential.
-(However, just like hardness of approximation for \NP-hard problems, in some cases even \emph{approximating} a solution inherently sequential!)
+(However, just like hardness of approximation for \NP-hard problems, in some cases even \emph{approximating} a solution is inherently sequential!)
 
 \section{Definitions for \texorpdfstring{\NC}{NC} approximation classes}
 
@@ -220,7 +184,7 @@ We believe we are the first to make this important distinction; the maximization
 Each of the classes in \autoref{def:ncx} includes the one defined below it.
 This chain of inclusions provides a hierarchy that classifies approximability of problems in \NNCO{}, and hence in \NPO.
 However, our intention is to determine the approximability of optimization problems corresponding to \P-complete decision problems, not those corresponding to \NP-complete decision problems.
-Therefore we consider the classes $\PO \cap \NNCO$, $\PO \cap \ApxNCO$, etc. in order to more accurately capture the notion of highly efficient approximability of inherently sequential problems.
+Therefore we consider the classes $\PO \cap \NNCO$, $\PO \cap \ApxNCO$, etc. in order to more accurately capture the notion of highly parallel approximability of inherently sequential problems.
 The instance set, solution relation, and measure function of optimization problems in these classes are computable in \NC{}, and furthermore, there is a polynomial time algorithm that produces optimal solutions.
 
 \autoref{fig:inclusions} shows the inclusions among some of the complexity classes defined in this section.
@@ -345,7 +309,7 @@ The same result holds in the intersection with $\PO$.
 
 The classes of approximable optimization problems are also likely distinct.
 
-\begin{theorem}
+\begin{theorem}\label{thm:hierarchy}
   \mbox{}
   \begin{enumerate}
   \item If $\NC \neq \NP$ then $\NCO \subsetneq \NCAS \subsetneq \ApxNCO \subsetneq \NNCO$.
@@ -358,7 +322,7 @@ The classes of approximable optimization problems are also likely distinct.
   \end{todo}
 \end{proof}
 
-What is the relationship between the class \POp{} and the \NC{} approximation classes?
+What is the relationship between the class $\PO \cap \NNCO$ and the \NC{} approximation classes?
 We adapt \cite[Theorem~8.2.9]{dsst97} to our setting.
 
 \begin{proposition}\label{prop:popapxnco}
@@ -381,11 +345,6 @@ We adapt \cite[Theorem~8.2.9]{dsst97} to our setting.
   By \cite[Theorem~8.2.7]{dsst97}, the decision problem of $r$-approximating \textsc{Linear Programming} is \P-complete for all $r > 1$.
   Thus we have an \NC{} algorithm for a \P-complete problem, and hence $\NC = \P$.
 \end{proof}
-
-\textsc{Positive Linear Programming}, the restriction of \textsc{Linear Programming} to inputs in which all entries of $A$, $\mathbf{b}$, and $\mathbf{c}$ are non-negative, admits a fully \NC{} approximation scheme \cite{ln93}, even though the corresponding budget problem remains \P-complete \cite{tx98}.
-\begin{openquestion}
-  Is there a restriction of \textsc{Linear Programming} weaker than the restriction of non-negativity that permits a constant-factor \NC{} approximation?
-\end{openquestion}
 
 As an analog to \autoref{prop:nnconpo}, we have the following corollary of the previous proposition.
 
@@ -508,7 +467,7 @@ As discussed in \autoref{prop:popapxnco}, \textsc{Linear Programming} is in $\PO
 This is interesting because, for the same reasons as in the proof of \autoref{prop:poppo}, \textsc{Double Circuit Value} is not in $\PO \cap \NNCO$ unless $\P = \NC$.
 This yields the following corollary.
 
-\begin{corollary}
+\begin{corollary}\label{cor:lpishard}
   \mbox{}
   \begin{enumerate}
   \item \textsc{Linear Programming} is complete for the class of all maximization problems in $\PO \cap \NNCO$ under logarithmic space ??? reductions.
@@ -516,198 +475,38 @@ This yields the following corollary.
   \end{enumerate}
 \end{corollary}
 
-This corollary suggests a generalization of \autoref{prop:popapxnco}, since a constant factor \NC{} approximation algorithm for a problem complete for $\PO \cap \NNCO$ induces a constant factor \NC{} approximation algorithm for all maximization problems in $\PO \cap \NNCO$.
-
-\begin{corollary}
-  If \textsc{Linear Programming} is in \ApxNCO{} then $\P = \NC$.
-\end{corollary}
-
-This corollary was already known in a slightly different form.
+This corollary suggests an explanation for both \autoref{prop:popapxnco} and the following well-known theorem.
 
 \begin{theorem}[TODO FILL ME IN WITH REFERENCE]
   The problem of $r$-approximating \textsc{Linear Programming} for any $r \geq 1$ is \P-complete.
 \end{theorem}
 
-\section{Complexity of extant parallel approximations}
+Since a constant factor \NC{} approximation algorithm for a problem complete for $\PO \cap \NNCO$ induces a constant factor \NC{} approximation algorithm for all maximization problems in $\PO \cap \NNCO$, there can be no such algorithm for \textsc{Linear Programming}, unless $\P = \NC$.
+In fact, we can say something much stronger: \autoref{cor:lpishard}, \autoref{thm:hierarchy}, and the fact that ??? reductions compose imply that any highly parallel approximation for \textsc{Linear Programming} necessitates $\P = \NC$.
 
-For a listing of somewhat contemporary results on efficient \emph{sequential} approximation, see \cite{compendium}.
-The list here summarizes best known approximation upper bounds for optimization problems.
-\begin{todo}
-  This list \emph{assumes} that the instance set and solution set for each optimization problem are decidable in \NC{} and that the measure function is computable in \FNC{}.
-  The complexity of the instance set, solution set, and measure function must be verified for each problem individually, which will take some time.
-\end{todo}
-
-\begin{itemize}
-\item \NNCO{} contains \nncoproblems.
-\item \expApxNCO{} contains \expapxncoproblems.
-\item \polyApxNCO{} contains \polyapxncoproblems.
-\item \logApxNCO{} contains \logapxncoproblems
-\item \ApxNCO{} contains \apxncoproblems.
-\item \ApxNCOp{} contains \apxncopproblems.
-\item \NCAS{} contains \ncasproblems.
-\item \NCASp{} contains \ncaspproblems.
-\item \FNCAS{} contains \fncasproblems.
-\item \NCO{} contains \ncoproblems.
-\end{itemize}
+\begin{corollary}
+  For any function $r$, \textsc{Linear Programming} does not have an $r$-approximation algorithm in \NC{} unless $\P = \NC$.
+\end{corollary}
 
 \begin{todo}
-  There is a problem here.
-
-  First, \textsc{Maximum 3-CNF Satisfiability} is complete for \APX{} under polynomial time AP reductions \cite[Theorem~8.6]{acgkmp99}.
-  It is also complete for \NCX{} under \NC{} AP reductions \cite{finkelstein13b}.
-
-  Next, \textsc{Maximum Clause-Weighted CNF Satisfiability} has a fully \NC{} approximation scheme \cite[Theorem~8]{trevisan98}.
-  Given an assignment to the variables, each disjunctive clause can be verified in constant time, so the solution set is decidable in \NC{}.
-  The measure of an assignment, the sum of the weights of the satisfied clauses, can also be computed in \NC{}.
-  Therefore, \textsc{Maximum Clause-Weighted CNF Satisfiability} is in \FNCAS.
-
-  There is a trivial logarithmic space approximation preserving reduction from the former problem to the latter problem.
-  (In fact the approximation is preserved exactly.)
-  \FNCAS{} is closed under such an approximation preserving reduction.
-  Therefore \textsc{Maximum 3-CNF Satisfiability} is in \FNCAS and hence $\NCX = \FNCAS$, which implies $\NC = \NP$.
+  Is this true? Check out the meaning of \NPO-completeness and translate to $\NNCO \cap \PO$-completeness.
 \end{todo}
 
-\section{Completeness for classes of problems admitting parallel approximations}
+%% \begin{theorem}[{\cite[{Theorem~4 and Theorem~5}]{am84}}]
+%%   All of the following problems are in \NC{} for all $\epsilon > 2$ but \P-complete for all $\epsilon \in [1, 2)$.
+%%   \begin{itemize}
+%%   \item \textsc{$\epsilon$-High Degree Subgraph} \cite[Theorem~4 and Theorem~5]{am84}
+%%   \item \textsc{$\epsilon$-High Connectivity Subgraph} \cite[Theorem~6]{ss89}
+%%   \end{itemize}
+%% \end{theorem}
 
-We wish to demonstrate complete problems for each class of optimization problems admitting parallel approximations.
-
-\begin{definition}
-  Let $\mathcal{C}$ be one of the complexity classes \NCO, \NCAS, \ApxNCO, \logApxNCO, \polyApxNCO, \expApxNCO, or \NNCO.
-  An optimization problem $Q$ is \emph{$\mathcal{C}$-hard} if for all $P\in\mathcal{C}$, we have $P\APr Q$.
-  If furthermore $Q\in\mathcal{C}$, we say it is $\mathcal{C}$-complete.
-\end{definition}
-
-\subsection{Completeness of optimization problems corresponding to \texorpdfstring{\NP}{NP}-complete problems}
-
-We start with optimization problems whose corresponding budget problem is \NP-complete.
-These problems may have highly parallel approximation algorithms, but do not admit polynomial time functions that produce optimal solutions unless $\P = \NP$.
-
-\begin{theorem}
-  \textsc{Maximum Variable Weighted Satisfiability} is complete for \NNCO{} under $\APr$ reductions.
-\end{theorem}
-\begin{proof}
-  First, this problem is in \NNCO.
-  The measure function is computable in \FNC{} because arithmetic and summation are both computable in \FNC{}.
-  The solution set is decidable in \NC{} because Boolean formula evaluation is computable in \NC{} \cite{buss87}.
-
-  The proof that shows the problem is hard for \NNCO{} is similar to the one that shows \textsc{Maximum Variable Weighted Satisfiability} is hard for \NPO{} \cite[Theorem~3.1]{om87} \cite[Theorem~8.3]{acgkmp99}.
-  The only difference is that the underlying machines are \NC{} and \NNC{} machines instead of \P{} and \NP{} machines.
-\end{proof}
-
-\begin{conjecture}
-  \textsc{Minimum Traveling Salesperson Problem} is complete for \expApxNCO{} under $\APr$ reductions.
-\end{conjecture}
-\begin{justification}
-  \textsc{Minimum Traveling Salesperson Problem} is complete for \expApxPO{} under ``MPTAS reductions'' \cite[Corollary~1]{ep06}.
-\end{justification}
-
-\begin{conjecture}
-  \textsc{Maximum Clique} is \polyApxNCO-complete.
-\end{conjecture}
-\begin{justification}
-  \textsc{Maximum Clique} is complete for \polyApxPO{} under ``PTAS reductions'' \cite[Example~2.48]{cks01} \cite{kmsv99} \cite{ep10}.
-\end{justification}
-
-\begin{conjecture}
-  \textsc{Minimum Set Cover} is \logApxNCO-complete.
-\end{conjecture}
-\begin{justification}
-  \textsc{Minimum Set Cover} is complete for \logApxPO{} under ``MPTAS reductions'' \cite[Example~2.48]{cks01} \cite[Theorem~5]{ep06} \cite[Theorem~27]{ep10}.
-
-  Also, \textsc{Minimum Set Cover} is complete for $\logApxPO_{pb}$ under ``E reductions''.
-\end{justification}
-
-In \cite{sx95}, the authors prove that \textsc{Maximum Bounded Weighted Satisfiability} is complete for \ApxNCO{} (there called ``\NCX'') under a very unrestrictive type of reduction called an ``\NCAS{} reduction''.
-Unfortunately, the proof there is very sketchy.
-Their proof adapts the technique of \cite{cp91} for constructing a canonical complete problem for \ApxPO{} (there called ``\APX'').
-
-\begin{theorem}
-  \textsc{Maximum Bounded Weighted Satisfiability} is complete for \ApxNCO{} under \NCAS{} reductions.
-\end{theorem}
-
-In \cite[Theorem~8.6]{acgkmp99}, the authors prove that \textsc{Maximum $k$-Satisfiability} is complete for \ApxPO{} under polynomial time \AP{} reductions.
-We believe that this proof translates to the \NC{} setting; for more information, see \cite{finkelstein13b}.
-
-\begin{theorem}{\cite{finkelstein13b}}
-  \textsc{Maximum $k$-CNF Satisfiability} is complete for \ApxNCO{} under \NC{} AP reductions.
-\end{theorem}
-
-\begin{conjecture}
-  \mbox{}
-  \begin{enumerate}
-  \item \textsc{Planar Maximum Satisfiability} is \NCAS-complete.
-  \item \textsc{Planar Maximum Independent Set} is \NCAS-complete.
-  \end{enumerate}
-\end{conjecture}
-\begin{justification}
-  \mbox{}
-  \begin{enumerate}
-  \item \textsc{Planar Maximum Satisfiability} is in \PMPSAT, which is a subset of \PTAS{} and \emph{may} be a syntactic characterization of \PTAS{} \cite{km96}.
-  \item \textsc{Planar Maximum Independent Set} is complete for \PTAS{} under ``FT reductions'' \cite[Theorem~6]{bep06}. \qedhere
-  \end{enumerate}
-\end{justification}
-
-\begin{conjecture}
-  \textsc{0-1 Knapsack} is \FNCAS-complete.
-\end{conjecture}
-\begin{justification}
-  \textsc{0-1 Knapsack} is in $\FPTAS\setminus\PO$ \cite[Section~3.2]{ep10} and is in \FNCAS{} \cite[Theorem~2]{mayr88}.
-\end{justification}
-
-\subsection{Completeness of optimization problems corresponding to \texorpdfstring{\P}{P}-complete problems}
-
-It is \P-complete to compute a $\rho$-approximation for \textsc{Minimum-cost Maximum Flow} where $\rho$ is a polynomial in the length of the input \cite{sw92}.
-It seems that this is true for all polynomials $\rho$, perhaps implying that this problem is not in \polyApxNCO{}, but it is not totally clear from the proof.
-
-\begin{theorem}
-  All of the following problems are \P-complete for all $\epsilon > 1$.
-  \begin{itemize}
-  \item \textsc{$\epsilon$-DPATH} \cite[Theorem~1]{ss89}
-  \item \textsc{$\epsilon$-DUNIT} \cite[Theorem~2]{ss89}
-  \item \textsc{$\epsilon$-Circuit Depth of Ones} \cite{kl88}
-  \item \textsc{$\epsilon$-DGEN} \cite[Theorem~4]{ss89}
-  \item \textsc{$\epsilon$-Linear Programming} (for both solution approximation and value approximation) \cite{serna91}
-  \item \textsc{$\epsilon$-Reliable Connectivity Problem for in-edges} \cite[Theorem~4]{kks91}
-  \end{itemize}
-\end{theorem}
-
-\begin{conjecture}
-  All of the following problems are complete for \polyApxNCOp{} under $\APr$ reductions.
-  \begin{itemize}
-  \item \textsc{Maximum DPATH}
-  \item \textsc{Maximum DUNIT}
-  \item \textsc{Maximum Circuit Depth of Ones}
-  \item \textsc{Minimum Solution Distance Linear Programming}
-  \item \textsc{Minimum Objective Distance Linear Programming}
-  \end{itemize}
-\end{conjecture}
-
-\begin{conjecture}
-  All of the following problems are complete for \logApxNCOp{} under $\APr$ reductions.
-  \begin{itemize}
-  \item \textsc{Maximum DGEN}
-  \item \textsc{Maximum Reliable Connectivity Problem for in-edges}
-  \end{itemize}
-\end{conjecture}
-
-\begin{theorem}[{\cite[{Theorem~4 and Theorem~5}]{am84}}]
-  All of the following problems are in \NC{} for all $\epsilon > 2$ but \P-complete for all $\epsilon \in [1, 2)$.
-  \begin{itemize}
-  \item \textsc{$\epsilon$-High Degree Subgraph} \cite[Theorem~4 and Theorem~5]{am84}
-  \item \textsc{$\epsilon$-High Connectivity Subgraph} \cite[Theorem~6]{ss89}
-  \end{itemize}
-\end{theorem}
-
-\begin{conjecture}
-  All of the following problems are complete for \ApxNCOp{} under $\APr$ reductions.
-  \begin{itemize}
-  \item \textsc{Maximum High Degree Subgraph}
-  \item \textsc{Maximum High Connectivity Subgraph}
-  \end{itemize}
-\end{conjecture}
-
-An optimization problem for which any constant-factor approximation is \P-complete implies that the optimization problem is not in \ApxNCO{} (unless $\P=\NC$).
-However, it may still be the case that these \P-complete optimization problems are in \logApxNCO, \polyApxNCO, \expApxNCO, or \NNCO.
+%% \begin{conjecture}
+%%   All of the following problems are complete for \ApxNCOp{} under $\APr$ reductions.
+%%   \begin{itemize}
+%%   \item \textsc{Maximum High Degree Subgraph}
+%%   \item \textsc{Maximum High Connectivity Subgraph}
+%%   \end{itemize}
+%% \end{conjecture}
 
 \begin{todo}
   Produce a \P-complete problem which is complete for \ApxNCO{} (and then for each of the other approximation classes) by considering a restriction of an \NP-complete problem and following the same proof.
@@ -728,7 +527,13 @@ However, it may still be the case that these \P-complete optimization problems a
   \STP-complete problems?
 \end{todo}
 
-\subsection{Syntactic characterization of \texorpdfstring{\ApxNCO}{ApxNCO}}
+\textsc{Positive Linear Programming}, the restriction of \textsc{Linear Programming} to inputs in which all entries of $A$, $\mathbf{b}$, and $\mathbf{c}$ are non-negative, admits a fully \NC{} approximation scheme \cite{ln93}, even though the corresponding budget problem remains \P-complete \cite{tx98}.
+In fact, we can reduce a restricted form of \textsc{Linear Programming}, $k$-normal form, to \textsc{Positive Linear Programming}. \cite{trevisan00}
+\begin{openquestion}
+  Is there a restriction of \textsc{Linear Programming} weaker than the restriction of non-negativity that permits a constant-factor \NC{} approximation?
+\end{openquestion}
+
+\section{Syntactic characterization of \texorpdfstring{\ApxNCO}{ApxNCO}}
 
 In this section, $\cl(\mathcal{C}, \leq)$ denotes the closure of the complexity class $\mathcal{C}$ under $\leq$ reductions.
 
