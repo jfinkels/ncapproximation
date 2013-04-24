@@ -310,17 +310,51 @@ The same result holds in the intersection with $\PO$.
 \end{proof}
 
 The classes of approximable optimization problems are also likely distinct.
+The theorem below is the natural analog of a similar result for the polynomial time approximation classes; see \cite[Exercise~8.1]{acgkmp99}, for example.
 
 \begin{theorem}\label{thm:hierarchy}
-  \mbox{}
-  \begin{enumerate}
-  \item If $\NC \neq \NP$ then $\NCO \subsetneq \NCAS \subsetneq \ApxNCO \subsetneq \NNCO$.
-  \item If $\NC \neq \P$ then $\NCO \subsetneq \PO \cap \NCAS \subsetneq \PO \cap \ApxNCO \subsetneq \PO \cap \NNCO \subsetneq \PO$.
-  \end{enumerate}
+  If $\NC \neq \NP$ then $\NCO \subsetneq \NCAS \subsetneq \ApxNCO \subsetneq \NNCO$.
+\end{theorem}
+
+\begin{proof}
+  We begin by showing that $\ApxNCO = \NNCO$ implies $\NC = \NNC(\poly)$, and hence $\NC = \NP$.
+  Let $L$ be a decision problem complete for \NNC(\poly) under logarithmic space many-one reductions (for example, \textsc{Satisfiability}).
+  Suppose $S_L$ is the relation decidable in \NC{} and $p$ is the polynomial such that $x \in L$ if and only if there is a string $y$ of length $p(|x|)$ such that $(x, y) \in S_L$ for all strings $x$.
+  Define the optimization problem $P$ by $P = (I, S, m, t)$, where
+  \begin{align*}
+    I & = \Sigma^*, \\
+    S & = \left\{ (x, y) \,\middle|\, |y| \leq p(|x|) \right\}, \\
+    m(x, y) & =
+    \begin{cases}
+      1 & \text{if } (x, y) \in S_L, \\
+      0 & \text{otherwise, and}
+    \end{cases} \\
+    t & = \max.
+  \end{align*}
+  Since $S_L$ is in \NC, the measure function $m$ is in \FNC.
+  The sets $I$ and $S$ are trivially in \NC, and $S$ is polynomially bounded, so $P$ is in $\NNC(\poly)$.
+  By hypothesis $P$ is also in \ApxNCO, so there is an \NC{} computable function $A$ that is an $r$-approximator for $P$, for some constant $r \geq 1$.
+  Assume without loss of generality that $A$ enters a special state, call it $\bot$, if $x$ has no solution in $S_L$.
+
+  Suppose $x$ is a string that has a solution in $S_L$.
+  Then $m^*(x) = 1$ and thus $m(x, A(x)) \geq \frac{1}{r} > 0$.
+  Define a new algorithm $D$ by ``on input $x$, accept if and only if $m(x, A(x)) > 0$''.
+  If $x$ has a solution, then $m(x, A(x)) > 0$, otherwise $A$ will output $\bot$ and $D$ will reject.
+  Furthermore, $D$ is computable by an \NC{} circuit because both $A$ and $m$ are.
+  Therefore $D$ decides $L$ in \NC{}, and hence $\NC = \NNC(\poly)$.
+
+  If $\NCAS = \ApxNCO$ we can use a similar argument with $m(x, y) = \frac{1}{r}$ in the second case to produce $\NC = \NP$.
+  This technique does not seem to work when attempting to prove $\NCO = \NCAS$ implies $\NC = \NP$.
+  Instead we consider \textsc{Maximum Independent Set for Planar Graphs}; this problem is in \NCAS{} \cite[Theorem~5.2.1]{dsst97}, and its budget problem is \NP-complete \cite{gj79}.
+  Therefore an exact \NC{} algorithm for it implies $\NC = \NP$.
+\end{proof}
+
+\begin{theorem}\label{thm:hierarchy2}
+  If $\NC \neq \P$ then $\NCO \subsetneq \PO \cap \NCAS \subsetneq \PO \cap \ApxNCO \subsetneq \PO \cap \NNCO \subsetneq \PO$.
 \end{theorem}
 \begin{proof}
   \begin{todo}
-    Fill me in.
+    FILL ME IN
   \end{todo}
 \end{proof}
 
