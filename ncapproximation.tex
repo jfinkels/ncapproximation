@@ -263,11 +263,11 @@ Since $\NC \subseteq \P$, the inclusion $\NNCO \subseteq \NPO$ follows immediate
 However, these definitions do not imply that the converse is true, since membership in \P{} does not imply membership in \NC.
 In fact, there is evidence that $\NNCO \neq \NPO$.
 \begin{proposition}[Thanks to Sam for this one.]\label{prop:nnconpo}
-  $\NNCO = \NPO$ if and only if $\P = \NC$.
+  $\NNCO = \NPO$ if and only if $\NC = \P$.
 \end{proposition}
 \begin{proof}
   We know $\NNCO \subseteq \NPO$ unconditionally from the preceding paragraph.
-  If we suppose $\P = \NC$, then it follows immediately from the definitions that any optimization problem in $\NPO$ is also in $\NNCO$.
+  If we suppose $\NC = \P$, then it follows immediately from the definitions that any optimization problem in $\NPO$ is also in $\NNCO$.
 
   Now suppose $\NNCO = \NPO$.
   If $C$ is a Boolean circuit with a single output, let $C(x)$ denote the output of $C$ (as a bit).
@@ -286,14 +286,14 @@ In fact, there is evidence that $\NNCO \neq \NPO$.
 
   Since $\NNCO = \NPO$ by hypothesis, $Q \in \NNCO$.
   Hence, $S \in \NC$.
-  The existence of an \NC{} algorithm for a \P-complete problem implies $\P = \NC$.
-  Therefore, $\NNCO = \NPO$ if and only if $\P = \NC$.
+  The existence of an \NC{} algorithm for a \P-complete problem implies $\NC = \P$.
+  Therefore, $\NNCO = \NPO$ if and only if $\NC = \P$.
 \end{proof}
 
 The same result holds in the intersection with $\PO$.
 
 \begin{proposition}\label{prop:poppo}
-  $\PO \cap \NNCO = \PO$ if and only if $\P = \NC$.
+  $\PO \cap \NNCO = \PO$ if and only if $\NC = \P$.
 \end{proposition}
 \begin{proof}
   As in \autoref{prop:nnconpo}, we consider a language in \PO{} that is unlikely to have a solution relation decidable in \NC{}.
@@ -306,7 +306,7 @@ The same result holds in the intersection with $\PO$.
   \end{align*}
   Here we have an optimization version of the \textsc{Circuit Value} problem.
   The solution relation $S$ is in \P, and again it is \P-complete.
-  If $\PO = \PO \cap \NNCO$, then there is an \NC{} algorithm for this \P-complete problem, and hence $\P = \NC$.
+  If $\PO = \PO \cap \NNCO$, then there is an \NC{} algorithm for this \P-complete problem, and hence $\NC = \P$.
 \end{proof}
 
 The classes of approximable optimization problems are also likely distinct.
@@ -331,7 +331,7 @@ We adapt \cite[Theorem~8.2.9]{dsst97} to our setting.
 \end{todo}
 
 \begin{proposition}\label{prop:popapxnco}
-  If $\PO \cap \NNCO \subseteq \ApxNCO$ then $\P = \NC$.
+  If $\PO \cap \NNCO \subseteq \ApxNCO$ then $\NC = \P$.
 \end{proposition}
 \begin{proof}
   Suppose $\PO \cap \NNCO \subseteq \ApxNCO$.
@@ -354,7 +354,7 @@ We adapt \cite[Theorem~8.2.9]{dsst97} to our setting.
 As an analog to \autoref{prop:nnconpo}, we have the following corollary of the previous proposition.
 
 \begin{corollary}[{\cite[Theorem~8.2.9]{dsst97}}]
-  $\ApxNCO = \ApxPO$ if and only if $\P = \NC$.
+  $\ApxNCO = \ApxPO$ if and only if $\NC = \P$.
 \end{corollary}
 
 \section{Completeness in classes of approximable optimization problems}
@@ -434,7 +434,7 @@ This problem is constructed so that the circuit $C_1$ can simulate an algorithm 
   Show that \textsc{Double Circuit Value} is complete for minimization problems as well, then change the theorems and discussion in section.
 \end{todo}
 
-Since the solution relation in \textsc{Double Circuit Value} requires evaluating a Boolean circuit, this problem is not in \NNCO{}, unless $\P = \NC$.
+Since the solution relation in \textsc{Double Circuit Value} requires evaluating a Boolean circuit, this problem is not in \NNCO{}, unless $\NC = \P$.
 However, there are problems that are both complete for \PO{} and in \NNCO.
 
 \begin{theorem}
@@ -478,14 +478,14 @@ However, there are problems that are both complete for \PO{} and in \NNCO.
 
 The reduction in the above proof is evidence that approximability is not closely related to the complexity of verification.
 As discussed in \autoref{prop:popapxnco}, \textsc{Linear Programming} is in $\PO \cap \NNCO$.
-This is interesting because, for the same reasons as in the proof of \autoref{prop:poppo}, \textsc{Double Circuit Value} is not in $\PO \cap \NNCO$ unless $\P = \NC$.
+This is interesting because, for the same reasons as in the proof of \autoref{prop:poppo}, \textsc{Double Circuit Value} is not in $\PO \cap \NNCO$ unless $\NC = \P$.
 This yields the following corollary.
 
 \begin{corollary}\label{cor:lpishard}
   \mbox{}
   \begin{enumerate}
   \item \textsc{Linear Programming} is complete for the class of all maximization problems in $\PO \cap \NNCO$ under logarithmic space ??? reductions.
-  \item \textsc{Double Circuit Value} is \emph{not} complete for the class of all maximization problems in $\PO \cap \NNCO$ under logarithmic space ??? reductions unless $\P = \NC$.
+  \item \textsc{Double Circuit Value} is \emph{not} complete for the class of all maximization problems in $\PO \cap \NNCO$ under logarithmic space ??? reductions unless $\NC = \P$.
   \end{enumerate}
 \end{corollary}
 
@@ -495,11 +495,11 @@ This corollary suggests an explanation for both \autoref{prop:popapxnco} and the
   The problem of $r$-approximating \textsc{Linear Programming} for any $r \geq 1$ is \P-complete.
 \end{theorem}
 
-Since a constant factor \NC{} approximation algorithm for a problem complete for $\PO \cap \NNCO$ induces a constant factor \NC{} approximation algorithm for all maximization problems in $\PO \cap \NNCO$, there can be no such algorithm for \textsc{Linear Programming}, unless $\P = \NC$.
-In fact, we can say something much stronger: \autoref{cor:lpishard}, \autoref{thm:hierarchy}, and the fact that ??? reductions compose imply that any highly parallel approximation for \textsc{Linear Programming} necessitates $\P = \NC$.
+Since a constant factor \NC{} approximation algorithm for a problem complete for $\PO \cap \NNCO$ induces a constant factor \NC{} approximation algorithm for all maximization problems in $\PO \cap \NNCO$, there can be no such algorithm for \textsc{Linear Programming}, unless $\NC = \P$.
+In fact, we can say something much stronger: \autoref{cor:lpishard}, \autoref{thm:hierarchy}, and the fact that ??? reductions compose imply that any highly parallel approximation for \textsc{Linear Programming} necessitates $\NC = \P$.
 
 \begin{corollary}
-  For any function $r$, \textsc{Linear Programming} does not have an $r$-approximation algorithm in \NC{} unless $\P = \NC$.
+  For any function $r$, \textsc{Linear Programming} does not have an $r$-approximation algorithm in \NC{} unless $\NC = \P$.
 \end{corollary}
 
 \begin{todo}
