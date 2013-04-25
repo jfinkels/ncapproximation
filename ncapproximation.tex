@@ -383,11 +383,32 @@ This hierarchy theorem provides a simple proof of a result of \cite{dsst97}.
 
 \subsection{NPO versus NNCO}
 
-\begin{todo}
-  Show Max Circuit Sat is complete for NPO but not in NNCO unless NC = NP.
-\end{todo}
+First, we show that \textsc{Maximum Weighted Circuit Satisfiability} is complete for the class of maximization problems in \NPO, but is not in \NNCO{} unless $\NC = \P$.
 
-First, we show that \textsc{Maximum Variable-Weighted Satisfiability} is complete for the class of maximization problems in \NNCO.
+\begin{definition}[\textsc{Maximum Weighted Circuit Satisfiability}]
+  \mbox{} \\
+  \begin{tabular}{r p{9.5cm}}
+    \textbf{Instance:} & Boolean circuit $C$ with inputs $x_1, \dotsc, x_n$, weights in $\mathbb{Q}^+$ for each input $w_1, \dotsc, w_n$. \\
+    \textbf{Solution:} & assignment $\alpha$ to the inputs such that $C(\alpha(x_1), \dotsc, \alpha(x_n))$ outputs 1. \\
+    \textbf{Measure:} & $\Sigma_{i = 1}^n \alpha(x_i) w_i$. \\
+    \textbf{Type:} & maximization.
+  \end{tabular}
+\end{definition}
+
+\begin{theorem}
+  \textsc{Maximum Weighted Circuit Satisfiability} is complete for the class of maximization problems in \NPO{} under logarithmic space ??? reductions.
+\end{theorem}
+\begin{proof}
+  FILL ME IN
+\end{proof}
+
+Using essentially the same proof as for \autoref{prop:nnconpo}, we can provide evidence that this problem is not in \NNCO.
+
+\begin{theorem}
+  If $\NC \neq \P$, then \textsc{Maximum Weighted Circuit Satisfiability} is not in \NNCO{}.
+\end{theorem}
+
+Next, we show that \textsc{Maximum Variable-Weighted Satisfiability} is complete for the class of maximization problems in \NNCO.
 
 \begin{definition}[\textsc{Maximum Variable-Weighted Satisfiability}]
   \mbox{} \\
