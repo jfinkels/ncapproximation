@@ -341,7 +341,7 @@ The theorem below is the natural analog of a similar result for the polynomial t
   Define a new algorithm $D$ by ``on input $x$, accept if and only if $m(x, A(x)) > 0$''.
   If $x$ has a solution, then $m(x, A(x)) > 0$, otherwise $A$ will output $\bot$ and $D$ will reject.
   Furthermore, $D$ is computable by an \NC{} circuit because both $A$ and $m$ are.
-  Therefore $D$ decides $L$ in \NC{}, and hence $\NC = \NNC(\poly)$.
+  Therefore $D$ is an \NC circuit that decides $L$, so $\NC = \NNC(\poly)$.
 
   If $\NCAS = \ApxNCO$ we can use a similar argument with $m(x, y) = \frac{1}{r}$ in the second case to produce $\NC = \NP$.
   This technique does not seem to work when attempting to prove $\NCO = \NCAS$ implies $\NC = \NP$.
@@ -350,46 +350,34 @@ The theorem below is the natural analog of a similar result for the polynomial t
 \end{proof}
 
 \begin{theorem}\label{thm:hierarchy2}
-  If $\NC \neq \P$ then $\NCO \subsetneq \PO \cap \NCAS \subsetneq \PO \cap \ApxNCO \subsetneq \PO \cap \NNCO \subsetneq \PO$.
+  If $\NC \neq \P$ then
+  \begin{equation*}
+    \NCO \subsetneq \PO \cap \NCAS \subsetneq \PO \cap \ApxNCO \subsetneq \PO \cap \NNCO \subsetneq \PO.
+  \end{equation*}
 \end{theorem}
 \begin{proof}
-  \begin{todo}
-    FILL ME IN
-  \end{todo}
+  From \autoref{prop:poppo}, we know that $\PO \cap \NNCO = \PO$ implies $\NC = \P$.
+  If either $\PO \cap \NCAS = \PO \cap \ApxNCO$ or $\PO \cap \ApxNCO = \PO \cap \NNCO$, we can use the same technique as in \autoref{thm:hierarchy}.
+  Instead of a problem complete for $\NNC(\poly)$, use a problem complete for \P{} (which is a subset of $\NNC(\poly)$ anyway).
+  Then the optimization problem $P$ is in \PO, but an \NC{} approximation algorithm for it implies an \NC{} algorithm for the decision problem $L$, and therefore $\NC = \P$.
+
+  Suppose now that $\NCO = \PO \cap \NCAS$.
+  Consider \textsc{Positive Linear Programming}, the restriction of \textsc{Linear Programming} to only non-negative inputs.
+  This problem is in \PO{} (because it is a restriction of \textsc{Linear Programming}) and in \NCAS{} \cite{ln93}.
+  However, its budget problem remains \P-complete \cite{tx98}.
+  If $\NCO = \PO \cap \NCAS$, then there is an \NC{} algorithm that solves this \P-complete problem exactly, and hence $\NC = \P$.
 \end{proof}
 
-What is the relationship between the class $\PO \cap \NNCO$ and the \NC{} approximation classes?
-We adapt \cite[Theorem~8.2.9]{dsst97} to our setting.
-\begin{todo}
-  This is a special case of \autoref{thm:hierarchy}.
-\end{todo}
-
-\begin{proposition}\label{prop:popapxnco}
-  If $\PO \cap \NNCO \subseteq \ApxNCO$ then $\NC = \P$.
-\end{proposition}
-\begin{proof}
-  Suppose $\PO \cap \NNCO \subseteq \ApxNCO$.
-  Consider the maximization problem \textsc{Linear Programming}, defined as follows.
-  \begin{align*}
-    I & = \left\{(A, \mathbf{b}, \mathbf{c}) \, \middle| \, A \in \mathbb{Z}^{m \times n}, \mathbf{b} \in \mathbb{Z}^m, \mathbf{c} \in \mathbb{Z}^n \right\} \\
-    S & = \left\{((A, \mathbf{b}, \mathbf{c}), \mathbf{x}) \, \middle| \, \mathbf{x} \in \mathbb{Q}^n \text{ and } A\mathbf{x} \leq \mathbf{b}\right\} \\
-    m((A, \mathbf{b}, \mathbf{c}), \mathbf{x}) & = \mathbf{c}^\intercal\mathbf{x} \\
-    t & = \max
-  \end{align*}
-  This problem is in \PO{} by the ellipsoid algorithm \cite{khachian79}.
-  The problem is also in \NNCO{}, since a solution can be verified in \NC{} (via matrix multiplication and comparison of rational numbers) and the measure can be computed in \NC{} (again by matrix multiplication).
-  Therefore it is in the class $\PO \cap \NNCO$.
-
-  By hypothesis, the problem is also in \ApxNCO{}, so the problem has an $r$-approximator computable in \NC{} for some $r > 1$.
-  By \cite[Theorem~8.2.7]{dsst97}, the decision problem of $r$-approximating \textsc{Linear Programming} is \P-complete for all $r > 1$.
-  Thus we have an \NC{} algorithm for a \P-complete problem, and hence $\NC = \P$.
-\end{proof}
-
-As an analog to \autoref{prop:nnconpo}, we have the following corollary of the previous proposition.
+This hierarchy theorem provides a simple proof of a result of \cite{dsst97}.
 
 \begin{corollary}[{\cite[Theorem~8.2.9]{dsst97}}]
   $\ApxNCO = \ApxPO$ if and only if $\NC = \P$.
 \end{corollary}
+\begin{proof}
+  If $\NC = \P$ then $\ApxNCO = \ApxPO$ by definition.
+  If $\ApxPO \subseteq \ApxNCO$ then $\PO \subseteq \NNCO$, and hence $\PO \cap \NNCO = \PO$.
+  By \autoref{thm:hierarchy2}, we conclude that $\NC = \P$.
+\end{proof}
 
 \section{Completeness in classes of approximable optimization problems}
 
@@ -511,7 +499,7 @@ However, there are problems that are both complete for \PO{} and in \NNCO.
 \end{proof}
 
 The reduction in the above proof is evidence that approximability is not closely related to the complexity of verification.
-As discussed in \autoref{prop:popapxnco}, \textsc{Linear Programming} is in $\PO \cap \NNCO$.
+\textsc{Linear Programming} is not only in \PO, but also in \NNCO, since matrix multiplication is in \NC.
 This is interesting because, for the same reasons as in the proof of \autoref{prop:poppo}, \textsc{Double Circuit Value} is not in $\PO \cap \NNCO$ unless $\NC = \P$.
 This yields the following corollary.
 
@@ -523,22 +511,7 @@ This yields the following corollary.
   \end{enumerate}
 \end{corollary}
 
-This corollary suggests an explanation for both \autoref{prop:popapxnco} and the following well-known theorem.
-
-\begin{theorem}[TODO FILL ME IN WITH REFERENCE]
-  The problem of $r$-approximating \textsc{Linear Programming} for any $r \geq 1$ is \P-complete.
-\end{theorem}
-
-Since a constant factor \NC{} approximation algorithm for a problem complete for $\PO \cap \NNCO$ induces a constant factor \NC{} approximation algorithm for all maximization problems in $\PO \cap \NNCO$, there can be no such algorithm for \textsc{Linear Programming}, unless $\NC = \P$.
-In fact, we can say something much stronger: \autoref{cor:lpishard}, \autoref{thm:hierarchy}, and the fact that ??? reductions compose imply that any highly parallel approximation for \textsc{Linear Programming} necessitates $\NC = \P$.
-
-\begin{corollary}
-  For any function $r$, \textsc{Linear Programming} does not have an $r$-approximation algorithm in \NC{} unless $\NC = \P$.
-\end{corollary}
-
-\begin{todo}
-  Is this true? Check out the meaning of \NPO-completeness and translate to $\NNCO \cap \PO$-completeness.
-\end{todo}
+This corollary suggests an explanation for the fact that $r$-approximating \textsc{Linear Programming} for any $r \geq 1$ is \P-complete \cite[Theorem~8.2.7]{dsst97}, and further, the fact that any \NC{} approximation algorithm for \textsc{Linear Programming} implies $\NC = \P$ \cite[Theorem~8.2.8]{dsst97}: \autoref{cor:lpishard}, \autoref{thm:hierarchy}, and the fact that ??? reductions compose imply that any highly parallel approximation for \textsc{Linear Programming} necessitates $\NC = \P$.
 
 %% \begin{theorem}[{\cite[{Theorem~4 and Theorem~5}]{am84}}]
 %%   All of the following problems are in \NC{} for all $\epsilon > 2$ but \P-complete for all $\epsilon \in [1, 2)$.
