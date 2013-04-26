@@ -346,6 +346,7 @@ This section shows results analagous to those in the previous section, but in th
 
 In this problem, the Boolean circuits may output binary strings of polynomial length interpreted as non-negative integers.
 This problem is constructed so that the circuit $C_1$ can simulate an algorithm that produces an optimal solution for an optimization problem and the circuit $C_2$ can simulate an algorithm that outputs the measure of a solution for that problem.
+Also, each input has exactly one solution, so this problem is quite artificial.
 
 \begin{definition}[\textsc{Linear Programming}]
   \mbox{} \\
@@ -382,8 +383,8 @@ This problem is constructed so that the circuit $C_1$ can simulate an algorithm 
   Since these measures are equal for all instances $x$ and solutions $y$, we have shown a logarithmic space ??? reduction from $P$ to \textsc{Maximum Double Circuit Value}.
 \end{proof}
 
-\begin{theorem}
-  \textsc{Linear Programming} is complete for the class of all maximization problems in \PO{} under logarithmic space ??? reductions.
+\begin{theorem}\label{thm:lpinpo}
+  \textsc{Linear Programming} is complete for \PO{} under logarithmic space ??? reductions.
 \end{theorem}
 \begin{proof}
   \textsc{Linear Programming} is in \PO{} by the ellipsoid algorithm \cite{khachian79}.
@@ -421,7 +422,18 @@ This problem is constructed so that the circuit $C_1$ can simulate an algorithm 
   Since the former is complete for the class of maximization problems in \PO, so is \textsc{Linear Programming}.
 \end{proof}
 
-The reduction in the above proof is more evidence that approximability is not closely related to the complexity of verification.
+\begin{theorem}
+  \textsc{Linear Programming} is complete for \PO{} under logarithmic space ??? reductions.
+\end{theorem}
+\begin{proof}
+  We show that the minimization problem reduces to the maximization problem for \textsc{Linear Programming} by using the strong duality theorem (REFERENCE GOES HERE).
+  Specifically, define the reduction $(f, g, ???)$ by $f((A, \mathbf{b}, \mathbf{c})) = (-A^\intercal, -\mathbf{c}, \mathbf{b}^\intercal)$.
+  \begin{todo}
+    Check that this makes sense and complete the proof.
+  \end{todo}
+\end{proof}
+
+The reduction in the proof of \autoref{thm:lpinpo} is more evidence that approximability is not closely related to the complexity of verification.
 \textsc{Linear Programming} is not only in \PO, but also in \NNCO, since matrix multiplication is in \NC.
 (This is interesting because \textsc{Maximum Double Circuit Value} is not in $\PO \cap \NNCO$ unless $\NC = \P$, because its solution relation is \P-complete.)
 This yields the following corollary.
