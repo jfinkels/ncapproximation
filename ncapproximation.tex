@@ -258,14 +258,9 @@ If furthermore $Q$ is in $\mathcal{C}$ we say $Q$ is \emph{$\mathcal{C}$-complet
 
 \section{Completeness and collapses in classes of approximable optimization problems}
 
-\begin{todo}
-  Show that the problems in this section are not only complete for maximization problems, but also for minimization problems.
-  Change the theorems and discussion in this section accordingly.
-\end{todo}
-
 \subsection{Completeness in classes of inapproximable problems}
 
-This section shows that \textsc{Maximum Variable-Weighted Satisfiability} is complete for the class of all maximization problems in \NNCO{} and \textsc{Maximum Weighted Circuit Satisfiability} is complete for the class of maximization problems in \NPO.
+This section shows that \textsc{Maximum Variable-Weighted Satisfiability} is complete for \NNCO{} and \textsc{Maximum Weighted Circuit Satisfiability} is complete for \NPO.
 Furthermore, the latter problem is not in \NNCO{} unless $\NC = \P$.
 Thus there are optimization problems whose corresponding budget problems are of equal computational complexity---they are both \NP-complete---but whose solution relations are of different computational complexity, under reasonable complexity theoretic assumptions.
 
@@ -290,27 +285,36 @@ Thus there are optimization problems whose corresponding budget problems are of 
 \end{definition}
 
 \begin{theorem}
-  \textsc{Maximum Variable-Weighted Satisfiability} is complete for the class of maximization problems in \NNCO{} under logarithmic space ??? reductions.
+  \textsc{Maximum Variable-Weighted Satisfiability} is complete for \NNCO{} under logarithmic space ??? reductions.
 \end{theorem}
 \begin{proof}
   First, this problem is in \NNCO.
   The measure function is computable in \FNC{} because the basic arithmetic operations and summation are both computable in \FNC{}.
   The solution set is decidable in \NC{} because Boolean formula evaluation is computable in \NC{} \cite{buss87}.
 
-  The proof that shows the problem is hard for \NNCO{} is similar to the one that shows \textsc{Maximum Variable-Weighted Satisfiability} is hard for \NPO{} \cite[Theorem~3.1]{om87} \cite[Theorem~8.3]{acgkmp99}.
-  The only difference is that the underlying machines are \NC{} and \NNC{} machines instead of \P{} and \NP{} machines.
+  The proof that shows the problem is hard for \NNCO{} is similar to the one that shows \textsc{Maximum Variable-Weighted Satisfiability} is hard for the class of maximization problems in \NPO{} \cite[Theorem~3.1]{om87} \cite[Theorem~8.3]{acgkmp99}.
+  The only difference is that the underlying machines are \NC{} and $\NNC(\poly)$ machines instead of \P{} and \NP{} machines.
+
+  There is a polynomial time AP reduction from the \textsc{Minimum Variable-Weighted Satisfiability} problem, which is complete for the class of all minimization problems in \NNCO, to \textsc{Maximum Variable-Weighted Satisfiability} \cite[Theorem~8.4]{acgkmp99}, and a close inspection of the reduction reveals that it can be implemented in logarithmic space.
+  Therefore completeness for the class of all maximization problems implies completeness for all of \NNCO.
 \end{proof}
 
 \begin{theorem}
-  \textsc{Maximum Weighted Circuit Satisfiability} is complete for the class of maximization problems in \NPO{} under logarithmic space ??? reductions.
+  \textsc{Maximum Weighted Circuit Satisfiability} is complete for \NPO{} under logarithmic space ??? reductions.
 \end{theorem}
 \begin{proof}
   The proof is essentially the same as the previous one, but uses the Cook--Levin transformation to a Boolean circuit instead of a Boolean formula.
+  There is a polynomial time AP reduction from every minimization problem in \NPO{} to a maximization problem in \NPO{} \cite[Theorem~8.4]{acgkmp99}, and a close inspection of the reduction reveals that it can be implemented in logarithmic space.
+  Therefore completeness for the class of all maximization problems in \NPO{} implies completeness for all of \NPO.
+  \begin{todo}
+    Using the existing reduction from minimization to maximization problems in \NPO{} requires us to use an AP reduction.
+    Can we use a more restrictive type of reduction in that proof?
+  \end{todo}
 \end{proof}
 
 Sam H. suggested an initial version of the following theorem.
 
-\begin{theorem}
+\begin{theorem}\label{thm:nnconpo}
   $\NNCO = \NPO$ if and only if $\NC = \P$.
 \end{theorem}
 \begin{proof}
@@ -322,6 +326,11 @@ Sam H. suggested an initial version of the following theorem.
 \end{proof}
 
 \subsection{Completeness in classes of polynomal time solvable problems}
+
+\begin{todo}
+  Show that the problems in this subsection are not only complete for maximization problems, but also for minimization problems.
+  Change the theorems and discussion in this section accordingly.
+\end{todo}
 
 This section shows results analagous to those in the previous section, but in the intersection of both \NPO{} and \NNCO{} with \PO.
 
@@ -335,7 +344,7 @@ This section shows results analagous to those in the previous section, but in th
   \end{tabular}
 \end{definition}
 
-In this problem, the Boolean circuits may output binary strings of polynomial length.
+In this problem, the Boolean circuits may output binary strings of polynomial length interpreted as non-negative integers.
 This problem is constructed so that the circuit $C_1$ can simulate an algorithm that produces an optimal solution for an optimization problem and the circuit $C_2$ can simulate an algorithm that outputs the measure of a solution for that problem.
 
 \begin{definition}[\textsc{Linear Programming}]
@@ -421,7 +430,7 @@ This yields the following corollary.
   \textsc{Linear Programming} is complete for the class of all maximization problems in $\PO \cap \NNCO$ under logarithmic space ??? reductions.
 \end{corollary}
 
-This corollary suggests an explanation for the fact that $r$-approximating \textsc{Linear Programming} for any $r \geq 1$ is \P-complete \cite[Theorem~8.2.7]{dsst97}, and further, the fact that any \NC{} approximation algorithm for \textsc{Linear Programming} implies $\NC = \P$ \cite[Theorem~8.2.8]{dsst97}: \autoref{cor:lpishard}, \autoref{thm:hierarchy}, and the fact that ??? reductions compose imply that any highly parallel approximation for \textsc{Linear Programming} necessitates $\NC = \P$.
+An equivalence analagous to that of \autoref{thm:nnconpo} holds in the intersection with \PO.
 
 \begin{theorem}\label{thm:poppo}
   $\PO \cap \NNCO = \PO$ if and only if $\NC = \P$.
@@ -506,6 +515,8 @@ The theorem below is the natural analog of a similar result for the polynomial t
   Therefore an exact \NC{} algorithm for it implies $\NC = \NP$.
 \end{proof}
 
+Since \textsc{Maximum Variable-Weighted Satisfiability} is complete for the class \NNCO{} under logarithmic space ??? reductions, it admits no \NC{} approximation algorithm unless $\NC = \NP$.
+
 \begin{theorem}\label{thm:hierarchy2}
   If $\NC \neq \P$ then
   \begin{equation*}
@@ -525,7 +536,10 @@ The theorem below is the natural analog of a similar result for the polynomial t
   If $\NCO = \PO \cap \NCAS$, then there is an \NC{} algorithm that solves this \P-complete problem exactly, and hence $\NC = \P$.
 \end{proof}
 
-This hierarchy theorem provides a simple proof of a result of \cite{dsst97} (although they do not define $\ApxNCO$ in the same way).
+Since \textsc{Linear Programming} is complete for $\PO \cap \NNCO$ under logarithmic space ??? reductions, it admits no \NC{} approximation algorithm unless $\NC = \P$.
+This result suggests an explanation for the fact that $r$-approximating \textsc{Linear Programming} for any $r \geq 1$ is \P-complete \cite[Theorem~8.2.7]{dsst97}, and further, the fact that any \NC{} approximation algorithm for \textsc{Linear Programming} implies $\NC = \P$ \cite[Theorem~8.2.8]{dsst97}: \autoref{cor:lpishard}, \autoref{thm:hierarchy}, and the fact that ??? reductions compose imply that any highly parallel approximation for \textsc{Linear Programming} necessitates $\NC = \P$.
+
+The hierarchy theorem also provides a simple proof of a result of \cite{dsst97} (although they do not define $\ApxNCO$ in the same way).
 
 \begin{corollary}[{\cite[Theorem~8.2.9]{dsst97}}]
   $\ApxNCO = \ApxPO$ if and only if $\NC = \P$.
