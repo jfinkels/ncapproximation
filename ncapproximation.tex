@@ -274,7 +274,7 @@ Thus there are optimization problems whose corresponding budget problems are of 
   \begin{tabular}{r p{9.5cm}}
     \textbf{Instance:} & Boolean formula $\phi$ on variables $x_1, \dotsc, x_n$, weights in $\mathbb{Q}^+$ for each variable $w_1, \dotsc, w_n$. \\
     \textbf{Solution:} & assignment $\alpha$ to the variables that satisfies $\phi$. \\
-    \textbf{Measure:} & $\Sigma_{i = 1}^n \alpha(x_i) w_i$. \\
+    \textbf{Measure:} & $\max(1, \Sigma_{i = 1}^n \alpha(x_i) w_i)$. \\
     \textbf{Type:} & maximization.
   \end{tabular}
 \end{definition}
@@ -284,7 +284,7 @@ Thus there are optimization problems whose corresponding budget problems are of 
   \begin{tabular}{r p{9.5cm}}
     \textbf{Instance:} & Boolean circuit $C$ with inputs $x_1, \dotsc, x_n$, weights in $\mathbb{Q}^+$ for each input $w_1, \dotsc, w_n$. \\
     \textbf{Solution:} & assignment $\alpha$ to the inputs such that $C(\alpha(x_1), \dotsc, \alpha(x_n))$ outputs 1. \\
-    \textbf{Measure:} & $\Sigma_{i = 1}^n \alpha(x_i) w_i$. \\
+    \textbf{Measure:} & $\max(1, \Sigma_{i = 1}^n \alpha(x_i) w_i$). \\
     \textbf{Type:} & maximization.
   \end{tabular}
 \end{definition}
@@ -327,14 +327,15 @@ This section shows results analagous to those in the previous section, but in th
 
 \begin{definition}[\textsc{Maximum Double Circuit Value}]
   \mbox{} \\
-  \begin{tabular}{r l}
+  \begin{tabular}{r p{9.5cm}}
     \textbf{Instance:} & two Boolean circuits $C_1$ and $C_2$, binary string $x$. \\
-    \textbf{Solution:} & binary string $y$ such that $C_1(x) = y$. \\
-    \textbf{Measure:} & $C_2(x, y)$. \\
+    \textbf{Solution:} & binary string $y$ such that $C_1(x) = y$ and $|x| + |y|$ equals the number of inputs to $C_2$. \\
+    \textbf{Measure:} & $\max(1, C_2(x, y))$. \\
     \textbf{Type:} & maximization.
   \end{tabular}
 \end{definition}
 
+In this problem, the Boolean circuits may output binary strings of polynomial length.
 This problem is constructed so that the circuit $C_1$ can simulate an algorithm that produces an optimal solution for an optimization problem and the circuit $C_2$ can simulate an algorithm that outputs the measure of a solution for that problem.
 
 \begin{definition}[\textsc{Linear Programming}]
@@ -342,7 +343,7 @@ This problem is constructed so that the circuit $C_1$ can simulate an algorithm 
   \begin{tabular}{r p{9.5cm}}
     \textbf{Instance:} & $m \times n$ integer matrix $A$, integer vector $\mathbf{b}$ of length $m$, integer vector $\mathbf{c}$ of length $n$. \\
     \textbf{Solution:} & rational vector $\mathbf{x}$ of length $n$ such that $A \mathbf{x} \leq \mathbf{b}$. \\
-    \textbf{Measure:} & $\mathbf{c}^\intercal \mathbf{x}$. \\
+    \textbf{Measure:} & $\max(1, \mathbf{c}^\intercal \mathbf{x})$. \\
     \textbf{Type:} & maximization.
   \end{tabular}
 \end{definition}
@@ -484,6 +485,9 @@ The theorem below is the natural analog of a similar result for the polynomial t
     \end{cases} \\
     t & = \max.
   \end{align*}
+  \begin{todo}
+    Technically, the measure function must be positive.
+  \end{todo}
   Since $S_L$ is in \NC, the measure function $m$ is in \FNC.
   The sets $I$ and $S$ are trivially in \NC, and $S$ is polynomially bounded, so $P$ is in $\NNC(\poly)$.
   By hypothesis $P$ is also in \ApxNCO, so there is an \NC{} computable function $A$ that is an $r$-approximator for $P$, for some constant $r \geq 1$.
