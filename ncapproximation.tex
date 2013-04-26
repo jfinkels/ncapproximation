@@ -181,7 +181,7 @@ We can now proceed to define classes of approximable optimization problems conta
 
 For the \NC{} approximation classes defined above, it is crucial that the solution relation is verifiable in \NC{}.
 In all previous works (for example, \cite{dsst97, sx95}), the implicit definition of, say, \NCX{}, which corresponds to our class \ApxNCO, requires only that the solution relation is verifiable \emph{in polynomial time}.
-We believe we are the first to make this important distinction; the maximization problem defined in the proof of, for example, \autoref{prop:nnconpo} below shows that some solution relations are harder to verify than others.
+We believe we are the first to make this important distinction; some solution relations are harder to verify than others.
 
 Each of the classes in \autoref{def:ncx} includes the one defined below it.
 This chain of inclusions provides a hierarchy that classifies approximability of problems in \NNCO{}, and hence in \NPO.
@@ -256,57 +256,214 @@ We will use a logarithmic space-bounded version of the ``?? reduction''.%, consi
 For a class $\mathcal{C}$ of optimization problems, we say a problem $Q$ is \emph{$\mathcal{C}$-hard} if for all problems $P$ in $\mathcal{C}$ there is a ??? reduction from $P$ to $Q$.
 If furthermore $Q$ is in $\mathcal{C}$ we say $Q$ is \emph{$\mathcal{C}$-complete}.
 
-\section{Relations among classes of optimization problems}
+\section{Completeness and collapses in classes of approximable optimization problems}
 
-Since $\NC \subseteq \P$, the inclusion $\NNCO \subseteq \NPO$ follows immediately from the definitions.
-However, these definitions do not imply that the converse is true, since membership in \P{} does not imply membership in \NC.
-In fact, there is evidence that $\NNCO \neq \NPO$.
-\begin{proposition}[Thanks to Sam for this one.]\label{prop:nnconpo}
+\begin{todo}
+  Show that the problems in this section are not only complete for maximization problems, but also for minimization problems.
+  Change the theorems and discussion in this section accordingly.
+\end{todo}
+
+\subsection{NPO versus NNCO}
+
+This section shows that \textsc{Maximum Variable-Weighted Satisfiability} is complete for the class of all maximization problems in \NNCO{} and \textsc{Maximum Weighted Circuit Satisfiability} is complete for the class of maximization problems in \NPO.
+Furthermore, the latter problem is not in \NNCO{} unless $\NC = \P$.
+Thus there are optimization problems whose corresponding budget problems are of equal computational complexity---they are both \NP-complete---but whose solution relations are of different computational complexity, under reasonable complexity theoretic assumptions.
+\begin{todo}
+  Should I remove the results of the previous section and make them corollaries of the results in this section?
+\end{todo}
+
+\begin{definition}[\textsc{Maximum Variable-Weighted Satisfiability}]
+  \mbox{} \\
+  \begin{tabular}{r p{9.5cm}}
+    \textbf{Instance:} & Boolean formula $\phi$ on variables $x_1, \dotsc, x_n$, weights in $\mathbb{Q}^+$ for each variable $w_1, \dotsc, w_n$. \\
+    \textbf{Solution:} & assignment $\alpha$ to the variables that satisfies $\phi$. \\
+    \textbf{Measure:} & $\Sigma_{i = 1}^n \alpha(x_i) w_i$. \\
+    \textbf{Type:} & maximization.
+  \end{tabular}
+\end{definition}
+
+\begin{definition}[\textsc{Maximum Weighted Circuit Satisfiability}]
+  \mbox{} \\
+  \begin{tabular}{r p{9.5cm}}
+    \textbf{Instance:} & Boolean circuit $C$ with inputs $x_1, \dotsc, x_n$, weights in $\mathbb{Q}^+$ for each input $w_1, \dotsc, w_n$. \\
+    \textbf{Solution:} & assignment $\alpha$ to the inputs such that $C(\alpha(x_1), \dotsc, \alpha(x_n))$ outputs 1. \\
+    \textbf{Measure:} & $\Sigma_{i = 1}^n \alpha(x_i) w_i$. \\
+    \textbf{Type:} & maximization.
+  \end{tabular}
+\end{definition}
+
+\begin{theorem}
+  \textsc{Maximum Variable-Weighted Satisfiability} is complete for the class of maximization problems in \NNCO{} under logarithmic space ??? reductions.
+\end{theorem}
+\begin{proof}
+  First, this problem is in \NNCO.
+  The measure function is computable in \FNC{} because the basic arithmetic operations and summation are both computable in \FNC{}.
+  The solution set is decidable in \NC{} because Boolean formula evaluation is computable in \NC{} \cite{buss87}.
+
+  The proof that shows the problem is hard for \NNCO{} is similar to the one that shows \textsc{Maximum Variable-Weighted Satisfiability} is hard for \NPO{} \cite[Theorem~3.1]{om87} \cite[Theorem~8.3]{acgkmp99}.
+  The only difference is that the underlying machines are \NC{} and \NNC{} machines instead of \P{} and \NP{} machines.
+\end{proof}
+
+\begin{theorem}
+  \textsc{Maximum Weighted Circuit Satisfiability} is complete for the class of maximization problems in \NPO{} under logarithmic space ??? reductions.
+\end{theorem}
+\begin{proof}
+  The proof is essentially the same as the previous one, but uses the Cook-Leving transformation to a Boolean circuit instead of a Boolean formula.
+\end{proof}
+
+Sam H. suggested an initial version of the following theorem.
+
+\begin{theorem}
   $\NNCO = \NPO$ if and only if $\NC = \P$.
-\end{proposition}
+\end{theorem}
 \begin{proof}
-  We know $\NNCO \subseteq \NPO$ unconditionally from the preceding paragraph.
-  If we suppose $\NC = \P$, then it follows immediately from the definitions that any optimization problem in $\NPO$ is also in $\NNCO$.
-
-  Now suppose $\NNCO = \NPO$.
-  If $C$ is a Boolean circuit with a single output, let $C(x)$ denote the output of $C$ (as a bit).
-  Consider the optimization problem $Q$ defined by $Q = (I, S, m, t)$, where
-  \begin{align*}
-    I & = \{ C \, | \, C \text{ is a Boolean circuit} \}, \\
-    S & = \{ (C, x) \, | \, C(x) = 1 \}, \\
-    m(C, x) & = C(x), \text{ and} \\
-    t & = \max.
-  \end{align*}
-  (Observe that $Q$ is an optimization form of the \textsc{Circuit Satisfiability} problem, where we have $m(C, x) \in \{0, 1\}$ for all circuits $C$ and all strings $x$.)
-  $I \in \P$ because a correctly formatted Boolean circuit is a directed acyclic graph, and a depth first search (computable in deterministic polynomial time) can reveal if a given directed graph has a cycle.
-  $S \in \P$ because it is exactly the \textsc{Circuit Value} problem, which is known to be in \P{} (in fact, it is \P-complete \cite[Problem~A.1.1]{ghr95}).
-  $m \in \P$ because it is simply the function form of the \textsc{Circuit Value} problem.
-  Therefore, $Q \in \NPO$.
-
-  Since $\NNCO = \NPO$ by hypothesis, $Q \in \NNCO$.
-  Hence, $S \in \NC$.
-  The existence of an \NC{} algorithm for a \P-complete problem implies $\NC = \P$.
-  Therefore, $\NNCO = \NPO$ if and only if $\NC = \P$.
+  $\NNCO \subseteq \NPO$ by definition.
+  If $\NC = \P$, then $\NNCO = \NPO$ by definition.
+  If $\NNCO = \NPO$, then \textsc{Maximum Weighted Circuit Satisfiability} is in \NNCO{}, thus there is an \NC{} algorithm that decides its solution relation.
+  Its solution relation is precisely the \textsc{Circuit Value} problem, which is \P-complete \cite[Problem~A.1.1]{ghr95}.
+  An \NC{} algorithm for a \P-complete decision problem implies $\NC = \P$.
 \end{proof}
 
-The same result holds in the intersection with $\PO$.
+\subsection{PO cap NPO (= PO) versus PO cap NNCO}
 
-\begin{proposition}\label{prop:poppo}
+This section shows results analagous to those in the previous section, but in the intersection of both \NPO{} and \NNCO{} with \PO.
+
+\begin{definition}[\textsc{Maximum Double Circuit Value}]
+  \mbox{} \\
+  \begin{tabular}{r l}
+    \textbf{Instance:} & two Boolean circuits $C_1$ and $C_2$, binary string $x$. \\
+    \textbf{Solution:} & binary string $y$ such that $C_1(x) = y$. \\
+    \textbf{Measure:} & $C_2(x, y)$. \\
+    \textbf{Type:} & maximization.
+  \end{tabular}
+\end{definition}
+
+This problem is constructed so that the circuit $C_1$ can simulate an algorithm that produces an optimal solution for an optimization problem and the circuit $C_2$ can simulate an algorithm that outputs the measure of a solution for that problem.
+
+\begin{definition}[\textsc{Linear Programming}]
+  \mbox{} \\
+  \begin{tabular}{r p{9.5cm}}
+    \textbf{Instance:} & $m \times n$ integer matrix $A$, integer vector $\mathbf{b}$ of length $m$, integer vector $\mathbf{c}$ of length $n$. \\
+    \textbf{Solution:} & rational vector $\mathbf{x}$ of length $n$ such that $A \mathbf{x} \leq \mathbf{b}$. \\
+    \textbf{Measure:} & $\mathbf{c}^\intercal \mathbf{x}$. \\
+    \textbf{Type:} & maximization.
+  \end{tabular}
+\end{definition}
+
+\begin{theorem}
+  \textsc{Maximum Double Circuit Value} is complete under ??? reductions for the class of maximization problems in \PO.
+\end{theorem}
+\begin{proof}
+  Since \textsc{Circuit Value} is in \P, both the solution and the measure function are computable in polynomial time.
+  Therefore \textsc{Maximum Double Circuit Value} is in \PO.
+  Our goal is now to exhibit a ??? reduction from any language in \PO{} to \textsc{Maximum Double Circuit Value}.
+  For the sake of brevity, suppose \textsc{Maximum Double Circuit Value} is defined by $(I_C, S_C, m_C, \max)$.
+
+  Let $P$ be a maximization problem in \PO, where $P = (I_P, S_P, m_P, \max)$.
+  Let $x$ be an element of $I_P$.
+  Suppose $E$ is the deterministic polynomial time Turing machine that produces optimal solutions for $P$.
+  Define $f$ by $f(x) = (C_E, C_m, x)$ for all $x \in I_P$, where $C_E$ is the Boolean circuit of polynomial size that simulates the action of $E$ on input $x$ and $C_m$ is the circuit that simulates $m_P$ on inputs $x$ and $E(x)$.
+  These circuits exist and are computable from $x$ in logarithmic space \cite{ladner75}.
+  Define $g$ by $g(x, y) = y$ for all strings $x$ and all $y$ in $S_C(f(x))$.
+
+  %% We know that $m^*_C(f(x)) = m^*_C((C_E, C_m, x))$, which equals the maximum over any string $y$ such that $C_E(x) = y$ of the value of the circuit $C_m$ on input $x$ and $y$.
+  %% The fact that $E$ produces optimal solutions for $P$ and the correctness of the mappings $(E, x) \mapsto C_E$ and $(m_P, x, y) \mapsto C_m$ imply that $m^*((C_E, C_m, x)) = m^*_P(x)$.
+  For any $x \in I_P$ and any $y \in S_C(f(x))$, we have
+  \begin{equation*}
+    m_P(x, g(x, y)) = m_P(x, y) = C_m(x, y) = m_C((C_E, C_m, x), y) = m_C(f(x), y).
+  \end{equation*}
+  Since these measures are equal for all instances $x$ and solutions $y$, we have shown a logarithmic space ??? reduction from $P$ to \textsc{Maximum Double Circuit Value}.
+\end{proof}
+
+\begin{theorem}
+  \textsc{Linear Programming} is complete for the class of all maximization problems in \PO{} under logarithmic space ??? reductions.
+\end{theorem}
+\begin{proof}
+  \textsc{Linear Programming} is in \PO{} by the ellipsoid algorithm \cite{khachian79}.
+  We reduce \textsc{Maximum Double Circuit Value} to \textsc{Linear Programming}.
+  The reduction is essentially the same as the reduction from \textsc{Circuit Value} to \textsc{Linear Programming} given (implicitly) in the hint beneath \cite[Problem~A.4.1]{ghr95}.
+  We repeat it here for the sake of completeness.
+
+  Define the instance transducer $f$ as follows.
+  Suppose $(C_1, C_2, x)$ is an instance of \textsc{Maximum Double Circuit Value}, and let $x = x_1 \dotsb x_n$.
+  For each of the circuits $C_1$ and $C_2$, the transducer $f$ adds the following inequalities to the linear program.
+  \begin{enumerate}
+  \item For each bit of $x$, represent a 1 bit at index $i$ by $x_i = 1$ and a 0 bit by $x_i = 0$.
+  \item Represent a \textsc{not} gate, $g = \lnot h$, by the equation $g = 1 - h$ and the inequality $0 \leq g \leq 1$.
+  \item Represent an \textsc{and} gate, $g = h_1 \land h_2$, by the inequalities $g \leq h_1$, $g \leq h_2$, $h_1 + h_2 - 1 \leq g$, and $0 \leq g \leq 1$.
+  \item Represent an \textsc{or} gate, $g = h_1 \lor h_2$, by the inequalities $h_1 \leq g$, $h_2 \leq g$, $g \leq h_1 + h_2$, and $0 \leq g \leq 1$.
+  \end{enumerate}
+  Suppose $y_1, \dotsc, y_s$ are the variables corresponding to the output gates of $C_1$, and suppose $\mu_t, \dotsc, \mu_1$ are the variables corresponding to the output gates of $C_2$, numbered from least significant bit to most significant bit (that is, right-to-left).
+  The components of the object function $\mathbf{c}$ are assigned to be $2^i$ where the component corresponds to the variable $\mu_i$ and 0 everywhere else.
+  The function $f$ is computable in logarithmic space because the transformation can proceed gatewise, requiring only a logarithmic number of bits to record the index of the current gate.
+  Suppose $\mathbf{x}$ is a solution to $f((C_1, C_2, x))$, that is, an assignment to the variables described above that satisfies all the inequalities.
+  Define the solution transducer $g$ by $g((C_1, C_2, x), \mathbf{x}) = y$, where $y = y_1 \dotsb y_s$.
+  This is also computable in logarithmic space by finding the index, in binary, of the necessary gates $y_1, \dotsc, y_s$.
+
+  By structural induction on the gates of the circuits we see that a gate has value 1 on input $x$ if and only if the solution vector $\mathbf{x}$ has a value 1 in the corresponding component, and $\mathbf{x}$ must be a vector over $\{0, 1\}$.
+  Since the linear program correctly simulates the circuits, we see that
+  \begin{align*}
+    m_A((C_1, C_2, x), g((C_1, C_2, x), \mathbf{x})) & = m_A((C_1, C_2, x), y) \\
+    & = C_2(x, y) \\
+    & = \mu_t \dotsb \mu_1 \\
+    & = \Sigma^t_{i = 1} 2^i \mu_i \\
+    & = m_B(f((C_1, C_2, x)), \mathbf{x}),
+  \end{align*}
+  where $m_A$ is the measure function for \textsc{Maximum Double Circuit Value} and $m_B$ is the measure function for \textsc{Linear Programming}.
+  Since these measures are equal, we have shown a logarithmic space ??? reduction from \textsc{Maximum Double Circuit Value} to \textsc{Linear Programming}.
+  Since the former is complete for the class of maximization problems in \PO, so is \textsc{Linear Programming}.
+\end{proof}
+
+The reduction in the above proof is more evidence that approximability is not closely related to the complexity of verification.
+\textsc{Linear Programming} is not only in \PO, but also in \NNCO, since matrix multiplication is in \NC.
+(This is interesting because \textsc{Maximum Double Circuit Value} is not in $\PO \cap \NNCO$ unless $\NC = \P$, because its solution relation is \P-complete.)
+This yields the following corollary.
+
+\begin{corollary}\label{cor:lpishard}
+  \textsc{Linear Programming} is complete for the class of all maximization problems in $\PO \cap \NNCO$ under logarithmic space ??? reductions.
+\end{corollary}
+
+This corollary suggests an explanation for the fact that $r$-approximating \textsc{Linear Programming} for any $r \geq 1$ is \P-complete \cite[Theorem~8.2.7]{dsst97}, and further, the fact that any \NC{} approximation algorithm for \textsc{Linear Programming} implies $\NC = \P$ \cite[Theorem~8.2.8]{dsst97}: \autoref{cor:lpishard}, \autoref{thm:hierarchy}, and the fact that ??? reductions compose imply that any highly parallel approximation for \textsc{Linear Programming} necessitates $\NC = \P$.
+
+\begin{theorem}\label{thm:poppo}
   $\PO \cap \NNCO = \PO$ if and only if $\NC = \P$.
-\end{proposition}
+\end{theorem}
 \begin{proof}
-  As in \autoref{prop:nnconpo}, we consider a language in \PO{} that is unlikely to have a solution relation decidable in \NC{}.
-  Consider the optimization problem $Q$ defined by $Q = (I, S, m, t)$, where
-  \begin{align*}
-    I & = \{ (C, x) \, | \, C \text{ is a Boolean circuit and } x \text{ is an input to } C \}, \\
-    S & = \{ ((C, x), b) \, | \, b \in \{0, 1\} \text{ and } C(x) = b \}, \\
-    m((C, x), b) & = b, \text{ and} \\
-    t & = \max.
-  \end{align*}
-  Here we have an optimization version of the \textsc{Circuit Value} problem.
-  The solution relation $S$ is in \P, and again it is \P-complete.
-  If $\PO = \PO \cap \NNCO$, then there is an \NC{} algorithm for this \P-complete problem, and hence $\NC = \P$.
+  $\PO \cap \NNCO \subseteq \PO$ by definition.
+  If $\NC = \P$, then $\PO \cap \NNCO = \PO$ by definition.
+  if $\PO \cap \NNCO = \PO$, then \textsc{Maximum Double Circuit Value} is in $\PO \cap \NNCO$, thus there is an \NC{} algorithm that decides its solution relation.
+  Its solution relation is a generalization of the \textsc{Circuit Value} problem, which is \P-complete (as long as the length of the output $y$ remains polynomial in the length of the input, this generalization remains \P-complete).
+  An \NC{} algorithm for a \P-complete decision problem implies $\NC = \P$.
 \end{proof}
+
+%% \begin{theorem}[{\cite[{Theorem~4 and Theorem~5}]{am84}}]
+%%   All of the following problems are in \NC{} for all $\epsilon > 2$ but \P-complete for all $\epsilon \in [1, 2)$.
+%%   \begin{itemize}
+%%   \item \textsc{$\epsilon$-High Degree Subgraph} \cite[Theorem~4 and Theorem~5]{am84}
+%%   \item \textsc{$\epsilon$-High Connectivity Subgraph} \cite[Theorem~6]{ss89}
+%%   \end{itemize}
+%% \end{theorem}
+
+%% \begin{conjecture}
+%%   All of the following problems are complete for \ApxNCOp{} under $\APr$ reductions.
+%%   \begin{itemize}
+%%   \item \textsc{Maximum High Degree Subgraph}
+%%   \item \textsc{Maximum High Connectivity Subgraph}
+%%   \end{itemize}
+%% \end{conjecture}
+
+\begin{todo}[Thanks to Rita for this one]
+  Do there exist, for example, \ApxPO-complete optimization problems which are based on both \NP-complete problems and \PSPACE-complete problems?
+  \STP-complete problems?
+\end{todo}
+
+\textsc{Positive Linear Programming}, the restriction of \textsc{Linear Programming} to inputs in which all entries of $A$, $\mathbf{b}$, and $\mathbf{c}$ are non-negative, admits a fully \NC{} approximation scheme \cite{ln93}, even though the corresponding budget problem remains \P-complete \cite{tx98}.
+In fact, we can reduce a restricted form of \textsc{Linear Programming}, $k$-normal form, to \textsc{Positive Linear Programming}. \cite{trevisan00}
+\begin{openquestion}
+  Is there a restriction of \textsc{Linear Programming} weaker than the restriction of non-negativity that permits a constant-factor \NC{} approximation?
+\end{openquestion}
+
+\subsection{Hierarchies}
 
 The classes of approximable optimization problems are also likely distinct.
 The theorem below is the natural analog of a similar result for the polynomial time approximation classes; see \cite[Exercise~8.1]{acgkmp99}, for example.
@@ -355,7 +512,7 @@ The theorem below is the natural analog of a similar result for the polynomial t
   \end{equation*}
 \end{theorem}
 \begin{proof}
-  From \autoref{prop:poppo}, we know that $\PO \cap \NNCO = \PO$ implies $\NC = \P$.
+  From \autoref{thm:poppo}, we know that $\PO \cap \NNCO = \PO$ implies $\NC = \P$.
   If either $\PO \cap \NCAS = \PO \cap \ApxNCO$ or $\PO \cap \ApxNCO = \PO \cap \NNCO$, we can use the same technique as in \autoref{thm:hierarchy}.
   Instead of a problem complete for $\NNC(\poly)$, use a problem complete for \P{} (which is a subset of $\NNC(\poly)$ anyway).
   Then the optimization problem $P$ is in \PO, but an \NC{} approximation algorithm for it implies an \NC{} algorithm for the decision problem $L$, and therefore $\NC = \P$.
@@ -367,7 +524,7 @@ The theorem below is the natural analog of a similar result for the polynomial t
   If $\NCO = \PO \cap \NCAS$, then there is an \NC{} algorithm that solves this \P-complete problem exactly, and hence $\NC = \P$.
 \end{proof}
 
-This hierarchy theorem provides a simple proof of a result of \cite{dsst97}.
+This hierarchy theorem provides a simple proof of a result of \cite{dsst97} (although they do not define $\ApxNCO$ in the same way).
 
 \begin{corollary}[{\cite[Theorem~8.2.9]{dsst97}}]
   $\ApxNCO = \ApxPO$ if and only if $\NC = \P$.
@@ -378,187 +535,7 @@ This hierarchy theorem provides a simple proof of a result of \cite{dsst97}.
   By \autoref{thm:hierarchy2}, we conclude that $\NC = \P$.
 \end{proof}
 
-\section{Completeness in classes of approximable optimization problems}
-
-\subsection{NPO versus NNCO}
-
-First, we show that \textsc{Maximum Weighted Circuit Satisfiability} is complete for the class of maximization problems in \NPO, but is not in \NNCO{} unless $\NC = \P$.
-
-\begin{definition}[\textsc{Maximum Weighted Circuit Satisfiability}]
-  \mbox{} \\
-  \begin{tabular}{r p{9.5cm}}
-    \textbf{Instance:} & Boolean circuit $C$ with inputs $x_1, \dotsc, x_n$, weights in $\mathbb{Q}^+$ for each input $w_1, \dotsc, w_n$. \\
-    \textbf{Solution:} & assignment $\alpha$ to the inputs such that $C(\alpha(x_1), \dotsc, \alpha(x_n))$ outputs 1. \\
-    \textbf{Measure:} & $\Sigma_{i = 1}^n \alpha(x_i) w_i$. \\
-    \textbf{Type:} & maximization.
-  \end{tabular}
-\end{definition}
-
-\begin{theorem}
-  \textsc{Maximum Weighted Circuit Satisfiability} is complete for the class of maximization problems in \NPO{} under logarithmic space ??? reductions.
-\end{theorem}
-\begin{proof}
-  FILL ME IN
-\end{proof}
-
-Using essentially the same proof as for \autoref{prop:nnconpo}, we can provide evidence that this problem is not in \NNCO.
-
-\begin{theorem}
-  If $\NC \neq \P$, then \textsc{Maximum Weighted Circuit Satisfiability} is not in \NNCO{}.
-\end{theorem}
-
-Next, we show that \textsc{Maximum Variable-Weighted Satisfiability} is complete for the class of maximization problems in \NNCO.
-
-\begin{definition}[\textsc{Maximum Variable-Weighted Satisfiability}]
-  \mbox{} \\
-  \begin{tabular}{r p{9.5cm}}
-    \textbf{Instance:} & Boolean formula $\phi$ on variables $x_1, \dotsc, x_n$, weights in $\mathbb{Q}^+$ for each variable $w_1, \dotsc, w_n$. \\
-    \textbf{Solution:} & assignment $\alpha$ to the variables that satisfies $\phi$. \\
-    \textbf{Measure:} & $\Sigma_{i = 1}^n \alpha(x_i) w_i$. \\
-    \textbf{Type:} & maximization.
-  \end{tabular}
-\end{definition}
-
-\begin{theorem}
-  \textsc{Maximum Variable-Weighted Satisfiability} is complete for the class of maximization problems in \NNCO{} under logarithmic space ??? reductions.
-\end{theorem}
-\begin{proof}
-  First, this problem is in \NNCO.
-  The measure function is computable in \FNC{} because the basic arithmetic operations and summation are both computable in \FNC{}.
-  The solution set is decidable in \NC{} because Boolean formula evaluation is computable in \NC{} \cite{buss87}.
-
-  The proof that shows the problem is hard for \NNCO{} is similar to the one that shows \textsc{Maximum Variable-Weighted Satisfiability} is hard for \NPO{} \cite[Theorem~3.1]{om87} \cite[Theorem~8.3]{acgkmp99}.
-  The only difference is that the underlying machines are \NC{} and \NNC{} machines instead of \P{} and \NP{} machines.
-\end{proof}
-
-\subsection{PO cap NPO (= PO) versus PO cap NNCO}
-
-Next, we show a maximization problem that is complete for the class of maximization problems in \PO.
-
-\begin{definition}[\textsc{Double Circuit Value}]
-  \mbox{} \\
-  \begin{tabular}{r l}
-    \textbf{Instance:} & two Boolean circuits $C_1$ and $C_2$, binary string $x$. \\
-    \textbf{Solution:} & binary string $y$ such that $C_1(x) = y$. \\
-    \textbf{Measure:} & $C_2(x, y)$. \\
-    \textbf{Type:} & maximization.
-  \end{tabular}
-\end{definition}
-
-This problem is constructed so that the circuit $C_1$ can simulate an algorithm that produces an optimal solution for an optimization problem and the circuit $C_2$ can simulate an algorithm that outputs the measure of a solution for that problem.
-
-\begin{theorem}
-  \textsc{Double Circuit Value} is complete under ??? reductions for the class of maximization problems in \PO.
-\end{theorem}
-\begin{proof}
-  Since \textsc{Circuit Value} is in \P, both the solution and the measure function are computable in polynomial time.
-  Therefore \textsc{Double Circuit Value} is in \PO.
-  Our goal is now to exhibit a ??? reduction from any language in \PO{} to \textsc{Double Circuit Value}.
-  For the sake of brevity, suppose \textsc{Double Circuit Value} is defined by $(I_C, S_C, m_C, \max)$.
-
-  Let $P$ be a maximization problem in \PO, where $P = (I_P, S_P, m_P, \max)$.
-  Let $x$ be an element of $I_P$.
-  Suppose $E$ is the deterministic polynomial time Turing machine that produces optimal solutions for $P$.
-  Define $f$ by $f(x) = (C_E, C_m, x)$ for all $x \in I_P$, where $C_E$ is the Boolean circuit of polynomial size that simulates the action of $E$ on input $x$ and $C_m$ is the circuit that simulates $m_P$ on inputs $x$ and $E(x)$.
-  These circuits exist and are computable from $x$ in logarithmic space \cite{ladner75}.
-  Define $g$ by $g(x, y) = y$ for all strings $x$ and all $y$ in $S_C(f(x))$.
-
-  %% We know that $m^*_C(f(x)) = m^*_C((C_E, C_m, x))$, which equals the maximum over any string $y$ such that $C_E(x) = y$ of the value of the circuit $C_m$ on input $x$ and $y$.
-  %% The fact that $E$ produces optimal solutions for $P$ and the correctness of the mappings $(E, x) \mapsto C_E$ and $(m_P, x, y) \mapsto C_m$ imply that $m^*((C_E, C_m, x)) = m^*_P(x)$.
-  For any $x \in I_P$ and any $y \in S_C(f(x))$, we have
-  \begin{equation*}
-    m_P(x, g(x, y)) = m_P(x, y) = C_m(x, y) = m_C((C_E, C_m, x), y) = m_C(f(x), y).
-  \end{equation*}
-  Since these measures are equal for all instances $x$ and solutions $y$, we have shown a logarithmic space ??? reduction from $P$ to \textsc{Double Circuit Value}.
-\end{proof}
-
-\begin{todo}
-  Show that \textsc{Double Circuit Value} is complete for minimization problems as well, then change the theorems and discussion in section.
-\end{todo}
-
-Since the solution relation in \textsc{Double Circuit Value} requires evaluating a Boolean circuit, this problem is not in \NNCO{}, unless $\NC = \P$.
-However, there are problems that are both complete for \PO{} and in \NNCO.
-
-\begin{theorem}
-  \textsc{Linear Programming} is complete for the class of all maximization problems in \PO{} under logarithmic space ??? reductions.
-\end{theorem}
-\begin{proof}
-  \textsc{Linear Programming} is in \PO{} by the ellipsoid algorithm.
-  We reduce \textsc{Double Circuit Value} to \textsc{Linear Programming}.
-  The reduction is essentially the same as the reduction from \textsc{Circuit Value} to \textsc{Linear Programming} given (implicitly) in the hint beneath \cite[Problem~A.4.1]{ghr95}.
-  We repeat it here for the sake of completeness.
-
-  Define the instance transducer $f$ as follows.
-  Suppose $(C_1, C_2, x)$ is an instance of \textsc{Double Circuit Value}, and let $x = x_1 \dotsb x_n$.
-  For each of the circuits $C_1$ and $C_2$, the transducer $f$ adds the following inequalities to the linear program.
-  \begin{enumerate}
-  \item For each bit of $x$, represent a 1 bit at index $i$ by $x_i = 1$ and a 0 bit by $x_i = 0$.
-  \item Represent a \textsc{not} gate, $g = \lnot h$, by the equation $g = 1 - h$ and the inequality $0 \leq g \leq 1$.
-  \item Represent an \textsc{and} gate, $g = h_1 \land h_2$, by the inequalities $g \leq h_1$, $g \leq h_2$, $h_1 + h_2 - 1 \leq g$, and $0 \leq g \leq 1$.
-  \item Represent an \textsc{or} gate, $g = h_1 \lor h_2$, by the inequalities $h_1 \leq g$, $h_2 \leq g$, $g \leq h_1 + h_2$, and $0 \leq g \leq 1$.
-  \end{enumerate}
-  Suppose $y_1, \dotsc, y_s$ are the variables corresponding to the output gates of $C_1$, and suppose $\mu_t, \dotsc, \mu_1$ are the variables corresponding to the output gates of $C_2$, numbered from least significant bit to most significant bit (that is, right-to-left).
-  The components of the object function $\mathbf{c}$ are assigned to be $2^i$ where the component corresponds to the variable $\mu_i$ and 0 everywhere else.
-  The function $f$ is computable in logarithmic space because the transformation can proceed gatewise, requiring only a logarithmic number of bits to record the index of the current gate.
-  Suppose $\mathbf{x}$ is a solution to $f((C_1, C_2, x))$, that is, an assignment to the variables described above that satisfies all the inequalities.
-  Define the solution transducer $g$ by $g((C_1, C_2, x), \mathbf{x}) = y$, where $y = y_1 \dotsb y_s$.
-  This is also computable in logarithmic space by finding the index, in binary, of the necessary gates $y_1, \dotsc, y_s$.
-
-  By structural induction on the gates of the circuits we see that a gate has value 1 on input $x$ if and only if the solution vector $\mathbf{x}$ has a value 1 in the corresponding component, and $\mathbf{x}$ must be a vector over $\{0, 1\}$.
-  Since the linear program correctly simulates the circuits, we see that
-  \begin{align*}
-    m_A((C_1, C_2, x), g((C_1, C_2, x), \mathbf{x})) & = m_A((C_1, C_2, x), y) \\
-    & = C_2(x, y) \\
-    & = \mu_t \dotsb \mu_1 \\
-    & = \Sigma^t_{i = 1} 2^i \mu_i \\
-    & = m_B(f((C_1, C_2, x)), \mathbf{x}),
-  \end{align*}
-  where $m_A$ is the measure function for \textsc{Double Circuit Value} and $m_B$ is the measure function for \textsc{Linear Programming}.
-  Since these measures are equal, we have shown a logarithmic space ??? reduction from \textsc{Double Circuit Value} to \textsc{Linear Programming}.
-  Since the former is complete for the class of maximization problems in \PO, so is \textsc{Linear Programming}.
-\end{proof}
-
-The reduction in the above proof is evidence that approximability is not closely related to the complexity of verification.
-\textsc{Linear Programming} is not only in \PO, but also in \NNCO, since matrix multiplication is in \NC.
-This is interesting because, for the same reasons as in the proof of \autoref{prop:poppo}, \textsc{Double Circuit Value} is not in $\PO \cap \NNCO$ unless $\NC = \P$.
-This yields the following corollary.
-
-\begin{corollary}\label{cor:lpishard}
-  \mbox{}
-  \begin{enumerate}
-  \item \textsc{Linear Programming} is complete for the class of all maximization problems in $\PO \cap \NNCO$ under logarithmic space ??? reductions.
-  \item \textsc{Double Circuit Value} is \emph{not} complete for the class of all maximization problems in $\PO \cap \NNCO$ under logarithmic space ??? reductions unless $\NC = \P$.
-  \end{enumerate}
-\end{corollary}
-
-This corollary suggests an explanation for the fact that $r$-approximating \textsc{Linear Programming} for any $r \geq 1$ is \P-complete \cite[Theorem~8.2.7]{dsst97}, and further, the fact that any \NC{} approximation algorithm for \textsc{Linear Programming} implies $\NC = \P$ \cite[Theorem~8.2.8]{dsst97}: \autoref{cor:lpishard}, \autoref{thm:hierarchy}, and the fact that ??? reductions compose imply that any highly parallel approximation for \textsc{Linear Programming} necessitates $\NC = \P$.
-
-%% \begin{theorem}[{\cite[{Theorem~4 and Theorem~5}]{am84}}]
-%%   All of the following problems are in \NC{} for all $\epsilon > 2$ but \P-complete for all $\epsilon \in [1, 2)$.
-%%   \begin{itemize}
-%%   \item \textsc{$\epsilon$-High Degree Subgraph} \cite[Theorem~4 and Theorem~5]{am84}
-%%   \item \textsc{$\epsilon$-High Connectivity Subgraph} \cite[Theorem~6]{ss89}
-%%   \end{itemize}
-%% \end{theorem}
-
-%% \begin{conjecture}
-%%   All of the following problems are complete for \ApxNCOp{} under $\APr$ reductions.
-%%   \begin{itemize}
-%%   \item \textsc{Maximum High Degree Subgraph}
-%%   \item \textsc{Maximum High Connectivity Subgraph}
-%%   \end{itemize}
-%% \end{conjecture}
-
-\begin{todo}[Thanks to Rita for this one]
-  Do there exist, for example, \ApxPO-complete optimization problems which are based on both \NP-complete problems and \PSPACE-complete problems?
-  \STP-complete problems?
-\end{todo}
-
-\textsc{Positive Linear Programming}, the restriction of \textsc{Linear Programming} to inputs in which all entries of $A$, $\mathbf{b}$, and $\mathbf{c}$ are non-negative, admits a fully \NC{} approximation scheme \cite{ln93}, even though the corresponding budget problem remains \P-complete \cite{tx98}.
-In fact, we can reduce a restricted form of \textsc{Linear Programming}, $k$-normal form, to \textsc{Positive Linear Programming}. \cite{trevisan00}
-\begin{openquestion}
-  Is there a restriction of \textsc{Linear Programming} weaker than the restriction of non-negativity that permits a constant-factor \NC{} approximation?
-\end{openquestion}
+In fact, this result is true for any equality that implies $\PO \subseteq \NNCO$.
 
 \section{Syntactic characterization of \texorpdfstring{\ApxNCO}{ApxNCO}}
 
