@@ -333,46 +333,6 @@ Sam H. suggested an initial version of the following theorem.
   An \NC{} algorithm for a \P-complete decision problem implies $\NC = \P$.
 \end{proof}
 
-\subsection{Completeness in classes of approximable problems}
-
-In order to construct an optimization problem complete for, say, $\PO \cap \ApxNCO$, we need to use either
-\begin{enumerate}
-\item an analog of the PCP theorem with \NC{} verifiers for polynomial time decision problems, or
-\item a canonical, ``universal'' complete problem for $\PO \cap \ApxNCO$.
-\end{enumerate}
-These are the only two known ways for showing completeness in constant-factor approximation classes.
-The first approach is difficult to apply because it is not obvious how to construct a PCP for a deterministic time complexity class (\PO).
-See \cite{finkelstein13} for more information on that approach.
-The second approach is difficult to apply because although this technique has worked in the past for constructing a complete problem for \ApxPO{} \cite[Lemma~2]{cp91}, it is not clear how to guarantee a polynomial time computable function that produces optimal solutions for such a problem.
-
-However, we know what a problem complete for $\PO \cap \ApxNCO$ should look like.
-It should be exactly solvable in polynomial time and admit an \NC{} approximation algorithm.
-It should also have threshold behavior in the following sense.
-If the problem were approximable for all $r > 1$, then it would be in \NCAS.
-If the problem were not approximable for any $r \geq 1$, then it would not even be in \ApxNCO.
-Therefore there should be some constant $r_0$ such that the problem is approximable for all $r \in (r_0, \infty)$ and not approximable for all $r \in (1, r_0)$.
-
-There is in fact a family of maximization problems that has these properties: \textsc{Induced Subgraph of High Weight for Linear Extremal Properties} \cite[Chapter~3]{dsst97}.
-A concrete example of a maximization problem in this family is \textsc{Maximum Subgraph of Degree $k$}.
-
-\begin{definition}[\textsc{Maximum Subgraph of Degree $k$}]
-  \mbox{} \\
-  \begin{tabular}{r p{9.5cm}}
-    \textbf{Instance:} & undirected graph $G$, positive integer $k$. \\
-    \textbf{Solution:} & vertex-induced subgraph $H$ of $G$ such that each vertex in $H$ has degree at least $k$. \\
-    \textbf{Measure:} & $|V(H)|$. \\
-    \textbf{Type:} & maximization.
-  \end{tabular}
-\end{definition}
-
-This problem has an $r$-approximator in \FNC{} for all $r \in (2, \infty)$ and has none for all $r \in (1, 2)$ unless $\NC = \P$ \cite{am84}.
-(The existence or non-existence of a 2-approximator seems to remain unknown.)
-We suspect this family of problems is complete for $\PO \cap \ApxNCO$ under logarithmic space ??? reductions.
-
-\begin{conjecture}
-  \textsc{Induced Subgraph of High Weight for Linear Extremal Properties} is complete for $\PO \cap \ApxNCO$ under logarithmic space ??? reductions.
-\end{conjecture}
-
 \subsection{Completeness in classes of polynomal time solvable problems}
 
 \begin{todo}
@@ -541,6 +501,46 @@ An equivalence analagous to that of \autoref{thm:nnconpo} holds in the intersect
 %%   \item \textsc{Maximum High Connectivity Subgraph}
 %%   \end{itemize}
 %% \end{conjecture}
+
+\subsection{Completeness in classes of approximable problems}
+
+In order to construct an optimization problem complete for, say, $\PO \cap \ApxNCO$, we need to use either
+\begin{enumerate}
+\item an analog of the PCP theorem with \NC{} verifiers for polynomial time decision problems, or
+\item a canonical, ``universal'' complete problem for $\PO \cap \ApxNCO$.
+\end{enumerate}
+These are the only two known ways for showing completeness in constant-factor approximation classes.
+The first approach is difficult to apply because it is not obvious how to construct a PCP for a deterministic time complexity class (\PO).
+See \cite{finkelstein13} for more information on that approach.
+The second approach is difficult to apply because although this technique has worked in the past for constructing a complete problem for \ApxPO{} \cite[Lemma~2]{cp91}, it is not clear how to guarantee a polynomial time computable function that produces optimal solutions for such a problem.
+
+However, we know what a problem complete for $\PO \cap \ApxNCO$ should look like.
+It should be exactly solvable in polynomial time and admit an \NC{} approximation algorithm.
+It should also have threshold behavior in the following sense.
+If the problem were approximable for all $r > 1$, then it would be in \NCAS.
+If the problem were not approximable for any $r \geq 1$, then it would not even be in \ApxNCO.
+Therefore there should be some constant $r_0$ such that the problem is approximable for all $r \in (r_0, \infty)$ and not approximable for all $r \in (1, r_0)$.
+
+There is in fact a family of maximization problems that has these properties: \textsc{Induced Subgraph of High Weight for Linear Extremal Properties} \cite[Chapter~3]{dsst97}.
+A concrete example of a maximization problem in this family is \textsc{Maximum Subgraph of Degree $k$}.
+
+\begin{definition}[\textsc{Maximum Subgraph of Degree $k$}]
+  \mbox{} \\
+  \begin{tabular}{r p{9.5cm}}
+    \textbf{Instance:} & undirected graph $G$, positive integer $k$. \\
+    \textbf{Solution:} & vertex-induced subgraph $H$ of $G$ such that each vertex in $H$ has degree at least $k$. \\
+    \textbf{Measure:} & $|V(H)|$. \\
+    \textbf{Type:} & maximization.
+  \end{tabular}
+\end{definition}
+
+This problem has an $r$-approximator in \FNC{} for all $r \in (2, \infty)$ and has none for all $r \in (1, 2)$ unless $\NC = \P$ \cite{am84}.
+(The existence or non-existence of a 2-approximator seems to remain unknown.)
+We suspect this family of problems is complete for $\PO \cap \ApxNCO$ under logarithmic space ??? reductions.
+
+\begin{conjecture}
+  \textsc{Induced Subgraph of High Weight for Linear Extremal Properties} is complete for $\PO \cap \ApxNCO$ under logarithmic space ??? reductions.
+\end{conjecture}
 
 \textsc{Positive Linear Programming}, the restriction of \textsc{Linear Programming} to inputs in which all entries of $A$, $\mathbf{b}$, and $\mathbf{c}$ are non-negative, admits a fully \NC{} approximation scheme \cite{ln93}, even though the corresponding budget problem remains \P-complete \cite{tx98}.
 In fact, we can reduce a restricted form of \textsc{Linear Programming}, $k$-normal form, to \textsc{Positive Linear Programming}. \cite{trevisan00}
