@@ -6,13 +6,21 @@
   - Minimum $k$-Center \cite[Section~7.4]{dsst97}
   - $k$-Switching Network \cite[Section~7.4]{dsst97}
   - Maximum Bounded Weighted Satisfiability \cite[Theorem~4]{sx95}
-- PO \cap ApxNCO:
-  - Induced Subgraph of High Weight for Linear Extremal Properties \cite{dsst97}
 - RNCAS:
   - Minimum Metric Traveling Salesperson \cite[Theorem~7.1.1]{dsst97}
 - NCAS:
   - Maximum $k$-Constraint Satisfaction Problem \cite[Corollary~13]{trevisan98}
   - Maximum Independent Set for Planar Graphs \cite[Theorem 6.4.1]{dsst97}
+- FNCAS:
+  - Subset Sum \cite[Theorem~4.1.4]{dsst97}
+  - Maximum Clause Weighted CNF Satisfiability \cite[Theorem~8]{trevisan98}
+  - Minimum Weight Vertex Cover \cite[Theorem~5.3.6]{dsst97}
+  - 0-1 Knapsack \cite[Theorem~2]{mayr88}
+  - Bin Packing \cite[Theorem~3]{mayr88}
+- PO \cap NNCO:
+  - Linear Programming
+- PO \cap ApxNCO:
+  - Induced Subgraph of High Weight for Linear Extremal Properties \cite{dsst97}
 - PO \cap NCAS:
   - Maximum Matching \cite[Theorem~5.2.1]{dsst97}
   - Maximum Weight Matching \cite[Theorem~5.2.2]{dsst97}
@@ -22,9 +30,3 @@
   - Maximum Flow \cite[Theorem~4.5.2]{dsst97}
   - Maximum Weight Perfect Matching \cite[Theorem~4.5.2]{dsst97}
   - Maximum Weight Matching \cite[Theorem~4.5.2]{dsst97}
-- FNCAS:
-  - Subset Sum \cite[Theorem~4.1.4]{dsst97}
-  - Maximum Clause Weighted CNF Satisfiability \cite[Theorem~8]{trevisan98}
-  - Minimum Weight Vertex Cover \cite[Theorem~5.3.6]{dsst97}
-  - 0-1 Knapsack \cite[Theorem~2]{mayr88}
-  - Bin Packing \cite[Theorem~3]{mayr88}
