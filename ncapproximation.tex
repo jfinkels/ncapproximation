@@ -13,6 +13,7 @@
 \declaretheorem[numberwithin=section]{theorem}
 \declaretheorem[numberlike=theorem]{conjecture}
 \declaretheorem[numberlike=theorem]{corollary}
+\declaretheorem[numberlike=theorem]{lemma}
 \declaretheorem[numberlike=theorem]{proposition}
 \declaretheorem[numberlike=theorem]{todo}
 \declaretheorem[numberlike=theorem, style=definition]{definition}
@@ -422,14 +423,37 @@ Also, each input has exactly one solution, so this problem is quite artificial.
   Since the former is complete for the class of maximization problems in \PO, so is \textsc{Linear Programming}.
 \end{proof}
 
+The following lemma showing an upper bound on the objective function of a linear program allows a proof that \textsc{Linear Programming} is complete for the class of minimization problems as well.
+
+\begin{lemma}\label{lem:upperbound}
+  Suppose $(A, \mathbf{b}, \mathbf{c})$ is an instance of a maximization linear programming problem, and suppose $k$ is the maximum length (in bits) of any entry in $A$, $\mathbf{b}$, or $\mathbf{c}$.
+  Then there is a positive integer $D$, computable using space logarithmic in the number of columns and rows of $A$ and the length $k$, such that $\mathbf{c}^\intercal \mathbf{x} \leq D$.
+\end{lemma}
+\begin{proof}
+  (Taken from Peter's CS530 Homework 4 Problem 2.)
+\end{proof}
+
 \begin{theorem}
   \textsc{Linear Programming} is complete for \PO{} under logarithmic space ??? reductions.
 \end{theorem}
 \begin{proof}
-  We show that the minimization problem reduces to the maximization problem for \textsc{Linear Programming} by using the strong duality theorem (REFERENCE GOES HERE).
-  Define the reduction $(f, g, ???)$ by $f((A, \mathbf{b}, \mathbf{c})) = (-A^\intercal, -\mathbf{c}, \mathbf{b}^\intercal)$.
+  Just as the maximization linear programming problem is complete for the class of maximization problems in \PO, so is the minimization problem complete for minimization problems.
+  We show a reduction from the maximization linear programming problem to the minimization linear programming problem; the converse reduction is similar.
+  Suppose the input to the reduction corresponds to the linear program
+  \begin{align*}
+    \text{maximize } & \mathbf{c}^\intercal \mathbf{x} \\
+    \text{subject to } & A \mathbf{x} \leq \mathbf{b}.
+  \end{align*}
+  Suppose $D$ is an upper bound on the value of $\mathbf{c}^\intercal \mathbf{x}$, which can be computed from the input according to \autoref{lem:upperbound}.
+  We transform this maximization problem into
+  \begin{align*}
+    \text{minimize } & D - \mathbf{c}^\intercal \mathbf{x} \\
+    \text{subject to } & A \mathbf{x} \leq \mathbf{b}.
+  \end{align*}
+  (Another transformation is required to change this linear program into the appropriate form for an instance of \textsc{Linear Programming}, but that can also be performed in logarithmic space.)
+
   \begin{todo}
-    Check that this makes sense and complete the proof.
+    Complete this proof.
   \end{todo}
 \end{proof}
 
@@ -439,7 +463,7 @@ The reduction in the proof of \autoref{thm:lpinpo} is more evidence that approxi
 This yields the following corollary.
 
 \begin{corollary}\label{cor:lpishard}
-  \textsc{Linear Programming} is complete for the class of all maximization problems in $\PO \cap \NNCO$ under logarithmic space ??? reductions.
+  \textsc{Linear Programming} is complete for $\PO \cap \NNCO$ under logarithmic space ??? reductions.
 \end{corollary}
 
 An equivalence analagous to that of \autoref{thm:nnconpo} holds in the intersection with \PO.
