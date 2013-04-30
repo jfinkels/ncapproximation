@@ -436,7 +436,7 @@ The following lemma showing an upper bound on the objective function of a linear
 
 \begin{lemma}\label{lem:upperbound}
   Suppose $(A, \mathbf{b}, \mathbf{c})$ is an instance of a maximization linear programming problem, and suppose $k$ is the maximum length (in bits) of any entry in $A$, $\mathbf{b}$, or $\mathbf{c}$.
-  Then there is a positive integer $D$, computable using space logarithmic in the number of columns and rows of $A$ and the length $k$, such that $\mathbf{c}^\intercal \mathbf{x} \leq D$.
+  Then there is a positive integer $D$, computable using space logarithmic in the number of columns and rows of $A$ and the length $k$, such that if $A \mathbf{x} \leq \mathbf{b}$ then $\mathbf{c}^\intercal \mathbf{x} \leq D$.
 \end{lemma}
 \begin{proof}
   (Taken from Peter's CS530 Homework 4 Problem 2.)
