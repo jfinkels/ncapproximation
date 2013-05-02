@@ -248,23 +248,28 @@ The instance set, solution relation, and measure function of optimization proble
 \subsection{Reductions among approximation problems}
 
 There are many reductions for approximation problems; nine of them are defined in a survey paper by Crescenzi \cite{crescenzi97}, and there are more defined elsewhere.
-We will use a logarithmic space-bounded version of the ``?? reduction''.%, considered by approximation experts to be the a reasonable reduction to use when constructing complete problems \cite[Section~2]{crescenzi97} \cite[Section~8.6]{acgkmp99}.
+We will use a logarithmic space-bounded version of the ``AP reduction'', considered by approximation experts to be a reasonable reduction to use when constructing complete problems \cite[Section~2]{crescenzi97} \cite[Section~8.6]{acgkmp99}.
+Although the original definition is from \cite[Definition~9]{ckst95} (an preliminary version of \cite[Definition~2.5]{ckst99}), the definition here is from \cite[Definition~8.3]{acgkmp99}.
 
-%% \begin{definition}{\cite[Definition~9]{ckst95}}
-%%   Let $P$ and $Q$ be optimization problems in \NNCO, with $P=(I_P, S_P, m_p, t_P)$ and $Q=(I_Q, S_Q, m_Q, t_Q)$.
-%%   We say \emph{$P$ AP reduces to $Q$} and write $P\APr Q$ if there exist functions $f\colon\Sigma^*\to\Sigma^*$ and $g\colon\Sigma^*\to\Sigma^*$, and there exists a constant $\alpha\in\mathbb{R}$ such that:
-%%   \begin{enumerate}
-%%   \item For all $x\in I_P$ and all $r > 1$, we have $f(x, r)\in I_Q$.
-%%   \item For all $x\in I_P$, all $r > 1$, and all $y\in S_Q(f(x, r))$, we have $g(x, y, r)\in S_P(x)$.
-%%   \item $f$ and $g$ are computable in logarithmic space for any fixed $r$.
-%%   \item For all $x\in I_P$, all $r > 1$, and all $y\in S_Q(f(x, r))$, we have $R_Q(f(x, r), y) \leq r \implies R_P(x, g(x, y, r)) \leq 1 + \alpha(r - 1)$.
-%%   \end{enumerate}
-%% \end{definition}
+\begin{definition}{{\cite[Definition~8.3]{acgkmp99}}}
+  Let $P$ and $Q$ be optimization problems in \NNCO, with $P = (I_P, S_P, m_p, t_P)$ and $Q = (I_Q, S_Q, m_Q, t_Q)$.
+  We say \emph{$P$ AP reduces to $Q$} and write $P \APr Q$ if there are functions $f$ and $g$ and a constant $\alpha \in \mathbb{R} \cap [1, \infty)$ such that
+  \begin{enumerate}
+  \item for all $x \in I_P$ and all $r \in \mathbb{Q} \cap (1, \infty)$, we have $f(x, r) \in I_Q$,
+  \item for all $x \in I_P$ and all $r \in \mathbb{Q} \cap (1, \infty)$, if $S_P(x) \neq \emptyset$ then $S_Q(f(x, r)) \neq \emptyset$,
+  \item for all $x \in I_P$, all $r \in \mathbb{Q} \cap (1, \infty)$, and all $y \in S_Q(f(x, r))$, we have $g(x, y, r) \in S_P(x)$,
+  \item $f$ and $g$ are computable in logarithmic space for any fixed $r$, and
+  \item for all $x \in I_P$, all $r > 1$, and all $y\in S_Q(f(x, r))$,
+    \begin{equation*}
+      R_Q(f(x, r), y) \leq r \implies R_P(x, g(x, y, r)) \leq 1 + \alpha(r - 1).
+    \end{equation*}
+  \end{enumerate}
+\end{definition}
 
 %% We bound the AP reduction to logarithmic space instead of allowing it be a \FNC{} circuit family because 1.~the former notion of reduction is more restrictive and hence implies the latter, 2.~existing results on approximability and approximation classes use the former, and 3.~it eases analysis in some proofs.
 
-For a class $\mathcal{C}$ of optimization problems, we say a problem $Q$ is \emph{$\mathcal{C}$-hard} if for all problems $P$ in $\mathcal{C}$ there is a ??? reduction from $P$ to $Q$.
-If furthermore $Q$ is in $\mathcal{C}$ we say $Q$ is \emph{$\mathcal{C}$-complete}.
+For a class $\mathcal{C}$ of optimization problems, we say a problem $Q$ is \emph{hard for $\mathcal{C}$} if for all problems $P$ in $\mathcal{C}$ there is a logarithmic space AP reduction from $P$ to $Q$.
+If furthermore $Q$ is in $\mathcal{C}$ we say $Q$ is \emph{complete for $\mathcal{C}$}.
 
 \section{Completeness and collapses in classes of approximable optimization problems}
 
@@ -295,32 +300,25 @@ Thus there are optimization problems whose corresponding budget problems are of 
 \end{definition}
 
 \begin{theorem}
-  \textsc{Maximum Variable-Weighted Satisfiability} is complete for \NNCO{} under logarithmic space ??? reductions.
+  \textsc{Maximum Variable-Weighted Satisfiability} is complete for \NNCO{} under logarithmic space AP reductions.
 \end{theorem}
 \begin{proof}
-  First, this problem is in \NNCO.
+  This problem is complete for the class of maximization problems in \NPO{} under polynomial time AP reductions \cite[Theorem~3.1]{om87}.
+  A close inspection reveals that the functions of the reduction can be computed in logarithmic space.
+  There is furthermore a polynomial time AP reduction from the \textsc{Minimum Variable-Weighted Satisfiability} problem, which is complete for the class of all minimization problems in \NPO, to \textsc{Maximum Variable-Weighted Satisfiability} \cite[Theorem~8.4]{acgkmp99}, and a close inspection of the reduction reveals that it can also be implemented in logarithmic space.
+  Thus this problem is complete for \NPO{} under logarithmic space AP reductions.
+
+  Next, we show that \textsc{Maximum Variable-Weighted Satisfiability} is in \NNCO.
   The measure function is computable in \FNC{} because the basic arithmetic operations and summation are both computable in \FNC{}.
   The solution set is decidable in \NC{} because Boolean formula evaluation is computable in \NC{} \cite{buss87}.
-
-  The proof that shows the problem is hard for \NNCO{} is similar to the one that shows \textsc{Maximum Variable-Weighted Satisfiability} is hard for the class of maximization problems in \NPO{} \cite[Theorem~3.1]{om87} \cite[Theorem~8.3]{acgkmp99}.
-  The only difference is that the underlying machines are \NC{} and $\NNC(\poly)$ machines instead of \P{} and \NP{} machines.
-
-  There is a polynomial time AP reduction from the \textsc{Minimum Variable-Weighted Satisfiability} problem, which is complete for the class of all minimization problems in \NNCO, to \textsc{Maximum Variable-Weighted Satisfiability} \cite[Theorem~8.4]{acgkmp99}, and a close inspection of the reduction reveals that it can be implemented in logarithmic space.
-  Therefore completeness for the class of all maximization problems implies completeness for all of \NNCO.
+  Since $\NNCO \subseteq \NPO$ we conclude that the problem is complete for \NNCO.
 \end{proof}
 
-\begin{theorem}
-  \textsc{Maximum Weighted Circuit Satisfiability} is complete for \NPO{} under logarithmic space ??? reductions.
-\end{theorem}
-\begin{proof}
-  The proof is essentially the same as the previous one, but uses the Cook--Levin transformation to a Boolean circuit instead of a Boolean formula.
-  There is a polynomial time AP reduction from every minimization problem in \NPO{} to a maximization problem in \NPO{} \cite[Theorem~8.4]{acgkmp99}, and a close inspection of the reduction reveals that it can be implemented in logarithmic space.
-  Therefore completeness for the class of all maximization problems in \NPO{} implies completeness for all of \NPO.
-  \begin{todo}
-    Using the existing reduction from minimization to maximization problems in \NPO{} requires us to use an AP reduction.
-    Can we use a more restrictive type of reduction in that proof?
-  \end{todo}
-\end{proof}
+By converting a Boolean formula into its equivalent Boolean circuit, we get the following corollary.
+
+\begin{corollary}
+  \textsc{Maximum Weighted Circuit Satisfiability} is complete for \NPO{} under logarithmic space AP reductions.
+\end{corollary}
 
 Sam H. suggested an initial version of the following theorem.
 
@@ -337,12 +335,8 @@ Sam H. suggested an initial version of the following theorem.
 
 \subsection{Completeness in classes of polynomal time solvable problems}
 
-\begin{todo}
-  Show that the problems in this subsection are not only complete for maximization problems, but also for minimization problems.
-  Change the theorems and discussion in this section accordingly.
-\end{todo}
-
-This section shows results analagous to those in the previous section, but in the intersection of both \NPO{} and \NNCO{} with \PO.
+This section shows results nearly analagous to those in the previous section, but in the intersection of both \NPO{} and \NNCO{} with \PO.
+The results here show completeness with respect to maximization problems only; we conjecture that both of the problems defined below are also complete with respect to minimization problems.
 
 \begin{definition}[\textsc{Maximum Double Circuit Value}]
   \mbox{} \\
@@ -369,12 +363,12 @@ Also, each input has exactly one solution, so this problem is quite artificial.
 \end{definition}
 
 \begin{theorem}
-  \textsc{Maximum Double Circuit Value} is complete for the class of maximization problems in \PO{} under logarithmic space ??? reductions.
+  \textsc{Maximum Double Circuit Value} is complete for the class of maximization problems in \PO{} under logarithmic space AP reductions.
 \end{theorem}
 \begin{proof}
   Since \textsc{Circuit Value} is in \P, both the solution and the measure function are computable in polynomial time.
   Therefore \textsc{Maximum Double Circuit Value} is in \PO.
-  Our goal is now to exhibit a ??? reduction from any language in \PO{} to \textsc{Maximum Double Circuit Value}.
+  Our goal is now to exhibit an AP reduction from any language in \PO{} to \textsc{Maximum Double Circuit Value}.
   For the sake of brevity, suppose \textsc{Maximum Double Circuit Value} is defined by $(I_C, S_C, m_C, \max)$.
 
   Let $P$ be a maximization problem in \PO, where $P = (I_P, S_P, m_P, \max)$.
@@ -383,18 +377,19 @@ Also, each input has exactly one solution, so this problem is quite artificial.
   Define $f$ by $f(x) = (C_E, C_m, x)$ for all $x \in I_P$, where $C_E$ is the Boolean circuit of polynomial size that simulates the action of $E$ on input $x$ and $C_m$ is the circuit that simulates $m_P$ on inputs $x$ and $E(x)$.
   These circuits exist and are computable from $x$ in logarithmic space \cite{ladner75}.
   Define $g$ by $g(x, y) = y$ for all strings $x$ and all $y$ in $S_C(f(x))$.
+  Let $\alpha = 1$.
 
   %% We know that $m^*_C(f(x)) = m^*_C((C_E, C_m, x))$, which equals the maximum over any string $y$ such that $C_E(x) = y$ of the value of the circuit $C_m$ on input $x$ and $y$.
   %% The fact that $E$ produces optimal solutions for $P$ and the correctness of the mappings $(E, x) \mapsto C_E$ and $(m_P, x, y) \mapsto C_m$ imply that $m^*((C_E, C_m, x)) = m^*_P(x)$.
-  For any $x \in I_P$ and any $y \in S_C(f(x))$, we have
+  Now, for any $x \in I_P$ and any $y \in S_C(f(x))$, we have
   \begin{equation*}
     m_P(x, g(x, y)) = m_P(x, y) = C_m(x, y) = m_C((C_E, C_m, x), y) = m_C(f(x), y).
   \end{equation*}
-  Since these measures are equal for all instances $x$ and solutions $y$, we have shown a logarithmic space ??? reduction from $P$ to \textsc{Maximum Double Circuit Value}.
+  Since these measures are equal for all instances $x$ and solutions $y$, we have shown that $(f, g, \alpha)$ is a logarithmic space AP reduction from $P$ to \textsc{Maximum Double Circuit Value}.
 \end{proof}
 
 \begin{theorem}\label{thm:lpinpo}
-  \textsc{Linear Programming} is complete for \PO{} under logarithmic space ??? reductions.
+  \textsc{Linear Programming} is complete for \PO{} under logarithmic space AP reductions.
 \end{theorem}
 \begin{proof}
   \textsc{Linear Programming} is in \PO{} by the ellipsoid algorithm \cite{khachian79}.
@@ -417,6 +412,7 @@ Also, each input has exactly one solution, so this problem is quite artificial.
   Suppose $\mathbf{x}$ is a solution to $f((C_1, C_2, x))$, that is, an assignment to the variables described above that satisfies all the inequalities.
   Define the solution transducer $g$ by $g((C_1, C_2, x), \mathbf{x}) = y$, where $y = y_1 \dotsb y_s$.
   This is also computable in logarithmic space by finding the index, in binary, of the necessary gates $y_1, \dotsc, y_s$.
+  Let $\alpha = 1$.
 
   By structural induction on the gates of the circuits we see that a gate has value 1 on input $x$ if and only if the solution vector $\mathbf{x}$ has a value 1 in the corresponding component, and $\mathbf{x}$ must be a vector over $\{0, 1\}$.
   Since the linear program correctly simulates the circuits, we see that
@@ -428,56 +424,56 @@ Also, each input has exactly one solution, so this problem is quite artificial.
     & = m_B(f((C_1, C_2, x)), \mathbf{x}),
   \end{align*}
   where $m_A$ is the measure function for \textsc{Maximum Double Circuit Value} and $m_B$ is the measure function for \textsc{Linear Programming}.
-  Since these measures are equal, we have shown a logarithmic space ??? reduction from \textsc{Maximum Double Circuit Value} to \textsc{Linear Programming}.
+  Since these measures are equal, we have shown that $(f, g, \alpha)$ is a logarithmic space AP reduction from \textsc{Maximum Double Circuit Value} to \textsc{Linear Programming}.
   Since the former is complete for the class of maximization problems in \PO, so is \textsc{Linear Programming}.
 \end{proof}
 
-The following lemma showing an upper bound on the objective function of a linear program allows a proof that \textsc{Linear Programming} is complete for the class of minimization problems as well.
+%% The following lemma showing an upper bound on the objective function of a linear program allows a proof that \textsc{Linear Programming} is complete for the class of minimization problems as well.
 
-\begin{lemma}\label{lem:upperbound}
-  Suppose $(A, \mathbf{b}, \mathbf{c})$ is an instance of a maximization linear programming problem, and suppose $k$ is the maximum length (in bits) of any entry in $A$, $\mathbf{b}$, or $\mathbf{c}$.
-  Then there is a positive integer $D$, computable using space logarithmic in the number of columns and rows of $A$ and the length $k$, such that if $A \mathbf{x} \leq \mathbf{b}$ then $\mathbf{c}^\intercal \mathbf{x} \leq D$.
-\end{lemma}
-\begin{proof}
-  (Taken from Peter's CS530 Homework 4 Problem 2.)
-\end{proof}
+%% \begin{lemma}\label{lem:upperbound}
+%%   Suppose $(A, \mathbf{b}, \mathbf{c})$ is an instance of a maximization linear programming problem, and suppose $k$ is the maximum length (in bits) of any entry in $A$, $\mathbf{b}$, or $\mathbf{c}$.
+%%   Then there is a positive integer $D$, computable using space logarithmic in the number of columns and rows of $A$ and the length $k$, such that if $A \mathbf{x} \leq \mathbf{b}$ then $\mathbf{c}^\intercal \mathbf{x} \leq D$.
+%% \end{lemma}
+%% \begin{proof}
+%%   (Taken from Peter's CS530 Homework 4 Problem 2.)
+%% \end{proof}
 
-\begin{conjecture}
-  \textsc{Linear Programming} is complete for \PO{} under logarithmic space ??? reductions.
-\end{conjecture}
-\begin{proof}
-  Just as the maximization linear programming problem is complete for the class of maximization problems in \PO, so is the minimization problem complete for minimization problems.
-  We show a logarithmic space ??? reduction from the minimization linear programming problem to the maximization linear programming problem.
-  Suppose the input to the reduction corresponds to the linear program
-  \begin{align*}
-    \text{minimize } & \mathbf{c}^\intercal \mathbf{x} \\
-    \text{subject to } & A \mathbf{x} \leq \mathbf{b}.
-  \end{align*}
-  Suppose $D$ is an upper bound on the value of $\mathbf{c}^\intercal \mathbf{x}$, which can be computed from the input according to \autoref{lem:upperbound}.
-  We transform this minimization problem into
-  \begin{align*}
-    \text{maximize } & D - \mathbf{c}^\intercal \mathbf{x} \\
-    \text{subject to } & A \mathbf{x} \leq \mathbf{b}.
-  \end{align*}
-  (Another transformation is required to change this linear program into the appropriate form for an instance of \textsc{Linear Programming}, but that can also be performed in logarithmic space.)
-  Suppose $z$ is the objective value of a solution to the minimization problem and $z^*$ is the objective value of the optimal solution to the minimization problem.
-  Let $\tilde{z}$ and $\tilde{z}^*$ be the objective value and the optimal objective value for the transformed maximization problem.
-  By construction, $\tilde{z} = D - z$ and $\tilde{z}^* = D - z^*$.
-  Thus the absolute error of the minimization problem is $|z - z^*|$ and of the maximization problem $|\tilde{z}^* - \tilde{z}|$.
-  Since
-  \begin{equation*}
-    |\tilde{z}^* - \tilde{z}| = |(D - z^*) - (D - z)| = |z - z^*|,
-  \end{equation*}
-  the absolute error of the maximization and minimization problems are equal.
+%% \begin{conjecture}
+%%   \textsc{Linear Programming} is complete for \PO{} under logarithmic space ??? reductions.
+%% \end{conjecture}
+%% \begin{proof}
+%%   Just as the maximization linear programming problem is complete for the class of maximization problems in \PO, so is the minimization problem complete for minimization problems.
+%%   We show a logarithmic space ??? reduction from the minimization linear programming problem to the maximization linear programming problem.
+%%   Suppose the input to the reduction corresponds to the linear program
+%%   \begin{align*}
+%%     \text{minimize } & \mathbf{c}^\intercal \mathbf{x} \\
+%%     \text{subject to } & A \mathbf{x} \leq \mathbf{b}.
+%%   \end{align*}
+%%   Suppose $D$ is an upper bound on the value of $\mathbf{c}^\intercal \mathbf{x}$, which can be computed from the input according to \autoref{lem:upperbound}.
+%%   We transform this minimization problem into
+%%   \begin{align*}
+%%     \text{maximize } & D - \mathbf{c}^\intercal \mathbf{x} \\
+%%     \text{subject to } & A \mathbf{x} \leq \mathbf{b}.
+%%   \end{align*}
+%%   (Another transformation is required to change this linear program into the appropriate form for an instance of \textsc{Linear Programming}, but that can also be performed in logarithmic space.)
+%%   Suppose $z$ is the objective value of a solution to the minimization problem and $z^*$ is the objective value of the optimal solution to the minimization problem.
+%%   Let $\tilde{z}$ and $\tilde{z}^*$ be the objective value and the optimal objective value for the transformed maximization problem.
+%%   By construction, $\tilde{z} = D - z$ and $\tilde{z}^* = D - z^*$.
+%%   Thus the absolute error of the minimization problem is $|z - z^*|$ and of the maximization problem $|\tilde{z}^* - \tilde{z}|$.
+%%   Since
+%%   \begin{equation*}
+%%     |\tilde{z}^* - \tilde{z}| = |(D - z^*) - (D - z)| = |z - z^*|,
+%%   \end{equation*}
+%%   the absolute error of the maximization and minimization problems are equal.
 
-  \begin{todo}
-    The current proof technique seems to be insufficient for showing an approximation-preserving reduction.
-    If we attempt to show an L reduction, we succeed in showing that the absolute errors are equal, but fail when trying to show a linear relationship between the optimal values of the minimization and maximization problems (since they could be exponentially different).
-    If we attempt to show an NCAS reduction, an upper bound on the performance ratio of the maximization problem yields only a lower bound on the performance ratio of the minimization problem instead of another upper bound.
-    Attempting to remedy this by using something like $D / \mathbf{c}$ in the objective function does not fly because we need the objective function to have integer components.
-    Could possibly use least common multiple of all components of $\mathbf{c}$ as the dividend...
-  \end{todo}
-\end{proof}
+%%   \begin{todo}
+%%     The current proof technique seems to be insufficient for showing an approximation-preserving reduction.
+%%     If we attempt to show an L reduction, we succeed in showing that the absolute errors are equal, but fail when trying to show a linear relationship between the optimal values of the minimization and maximization problems (since they could be exponentially different).
+%%     If we attempt to show an NCAS reduction, an upper bound on the performance ratio of the maximization problem yields only a lower bound on the performance ratio of the minimization problem instead of another upper bound.
+%%     Attempting to remedy this by using something like $D / \mathbf{c}$ in the objective function does not fly because we need the objective function to have integer components.
+%%     Could possibly use least common multiple of all components of $\mathbf{c}$ as the dividend...
+%%   \end{todo}
+%% \end{proof}
 
 The reduction in the proof of \autoref{thm:lpinpo} is more evidence that approximability is not closely related to the complexity of verification.
 \textsc{Linear Programming} is not only in \PO, but also in \NNCO, since matrix multiplication is in \NC.
@@ -485,10 +481,10 @@ The reduction in the proof of \autoref{thm:lpinpo} is more evidence that approxi
 This yields the following corollary.
 
 \begin{corollary}\label{cor:lpishard}
-  \textsc{Linear Programming} is complete for $\PO \cap \NNCO$ under logarithmic space ??? reductions.
+  \textsc{Linear Programming} is complete for the class of maximization problems in $\PO \cap \NNCO$ under logarithmic space AP reductions.
 \end{corollary}
 
-An equivalence analagous to that of \autoref{thm:nnconpo} holds in the intersection with \PO.
+An equivalence analagous to that of \autoref{thm:nnconpo} also holds in the intersection with \PO.
 
 \begin{theorem}\label{thm:poppo}
   $\PO \cap \NNCO = \PO$ if and only if $\NC = \P$.
@@ -554,7 +550,7 @@ This problem has an $r$-approximator in \FNC{} for all $r \in (2, \infty)$ and h
 We suspect this family of problems is complete for $\PO \cap \ApxNCO$ under logarithmic space ??? reductions.
 
 \begin{conjecture}
-  \textsc{Induced Subgraph of High Weight for Linear Extremal Properties} is complete for $\PO \cap \ApxNCO$ under logarithmic space ??? reductions.
+  \textsc{Induced Subgraph of High Weight for Linear Extremal Properties} is complete for the class of maximization problems in $\PO \cap \ApxNCO$ under logarithmic space AP reductions.
 \end{conjecture}
 
 \textsc{Positive Linear Programming}, the restriction of \textsc{Linear Programming} to inputs in which all entries of $A$, $\mathbf{b}$, and $\mathbf{c}$ are non-negative, admits a fully \NC{} approximation scheme \cite{ln93}, even though the corresponding budget problem remains \P-complete \cite{tx98}.
@@ -608,7 +604,7 @@ The theorem below is the natural analog of a similar result for the polynomial t
   Therefore an exact \NC{} algorithm for it implies $\NC = \NP$.
 \end{proof}
 
-As a corollary to this theorem, since \textsc{Maximum Variable-Weighted Satisfiability} is complete for the class \NNCO{} under logarithmic space ??? reductions, it admits no \NC{} approximation algorithm unless $\NC = \NP$.
+As a corollary to this theorem, since \textsc{Maximum Variable-Weighted Satisfiability} is complete for the class \NNCO{} under logarithmic space AP reductions, it admits no \NC{} approximation algorithm unless $\NC = \NP$.
 
 \begin{theorem}\label{thm:hierarchy2}
   If $\NC \neq \P$ then
@@ -629,8 +625,8 @@ As a corollary to this theorem, since \textsc{Maximum Variable-Weighted Satisfia
   If $\NCO = \PO \cap \NCAS$, then there is an \NC{} algorithm that solves this \P-complete problem exactly, and hence $\NC = \P$.
 \end{proof}
 
-Since \textsc{Linear Programming} is complete for $\PO \cap \NNCO$ under logarithmic space ??? reductions, it admits no \NC{} approximation algorithm unless $\NC = \P$.
-This result suggests an explanation for the fact that $r$-approximating \textsc{Linear Programming} for any $r \geq 1$ is \P-complete \cite[Theorem~8.2.7]{dsst97}, and further, the fact that any \NC{} approximation algorithm for \textsc{Linear Programming} implies $\NC = \P$ \cite[Theorem~8.2.8]{dsst97}: \autoref{cor:lpishard}, \autoref{thm:hierarchy2}, and the fact that ??? reductions compose imply that any highly parallel approximation for \textsc{Linear Programming} necessitates $\NC = \P$.
+Since \textsc{Linear Programming} is complete for the class of maximization problems in $\PO \cap \NNCO$ under logarithmic space AP reductions, it admits no \NC{} approximation algorithm unless $\NC = \P$.
+This result suggests an explanation for the fact that $r$-approximating \textsc{Linear Programming} for any $r \geq 1$ is \P-complete \cite[Theorem~8.2.7]{dsst97}, and further, the fact that any \NC{} approximation algorithm for \textsc{Linear Programming} implies $\NC = \P$ \cite[Theorem~8.2.8]{dsst97}: \autoref{cor:lpishard}, \autoref{thm:hierarchy2}, and the fact that AP reductions compose imply that any highly parallel approximation for \textsc{Linear Programming} necessitates $\NC = \P$.
 
 The hierarchy theorem also provides a simple proof of a result of \cite{dsst97} (although they do not define $\ApxNCO$ in the same way).
 
