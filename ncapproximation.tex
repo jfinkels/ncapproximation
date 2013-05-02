@@ -70,12 +70,7 @@ We adapt the definitions of \cite{tantau07} from logarithmic space approximabili
   An \emph{optimization problem} is a four-tuple, $(I, S, m, t)$, where the set $I \subseteq \Sigma^*$ is called the \emph{instance set}, the set $S \subseteq I \times \Sigma^*$ is called the \emph{solution relation}, the function $m \colon S \to \mathbb{Z}^+$ is called the \emph{measure function}, and $t \in \{\min, \max\}$ is called the \emph{type} of the optimization.
 \end{definition}
 
-An optimization problem in which the measure function has rational values can be transformed into one in which the measure function has integer values.
-
-\begin{todo}
-  This is stated as a footnote in \cite[Page~23]{acgkmp99} without proof.
-  Add a short proof for it here.
-\end{todo}
+An optimization problem in which the measure function has rational values can be transformed into one in which the measure function has integer values \cite[Page~23]{acgkmp99} (for example, by expressing each measure as the integer numerator of the equivalent rational number whose denominator is the greatest common divisor of all the values $m(x, y)$ for each fixed $x$).
 
 \begin{definition}[\cite{tantau07}]
   Let $P$ be an optimization problem, so $P = (I, S, m, t)$, and let $x \in I$.
