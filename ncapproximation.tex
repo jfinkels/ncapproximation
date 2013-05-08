@@ -471,9 +471,12 @@ Also, each input has exactly one solution, so this problem is quite artificial.
 %% \end{proof}
 
 The reduction in the proof of \autoref{thm:lpinpo} is more evidence that approximability is not closely related to the complexity of verification.
-\textsc{Linear Programming} is not only in \PO, but also in \NNCO, since matrix multiplication is in \NC.
-(This is interesting because \textsc{Maximum Double Circuit Value} is not in $\PO \cap \NNCO$ unless $\NC = \P$, because its solution relation is \P-complete.)
-This yields the following corollary.
+Although \textsc{Maximum Double Circuit Value} is not in $\PO \cap \NNCO$ unless $\NC = \P$ (because its solution relation is \P-complete), \textsc{Linear Programming} is not only in \PO{} but also in \NNCO, since matrix multiplication is in \NC.
+This yields the following corollaries.
+
+\begin{corollary}
+  $\PO \cap \NNCO$ is not closed under logarithmic space AP reductions unless $\P = \NC$.
+\end{corollary}
 
 \begin{corollary}\label{cor:lpishard}
   \textsc{Linear Programming} is complete for the class of maximization problems in $\PO \cap \NNCO$ under logarithmic space AP reductions.
