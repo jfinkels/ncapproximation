@@ -568,7 +568,7 @@ On the other hand, if we have even just one equality constraint and don't allow 
 Similarly, if we allow $A$ to have negative entries, the problem is hard to approximate \cite[Corollary~2]{efraimidis08}.
 The $(\gamma, \kappa)$ form of \textsc{Linear Programming} is hard to approximate \cite[Proposition~1]{efraimidis08}; the $k$-normal form reduces to \textsc{Positive Linear Programming} and so has an approximation scheme \cite[Theorem~2]{trevisan00}.
 
-There remains one candidate restriction that may be complete for the class $\PO \cap \ApxNCO$.
+There remains one candidate restriction that may have the properties we seek.
 
 \begin{definition}[\textsc{Linear Programming with Triplets}]
   \mbox{} \\
@@ -576,7 +576,7 @@ There remains one candidate restriction that may be complete for the class $\PO 
     \textbf{Instance:} & $m \times n$ Boolean matrices $A^{(1)}$, $A^{(2)}$, and $A^{(3)}$, non-negative rational vectors $\mathbf{b}^{(1)}$ and $\mathbf{b}^{(2)}$ of length $m$, non-negative rational vector $\mathbf{c}$ of length $n$, and set of triples of indices $T \subseteq \{1, \dotsc, n\}^3$ satisfying
     \begin{enumerate}
     \item there is at least one non-zero entry in each row of $A^{(1)}$ and each row of $A^{(2)}$, and
-    \item there is a constant $\gamma \in (0, 1)$ such that $z^* \geq \gamma \mathbf{c}^\intercal \mathbf{1}$, where $z^*$ is the optimal measure of the instance.
+    \item there is a constant $\gamma \in (0, 1)$ such that $z^* \geq \gamma \mathbf{c}^\intercal \mathbf{f}$, where $z^*$ is the optimal measure of the instance.
     \end{enumerate} \\
     \textbf{Solution:} & non-negative rational vectors $\mathbf{x}$ and $\mathbf{f}$ of length $n$ satisfying the inequalities
            {
@@ -601,7 +601,7 @@ There remains one candidate restriction that may be complete for the class $\PO 
   \end{tabular}
 \end{definition}
 
-This problem is 3-approximable \cite[Proposition~1]{sx02} but not approximable within $\frac{2 n^\epsilon}{n^\epsilon + 1}$ for any positive $\epsilon$, unless $\NC = \P$ \cite[Corollary~1]{sx02}.
+Although this optimization problem is not approximable within $\frac{2 n^\epsilon}{n^\epsilon + 1}$ for any positive $\epsilon$ unless $\NC = \P$ \cite[Corollary~1]{sx02}, the corresponding \emph{evaluation problem} is $\gamma$-approximable by definition.
 
 \begin{conjecture}
   \textsc{Linear Programming with Triplets} is complete for the class of maximization problems in $\PO \cap \ApxNCO$ under logarithmic space AP reductions.
