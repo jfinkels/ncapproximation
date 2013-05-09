@@ -8,6 +8,7 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{complexity}
+\usepackage{mathtools}
 \usepackage{tikz}
 
 \declaretheorem[numberwithin=section]{theorem}
@@ -36,6 +37,13 @@
 \renewcommand{\left}{\mathopen{}\mathclose\bgroup\originalleft}
 \renewcommand{\right}{\aftergroup\egroup\originalright}
 
+%% For use in nested aligns
+%% Source: http://tex.stackexchange.com/a/68592
+\newlength{\myleftlen}
+\newcommand{\setmyleftlen}[1]{\settowidth{\myleftlen}{\( \displaystyle
+#1\)}}
+\newcommand{\backup}{\hskip-\myleftlen\mkern-7mu}
+
 \author{Jef{}frey Finkelstein}
 \date{\today}
 \title{Highly parallel approximations for inherently sequential problems}
@@ -61,6 +69,8 @@ The set of all finite strings is denoted $\Sigma^*$, and for each $x \in \Sigma^
 We denote the set of all polynomials by \poly{} and the set of all polylogarithmic functions by \polylog.
 The set of integers is denoted $\mathbb{Z}$, the set of rationals $\mathbb{Q}$, and their positive subsets $\mathbb{Z}^+$ and $\mathbb{Q}^+$.
 The natural numbers, defined as $\mathbb{Z}^+ \cup \{0\}$, is denoted $\mathbb{N}$.
+Vectors are formatted in bold face, like $\mathbf{x}$.
+The all-ones vector is denoted $\mathbf{1}$.
 
 \subsection{Optimization problems and approximation algorithms}
 
@@ -553,19 +563,40 @@ We suspect this family of problems is complete for $\PO \cap \ApxNCO$ under loga
 
 Although \textsc{Linear Programming} is \P-complete and admits no \NC{} approximation algorithm, \textsc{Positive Linear Programming}, the restriction of \textsc{Linear Programming} to inputs in which all entries of $A$, $\mathbf{b}$, and $\mathbf{c}$ are non-negative, admits a fully \NC{} approximation scheme \cite{ln93}, even though the corresponding budget problem remains \P-complete \cite[Theorem~4]{tx98}.
 These results beg the question ``is there some restriction of \textsc{Linear Programming} less strict than \textsc{Positive Linear Programming} that exhibits the properties of a complete problem for $\PO \cap \ApxNCO$ as defined above?''
-If we relax the non-negativity requirement and allow a small number of equality constraints that can be violated by a small amount, then there is a fully NC approximation scheme \cite[Theorem~5.2]{tx98}.
+If we relax the non-negativity requirement and allow a small number of equality constraints that can be violated by a small amount, then there is still a fully NC approximation scheme \cite[Theorem~5.2]{tx98}.
 On the other hand, if we have even just one equality constraint and don't allow the equality violations, the problem becomes hard to approximate again (to within a constant factor) \cite[Theorem~3.1]{es99} \cite[Remark~2]{tx98}.
 Similarly, if we allow $A$ to have negative entries, the problem is hard to approximate \cite[Corollary~2]{efraimidis08}.
-The $(\gamma, \kappa)$ form of \textsc{Linear Programming} is hard to approximate \cite[Proposition~1]{efraimidis08}; the $k$-normal form reduces to \textsc{Positive Linear Programming} \cite[Theorem~2]{trevisan00}.
+The $(\gamma, \kappa)$ form of \textsc{Linear Programming} is hard to approximate \cite[Proposition~1]{efraimidis08}; the $k$-normal form reduces to \textsc{Positive Linear Programming} and so has an approximation scheme \cite[Theorem~2]{trevisan00}.
 
 There remains one candidate restriction that may be complete for the class $\PO \cap \ApxNCO$.
 
 \begin{definition}[\textsc{Linear Programming with Triplets}]
   \mbox{} \\
   \begin{tabular}{r p{9.5cm}}
-    \textbf{Instance:} & TODO fill me in \\
-    \textbf{Solution:} & rational vectors $\mathbf{x}$ and $\mathbf{f}$ of length $n$ satisfying the inequalities. \\
-    \textbf{Measure:} & $\Sigma_{i = 1}^n f_i$. \\
+    \textbf{Instance:} & $m \times n$ Boolean matrices $A^{(1)}$, $A^{(2)}$, and $A^{(3)}$, non-negative rational vectors $\mathbf{b}^{(1)}$ and $\mathbf{b}^{(2)}$ of length $m$, non-negative rational vector $\mathbf{c}$ of length $n$, and set of triples of indices $T \subseteq \{1, \dotsc, n\}^3$ satisfying
+    \begin{enumerate}
+    \item there is at least one non-zero entry in each row of $A^{(1)}$ and each row of $A^{(2)}$, and
+    \item there is a constant $\gamma \in (0, 1)$ such that $z^* \geq \gamma \mathbf{c}^\intercal \mathbf{1}$, where $z^*$ is the optimal measure of the instance.
+    \end{enumerate} \\
+    \textbf{Solution:} & non-negative rational vectors $\mathbf{x}$ and $\mathbf{f}$ of length $n$ satisfying the inequalities
+           {
+             \setmyleftlen{x_k + (1 - f_j)}
+             \begin{align*}
+               & \left. \backup
+               \begin{aligned}
+                 x_k + (1 - f_j) & \leq 1 \\
+                 x_k + (1 - f_j) & \leq 1 \\
+                 f_k + f_i + f_j & \leq 2
+               \end{aligned}
+               \right\} && \text{for all } (i, j, k) \in T \\
+               A^{(1)} \mathbf{x} & = \mathbf{b}^{(1)} \\
+               A^{(2)} \mathbf{x} + A^{(3)} \mathbf{f} & = \mathbf{b}^{(2)} \\[0.5em]
+               \mathbf{x} & \leq \mathbf{1} \\
+               \mathbf{f} & \leq \mathbf{1}
+             \end{align*}
+           }
+           \\[-1em]
+    \textbf{Measure:} & $\max(1, \mathbf{c}^\intercal \mathbf{f})$. \\
     \textbf{Type:} & maximization.
   \end{tabular}
 \end{definition}
