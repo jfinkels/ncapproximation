@@ -576,7 +576,7 @@ There remains one candidate restriction that may have the properties we seek.
     \textbf{Instance:} & $m \times n$ Boolean matrices $A^{(1)}$, $A^{(2)}$, and $A^{(3)}$, non-negative rational vectors $\mathbf{b}^{(1)}$ and $\mathbf{b}^{(2)}$ of length $m$, non-negative rational vector $\mathbf{c}$ of length $n$, and set of triples of indices $T \subseteq \{1, \dotsc, n\}^3$ satisfying
     \begin{enumerate}
     \item there is at least one non-zero entry in each row of $A^{(1)}$ and each row of $A^{(2)}$, and
-    \item there is a constant $\gamma \in (0, 1)$ such that $z^* \geq \gamma \mathbf{c}^\intercal \mathbf{f}$, where $z^*$ is the optimal measure of the instance.
+    \item there is a constant $\gamma \in (1, \infty)$ such that $z^* \leq \gamma \mathbf{c}^\intercal \mathbf{f}$, where $z^*$ is the optimal measure of the instance.
     \end{enumerate} \\
     \textbf{Solution:} & non-negative rational vectors $\mathbf{x}$ and $\mathbf{f}$ of length $n$ satisfying the inequalities
            {
