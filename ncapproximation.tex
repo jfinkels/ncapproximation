@@ -541,14 +541,14 @@ If the problem were not approximable for any $r \geq 1$, then it would not even 
 Therefore there should be some constant $r_0$ such that the problem is approximable for all $r \in (r_0, \infty)$ and not approximable for all $r \in (1, r_0)$.
 
 There is in fact a family of maximization problems that has these properties: \textsc{Induced Subgraph of High Weight for Linear Extremal Properties} \cite[Chapter~3]{dsst97}.
-A concrete example of a maximization problem in this family is \textsc{Maximum Subgraph of Degree $k$}.
+A concrete example of a maximization problem in this family is \textsc{Maximum High Degree Subgraph}.
 
-\begin{definition}[\textsc{Maximum Subgraph of Degree $k$}]
+\begin{definition}[\textsc{Maximum High Degree Subgraph}]
   \mbox{} \\
-  \begin{tabular}{r p{9.5cm}}
+  \begin{tabular}{r l}
     \textbf{Instance:} & undirected graph $G$. \\
-    \textbf{Solution:} & vertex-induced subgraph $H$ of $G$ such that each vertex in $H$ has degree at least $k$. \\
-    \textbf{Measure:} & $|V(H)|$. \\
+    \textbf{Solution:} & vertex-induced subgraph $H$. \\
+    \textbf{Measure:} & $\min_{v \in V(H)} \deg(v)$. \\
     \textbf{Type:} & maximization.
   \end{tabular}
 \end{definition}
