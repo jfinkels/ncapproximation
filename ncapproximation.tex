@@ -540,6 +540,8 @@ If the problem were approximable for all $r > 1$, then it would be in \NCAS.
 If the problem were not approximable for any $r \geq 1$, then it would not even be in \ApxNCO.
 Therefore there should be some constant $r_0$ such that the problem is approximable for all $r \in (r_0, \infty)$ and not approximable for all $r \in (1, r_0)$.
 
+\subsubsection{High weight subgraph problems}
+
 There is in fact a family of maximization problems that has these properties: \textsc{Induced Subgraph of High Weight for Linear Extremal Properties} \cite[Chapter~3]{dsst97}.
 A concrete example of a maximization problem in this family is \textsc{Maximum Subgraph of Degree $k$}.
 
@@ -561,6 +563,8 @@ We suspect this family of problems is complete for $\PO \cap \ApxNCO$ under loga
 \begin{conjecture}
   \textsc{Induced Subgraph of High Weight for Linear Extremal Properties} is complete for the class of maximization problems in $\PO \cap \ApxNCO$ under logarithmic space AP reductions.
 \end{conjecture}
+
+\subsubsection{Restrictions of linear programming}
 
 Although \textsc{Linear Programming} is \P-complete and admits no \NC{} approximation algorithm, \textsc{Positive Linear Programming}, the restriction of \textsc{Linear Programming} to inputs in which all entries of $A$, $\mathbf{b}$, and $\mathbf{c}$ are non-negative, admits a fully \NC{} approximation scheme \cite{ln93}, even though the corresponding budget problem remains \P-complete \cite[Theorem~4]{tx98}.
 These results beg the question ``is there some restriction of \textsc{Linear Programming} less strict than \textsc{Positive Linear Programming} that exhibits the properties of a complete problem for $\PO \cap \ApxNCO$ as defined above?''
@@ -606,6 +610,57 @@ Although this optimization problem is not approximable within $\frac{2 n^\epsilo
 
 \begin{conjecture}
   \textsc{Linear Programming with Triplets} is complete for the class of maximization problems in $\PO \cap \ApxNCO$ under logarithmic space AP reductions.
+\end{conjecture}
+
+\subsubsection{Linear program for high degree subgraph}
+
+Perhaps we can consider a linear programming relaxation of \textsc{Maximum High Degree Subgraph} and show that such a restriction is more approximable than \textsc{Linear Programming} but less approximable than \textsc{Positive Linear Programming}.
+
+Suppose the vertices of a graph $G$ are identified with the integers $\{1, \dotsc, n\}$.
+We can represent a subgraph $H$ of a graph as a subset of the vertices, and if the graph has $n$ vertices, this can be an indicator vector $\mathbf{x}$ of length $n$.
+Since we also want to maximize the minimum degree of the chosen subgraph, we introduce a new variable $d$ that has a value between $0$ and $n$ that will be bounded above by the degree of each vertex.
+We want the constraints to reflect that if a vertex is in the subgraph, then the degree of that vertex (with respect to the subgraph) is at least $d$, and if a vertex is not in the subgraph then we don't care about its degree.
+In other words, we want ``if $x_i = 1$ then $\deg(i) \geq d$'', where $\deg(i) = \Sigma_{j = 1}^n a_{ij} x_j$ and $a_{ij}$ is the entry at row $i$, column $j$ in the adjacency matrix of the graph.
+Equivalently, we want ``$x_i \neq 1$ or $\deg(i) \geq d$'', or more specifically, ``$x_i < 1$ or $\deg(i) \geq d$''.
+We can combine the two inequalities to get a single constraint ``$x_i + d \leq 1 + \deg(x_i)$''.
+However, as stated above we want this constraint to be always satisfied if $x_i = 0$ (that is, when the vertex $i$ is not in the subgraph $H$); in this form, that is not always true.
+We can assume without loss of generality that $d$, the minimum degree of $H$, will always be less than or equal to $n - 1$ (since a graph without self-loops cannot have a vertex of degree $n$ anyway).
+Thus we can ensure the constraint is always satisfied if we modify it so that $x_i = 0$ implies $d$ is less than the right side, ``$n x_i + d \leq n + \deg(x_i)$''.
+Now if $x_i = 1$ then $d \leq \deg(x_i)$ as required, and if $x_i = 0$ then $d \leq n- 1 \leq n \leq n + \deg(x_i)$ is always satisfied.
+
+There is one final restriction: we require a non-empty subgraph, so we want at least one of the entries of $\mathbf{x}$ to be $1$.
+Therefore, the proposed linear program is
+\begin{align*}
+  \text{maximize } & d \\
+  \text{subject to }
+  & n \mathbf{x} + d \mathbf{1} - A \mathbf{x} \leq n \mathbf{1} \\
+  & \mathbf{1}^\intercal \mathbf{x} > 0 \\
+  & \mathbf{0} \leq \mathbf{x} \leq \mathbf{1} \\
+  & 0 \leq d \leq n - 1,
+\end{align*}
+where $A$ is the adjacency matrix of the graph $G$, $n$ is the number of vertices in $G$, $\mathbf{0}$ is the all zeros vector, $\mathbf{1}$ is the all ones vector, and $\leq$ for vectors denotes component-wise inequality.
+(If we restrict $\mathbf{x}$ and $d$ to be integer-valued, then this is exactly the same problem.)
+Now let us define this in the language of an optimization problem.
+\begin{definition}[\textsc{Special Linear Programming}]
+  \mbox{} \\
+  \begin{tabular}{r p{9.5cm}}
+    \textbf{Instance:} & $m \times n$ Boolean matrix $A$, non-negative rational vector $\mathbf{c}$ of length $n$, non-negative rational $c_0$. \\
+    \textbf{Solution:} & non-negative rational vector $\mathbf{x}$ of length $n$ and rational $d$ satisfying the inequalities
+           {
+             \begin{align*}
+               n \mathbf{x} + d \mathbf{1} - A \mathbf{x} & \leq n \mathbf{1} \\
+               \mathbf{1}^\intercal \mathbf{x} & > 0 \\
+               \mathbf{0} \leq \mathbf{x} & \leq \mathbf{1} \\
+               0 \leq d & \leq n - 1
+             \end{align*}
+           } \\[-1em]
+    \textbf{Measure:} & $\max(1, \mathbf{c}^\intercal \mathbf{x} + c_0 d)$. \\
+    \textbf{Type:} & maximization.
+  \end{tabular}
+\end{definition}
+
+\begin{conjecture}
+  \textsc{Special Linear Programming} is complete for $\ApxNCO \cap \PO$ under logarithmic space AP reductions.
 \end{conjecture}
 
 \subsection{Hierarchies}
