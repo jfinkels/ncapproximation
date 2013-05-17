@@ -361,7 +361,7 @@ Also, each input has exactly one solution, so this problem is quite artificial.
   \mbox{} \\
   \begin{tabular}{r p{9.5cm}}
     \textbf{Instance:} & $m \times n$ integer matrix $A$, integer vector $\mathbf{b}$ of length $m$, integer vector $\mathbf{c}$ of length $n$. \\
-    \textbf{Solution:} & rational vector $\mathbf{x}$ of length $n$ such that $A \mathbf{x} \leq \mathbf{b}$. \\
+    \textbf{Solution:} & non-negative rational vector $\mathbf{x}$ of length $n$ such that $A \mathbf{x} \leq \mathbf{b}$. \\
     \textbf{Measure:} & $\max(1, \mathbf{c}^\intercal \mathbf{x})$. \\
     \textbf{Type:} & maximization.
   \end{tabular}
@@ -433,53 +433,6 @@ Also, each input has exactly one solution, so this problem is quite artificial.
   Since the former is complete for the class of maximization problems in \PO, so is \textsc{Linear Programming}.
 \end{proof}
 
-%% The following lemma showing an upper bound on the objective function of a linear program allows a proof that \textsc{Linear Programming} is complete for the class of minimization problems as well.
-
-%% \begin{lemma}\label{lem:upperbound}
-%%   Suppose $(A, \mathbf{b}, \mathbf{c})$ is an instance of a maximization linear programming problem, and suppose $k$ is the maximum length (in bits) of any entry in $A$, $\mathbf{b}$, or $\mathbf{c}$.
-%%   Then there is a positive integer $D$, computable using space logarithmic in the number of columns and rows of $A$ and the length $k$, such that if $A \mathbf{x} \leq \mathbf{b}$ then $\mathbf{c}^\intercal \mathbf{x} \leq D$.
-%% \end{lemma}
-%% \begin{proof}
-%%   (Taken from Peter's CS530 Homework 4 Problem 2.)
-%% \end{proof}
-
-%% \begin{conjecture}
-%%   \textsc{Linear Programming} is complete for \PO{} under logarithmic space ??? reductions.
-%% \end{conjecture}
-%% \begin{proof}
-%%   Just as the maximization linear programming problem is complete for the class of maximization problems in \PO, so is the minimization problem complete for minimization problems.
-%%   We show a logarithmic space ??? reduction from the minimization linear programming problem to the maximization linear programming problem.
-%%   Suppose the input to the reduction corresponds to the linear program
-%%   \begin{align*}
-%%     \text{minimize } & \mathbf{c}^\intercal \mathbf{x} \\
-%%     \text{subject to } & A \mathbf{x} \leq \mathbf{b}.
-%%   \end{align*}
-%%   Suppose $D$ is an upper bound on the value of $\mathbf{c}^\intercal \mathbf{x}$, which can be computed from the input according to \autoref{lem:upperbound}.
-%%   We transform this minimization problem into
-%%   \begin{align*}
-%%     \text{maximize } & D - \mathbf{c}^\intercal \mathbf{x} \\
-%%     \text{subject to } & A \mathbf{x} \leq \mathbf{b}.
-%%   \end{align*}
-%%   (Another transformation is required to change this linear program into the appropriate form for an instance of \textsc{Linear Programming}, but that can also be performed in logarithmic space.)
-%%   Suppose $z$ is the objective value of a solution to the minimization problem and $z^*$ is the objective value of the optimal solution to the minimization problem.
-%%   Let $\tilde{z}$ and $\tilde{z}^*$ be the objective value and the optimal objective value for the transformed maximization problem.
-%%   By construction, $\tilde{z} = D - z$ and $\tilde{z}^* = D - z^*$.
-%%   Thus the absolute error of the minimization problem is $|z - z^*|$ and of the maximization problem $|\tilde{z}^* - \tilde{z}|$.
-%%   Since
-%%   \begin{equation*}
-%%     |\tilde{z}^* - \tilde{z}| = |(D - z^*) - (D - z)| = |z - z^*|,
-%%   \end{equation*}
-%%   the absolute error of the maximization and minimization problems are equal.
-
-%%   \begin{todo}
-%%     The current proof technique seems to be insufficient for showing an approximation-preserving reduction.
-%%     If we attempt to show an L reduction, we succeed in showing that the absolute errors are equal, but fail when trying to show a linear relationship between the optimal values of the minimization and maximization problems (since they could be exponentially different).
-%%     If we attempt to show an NCAS reduction, an upper bound on the performance ratio of the maximization problem yields only a lower bound on the performance ratio of the minimization problem instead of another upper bound.
-%%     Attempting to remedy this by using something like $D / \mathbf{c}$ in the objective function does not fly because we need the objective function to have integer components.
-%%     Could possibly use least common multiple of all components of $\mathbf{c}$ as the dividend...
-%%   \end{todo}
-%% \end{proof}
-
 The reduction in the proof of \autoref{thm:lpinpo} is more evidence that approximability is not closely related to the complexity of verification.
 Although \textsc{Maximum Double Circuit Value} is not in $\PO \cap \NNCO$ unless $\NC = \P$ (because its solution relation is \P-complete), \textsc{Linear Programming} is not only in \PO{} but also in \NNCO, since matrix multiplication is in \NC.
 This yields the following corollaries.
@@ -505,22 +458,6 @@ An equivalence analagous to that of \autoref{thm:nnconpo} also holds in the inte
   An \NC{} algorithm for a \P-complete decision problem implies $\NC = \P$.
 \end{proof}
 
-%% \begin{theorem}[{\cite[{Theorem~4 and Theorem~5}]{am84}}]
-%%   All of the following problems are in \NC{} for all $\epsilon > 2$ but \P-complete for all $\epsilon \in [1, 2)$.
-%%   \begin{itemize}
-%%   \item \textsc{$\epsilon$-High Degree Subgraph} \cite[Theorem~4 and Theorem~5]{am84}
-%%   \item \textsc{$\epsilon$-High Connectivity Subgraph} \cite[Theorem~6]{ss89}
-%%   \end{itemize}
-%% \end{theorem}
-
-%% \begin{conjecture}
-%%   All of the following problems are complete for \ApxNCOp{} under $\APr$ reductions.
-%%   \begin{itemize}
-%%   \item \textsc{Maximum High Degree Subgraph}
-%%   \item \textsc{Maximum High Connectivity Subgraph}
-%%   \end{itemize}
-%% \end{conjecture}
-
 \subsection{Completeness in classes of approximable problems}
 
 In order to construct an optimization problem complete for, say, $\PO \cap \ApxNCO$, we need to use either
@@ -540,6 +477,8 @@ If the problem were approximable for all $r > 1$, then it would be in \NCAS.
 If the problem were not approximable for any $r \geq 1$, then it would not even be in \ApxNCO.
 Therefore there should be some constant $r_0$ such that the problem is approximable for all $r \in (r_0, \infty)$ and not approximable for all $r \in (1, r_0)$.
 
+\subsubsection{High weight subgraph problems}
+
 There is in fact a family of maximization problems that has these properties: \textsc{Induced Subgraph of High Weight for Linear Extremal Properties} \cite[Chapter~3]{dsst97}.
 A concrete example of a maximization problem in this family is \textsc{Maximum High Degree Subgraph}.
 
@@ -553,14 +492,15 @@ A concrete example of a maximization problem in this family is \textsc{Maximum H
   \end{tabular}
 \end{definition}
 
-%% TODO note that it is solvable exactly in P.
-This problem has an $r$-approximator in \FNC{} for all $r \in (2, \infty)$ and has none for all $r \in (1, 2)$ unless $\NC = \P$ \cite{am84}.
+This problem is exactly solvable in polynomial time,  has an $r$-approximator in \FNC{} for all $r \in (2, \infty)$ and has no $r$-approximator in \FNC{} for all $r \in (1, 2)$ unless $\NC = \P$ \cite{am84}.
 (The existence or non-existence of a 2-approximator seems to remain unknown.)
 We suspect this family of problems is complete for $\PO \cap \ApxNCO$ under logarithmic space AP reductions.
 
 \begin{conjecture}
   \textsc{Induced Subgraph of High Weight for Linear Extremal Properties} is complete for the class of maximization problems in $\PO \cap \ApxNCO$ under logarithmic space AP reductions.
 \end{conjecture}
+
+\subsubsection{Restrictions of linear programming}
 
 Although \textsc{Linear Programming} is \P-complete and admits no \NC{} approximation algorithm, \textsc{Positive Linear Programming}, the restriction of \textsc{Linear Programming} to inputs in which all entries of $A$, $\mathbf{b}$, and $\mathbf{c}$ are non-negative, admits a fully \NC{} approximation scheme \cite{ln93}, even though the corresponding budget problem remains \P-complete \cite[Theorem~4]{tx98}.
 These results beg the question ``is there some restriction of \textsc{Linear Programming} less strict than \textsc{Positive Linear Programming} that exhibits the properties of a complete problem for $\PO \cap \ApxNCO$ as defined above?''
@@ -606,6 +546,57 @@ Although this optimization problem is not approximable within $\frac{2 n^\epsilo
 
 \begin{conjecture}
   \textsc{Linear Programming with Triplets} is complete for the class of maximization problems in $\PO \cap \ApxNCO$ under logarithmic space AP reductions.
+\end{conjecture}
+
+\subsubsection{Linear program for high degree subgraph}
+
+Perhaps we can consider a linear programming relaxation of \textsc{Maximum High Degree Subgraph} and show that such a restriction is more approximable than \textsc{Linear Programming} but less approximable than \textsc{Positive Linear Programming}.
+
+Suppose the vertices of a graph $G$ are identified with the integers $\{1, \dotsc, n\}$.
+We can represent a subgraph $H$ of a graph as a subset of the vertices, and if the graph has $n$ vertices, this can be an indicator vector $\mathbf{x}$ of length $n$.
+Since we also want to maximize the minimum degree of the chosen subgraph, we introduce a new variable $d$ that has a value between $0$ and $n$ that will be bounded above by the degree of each vertex.
+We want the constraints to reflect that if a vertex is in the subgraph, then the degree of that vertex (with respect to the subgraph) is at least $d$, and if a vertex is not in the subgraph then we don't care about its degree.
+In other words, we want ``if $x_i = 1$ then $\deg(i) \geq d$'', where $\deg(i) = \Sigma_{j = 1}^n a_{ij} x_j$ and $a_{ij}$ is the entry at row $i$, column $j$ in the adjacency matrix of the graph.
+Equivalently, we want ``$x_i \neq 1$ or $\deg(i) \geq d$'', or more specifically, ``$x_i < 1$ or $\deg(i) \geq d$''.
+We can combine the two inequalities to get a single constraint ``$x_i + d \leq 1 + \deg(x_i)$''.
+However, as stated above we want this constraint to be always satisfied if $x_i = 0$ (that is, when the vertex $i$ is not in the subgraph $H$); in this form, that is not always true.
+We can assume without loss of generality that $d$, the minimum degree of $H$, will always be less than or equal to $n - 1$ (since a graph without self-loops cannot have a vertex of degree $n$ anyway).
+Thus we can ensure the constraint is always satisfied if we modify it so that $x_i = 0$ implies $d$ is less than the right side, ``$n x_i + d \leq n + \deg(x_i)$''.
+Now if $x_i = 1$ then $d \leq \deg(x_i)$ as required, and if $x_i = 0$ then $d \leq n- 1 \leq n \leq n + \deg(x_i)$ is always satisfied.
+
+There is one final restriction: we require a non-empty subgraph, so we want at least one of the entries of $\mathbf{x}$ to be $1$.
+Therefore, the proposed linear program is
+\begin{align*}
+  \text{maximize } & d \\
+  \text{subject to }
+  & n \mathbf{x} + d \mathbf{1} - A \mathbf{x} \leq n \mathbf{1} \\
+  & \mathbf{1}^\intercal \mathbf{x} > 0 \\
+  & \mathbf{0} \leq \mathbf{x} \leq \mathbf{1} \\
+  & 0 \leq d \leq n - 1,
+\end{align*}
+where $A$ is the adjacency matrix of the graph $G$, $n$ is the number of vertices in $G$, $\mathbf{0}$ is the all zeros vector, $\mathbf{1}$ is the all ones vector, and $\leq$ for vectors denotes component-wise inequality.
+(If we restrict $\mathbf{x}$ and $d$ to be integer-valued, then this is exactly the same problem.)
+Now let us define this in the language of an optimization problem.
+\begin{definition}[\textsc{Special Linear Programming}]
+  \mbox{} \\
+  \begin{tabular}{r p{9.5cm}}
+    \textbf{Instance:} & $m \times n$ Boolean matrix $A$, non-negative rational vector $\mathbf{c}$ of length $n$, non-negative rational $c_0$. \\
+    \textbf{Solution:} & non-negative rational vector $\mathbf{x}$ of length $n$ and rational $d$ satisfying the inequalities
+           {
+             \begin{align*}
+               n \mathbf{x} + d \mathbf{1} - A \mathbf{x} & \leq n \mathbf{1} \\
+               \mathbf{1}^\intercal \mathbf{x} & > 0 \\
+               \mathbf{0} \leq \mathbf{x} & \leq \mathbf{1} \\
+               0 \leq d & \leq n - 1
+             \end{align*}
+           } \\[-1em]
+    \textbf{Measure:} & $\max(1, \mathbf{c}^\intercal \mathbf{x} + c_0 d)$. \\
+    \textbf{Type:} & maximization.
+  \end{tabular}
+\end{definition}
+
+\begin{conjecture}
+  \textsc{Special Linear Programming} is complete for $\ApxNCO \cap \PO$ under logarithmic space AP reductions.
 \end{conjecture}
 
 \subsection{Hierarchies}
