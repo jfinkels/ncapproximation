@@ -433,53 +433,6 @@ Also, each input has exactly one solution, so this problem is quite artificial.
   Since the former is complete for the class of maximization problems in \PO, so is \textsc{Linear Programming}.
 \end{proof}
 
-%% The following lemma showing an upper bound on the objective function of a linear program allows a proof that \textsc{Linear Programming} is complete for the class of minimization problems as well.
-
-%% \begin{lemma}\label{lem:upperbound}
-%%   Suppose $(A, \mathbf{b}, \mathbf{c})$ is an instance of a maximization linear programming problem, and suppose $k$ is the maximum length (in bits) of any entry in $A$, $\mathbf{b}$, or $\mathbf{c}$.
-%%   Then there is a positive integer $D$, computable using space logarithmic in the number of columns and rows of $A$ and the length $k$, such that if $A \mathbf{x} \leq \mathbf{b}$ then $\mathbf{c}^\intercal \mathbf{x} \leq D$.
-%% \end{lemma}
-%% \begin{proof}
-%%   (Taken from Peter's CS530 Homework 4 Problem 2.)
-%% \end{proof}
-
-%% \begin{conjecture}
-%%   \textsc{Linear Programming} is complete for \PO{} under logarithmic space ??? reductions.
-%% \end{conjecture}
-%% \begin{proof}
-%%   Just as the maximization linear programming problem is complete for the class of maximization problems in \PO, so is the minimization problem complete for minimization problems.
-%%   We show a logarithmic space ??? reduction from the minimization linear programming problem to the maximization linear programming problem.
-%%   Suppose the input to the reduction corresponds to the linear program
-%%   \begin{align*}
-%%     \text{minimize } & \mathbf{c}^\intercal \mathbf{x} \\
-%%     \text{subject to } & A \mathbf{x} \leq \mathbf{b}.
-%%   \end{align*}
-%%   Suppose $D$ is an upper bound on the value of $\mathbf{c}^\intercal \mathbf{x}$, which can be computed from the input according to \autoref{lem:upperbound}.
-%%   We transform this minimization problem into
-%%   \begin{align*}
-%%     \text{maximize } & D - \mathbf{c}^\intercal \mathbf{x} \\
-%%     \text{subject to } & A \mathbf{x} \leq \mathbf{b}.
-%%   \end{align*}
-%%   (Another transformation is required to change this linear program into the appropriate form for an instance of \textsc{Linear Programming}, but that can also be performed in logarithmic space.)
-%%   Suppose $z$ is the objective value of a solution to the minimization problem and $z^*$ is the objective value of the optimal solution to the minimization problem.
-%%   Let $\tilde{z}$ and $\tilde{z}^*$ be the objective value and the optimal objective value for the transformed maximization problem.
-%%   By construction, $\tilde{z} = D - z$ and $\tilde{z}^* = D - z^*$.
-%%   Thus the absolute error of the minimization problem is $|z - z^*|$ and of the maximization problem $|\tilde{z}^* - \tilde{z}|$.
-%%   Since
-%%   \begin{equation*}
-%%     |\tilde{z}^* - \tilde{z}| = |(D - z^*) - (D - z)| = |z - z^*|,
-%%   \end{equation*}
-%%   the absolute error of the maximization and minimization problems are equal.
-
-%%   \begin{todo}
-%%     The current proof technique seems to be insufficient for showing an approximation-preserving reduction.
-%%     If we attempt to show an L reduction, we succeed in showing that the absolute errors are equal, but fail when trying to show a linear relationship between the optimal values of the minimization and maximization problems (since they could be exponentially different).
-%%     If we attempt to show an NCAS reduction, an upper bound on the performance ratio of the maximization problem yields only a lower bound on the performance ratio of the minimization problem instead of another upper bound.
-%%     Attempting to remedy this by using something like $D / \mathbf{c}$ in the objective function does not fly because we need the objective function to have integer components.
-%%     Could possibly use least common multiple of all components of $\mathbf{c}$ as the dividend...
-%%   \end{todo}
-%% \end{proof}
-
 The reduction in the proof of \autoref{thm:lpinpo} is more evidence that approximability is not closely related to the complexity of verification.
 Although \textsc{Maximum Double Circuit Value} is not in $\PO \cap \NNCO$ unless $\NC = \P$ (because its solution relation is \P-complete), \textsc{Linear Programming} is not only in \PO{} but also in \NNCO, since matrix multiplication is in \NC.
 This yields the following corollaries.
@@ -504,22 +457,6 @@ An equivalence analagous to that of \autoref{thm:nnconpo} also holds in the inte
   Its solution relation is a generalization of the \textsc{Circuit Value} problem, which is \P-complete (as long as the length of the output $y$ remains polynomial in the length of the input, this generalization remains \P-complete).
   An \NC{} algorithm for a \P-complete decision problem implies $\NC = \P$.
 \end{proof}
-
-%% \begin{theorem}[{\cite[{Theorem~4 and Theorem~5}]{am84}}]
-%%   All of the following problems are in \NC{} for all $\epsilon > 2$ but \P-complete for all $\epsilon \in [1, 2)$.
-%%   \begin{itemize}
-%%   \item \textsc{$\epsilon$-High Degree Subgraph} \cite[Theorem~4 and Theorem~5]{am84}
-%%   \item \textsc{$\epsilon$-High Connectivity Subgraph} \cite[Theorem~6]{ss89}
-%%   \end{itemize}
-%% \end{theorem}
-
-%% \begin{conjecture}
-%%   All of the following problems are complete for \ApxNCOp{} under $\APr$ reductions.
-%%   \begin{itemize}
-%%   \item \textsc{Maximum High Degree Subgraph}
-%%   \item \textsc{Maximum High Connectivity Subgraph}
-%%   \end{itemize}
-%% \end{conjecture}
 
 \subsection{Completeness in classes of approximable problems}
 
