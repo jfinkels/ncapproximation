@@ -481,13 +481,14 @@ Therefore there should be some constant $r_0$ such that the problem is approxima
 
 There is in fact a family of maximization problems that has these properties: \textsc{Induced Subgraph of High Weight for Linear Extremal Properties} \cite[Chapter~3]{dsst97}.
 A concrete example of a maximization problem in this family is \textsc{Maximum High Degree Subgraph}.
+In the definition below, the degree of a graph $G$, denoted $\deg(G)$, is defined by $\deg(G) = \min_{v \in V(G)} \deg(v)$.
 
 \begin{definition}[\textsc{Maximum High Degree Subgraph}]
   \mbox{} \\
   \begin{tabular}{r l}
     \textbf{Instance:} & undirected graph $G$. \\
     \textbf{Solution:} & vertex-induced subgraph $H$. \\
-    \textbf{Measure:} & $\min_{v \in V(H)} \deg(v)$. \\
+    \textbf{Measure:} & $\deg(H)$. \\
     \textbf{Type:} & maximization.
   \end{tabular}
 \end{definition}
