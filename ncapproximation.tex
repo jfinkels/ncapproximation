@@ -579,7 +579,7 @@ Therefore, the proposed linear program is
   %%   d
   %% \end{bmatrix}
   %% \leq n \mathbf{1} \\
-  & n \mathbf{x} + d \mathbf{1} - A \mathbf{x} \leq n \mathbf{1} \\
+  & n \mathbf{x} + d \mathbf{1} \leq n \mathbf{1} + A \mathbf{x} \\
   & \mathbf{1}^\intercal \mathbf{x} > 0 \\
   & \mathbf{0} \leq \mathbf{x} \leq \mathbf{1} \\
   & 0 \leq d \leq n - 1,
@@ -594,7 +594,7 @@ Now let us define this in the language of an optimization problem.
     \textbf{Solution:} & non-negative rational vector $\mathbf{x}$ of length $n$ and rational $d$ satisfying the inequalities
            {
              \begin{align*}
-               n \mathbf{x} + d \mathbf{1} - A \mathbf{x} & \leq n \mathbf{1} \\
+               n \mathbf{x} + d \mathbf{1} & \leq n \mathbf{1} + A \mathbf{x} \\
                \mathbf{1}^\intercal \mathbf{x} & > 0 \\
                \mathbf{0} \leq \mathbf{x} & \leq \mathbf{1} \\
                0 \leq d & \leq n - 1
