@@ -570,6 +570,15 @@ Therefore, the proposed linear program is
 \begin{align*}
   \text{maximize } & d \\
   \text{subject to }
+  %% &
+  %% \begin{bmatrix}
+  %%   n I - A & \mathbf{1}
+  %% \end{bmatrix}
+  %% \begin{bmatrix}
+  %%   \mathbf{x} \\
+  %%   d
+  %% \end{bmatrix}
+  %% \leq n \mathbf{1} \\
   & n \mathbf{x} + d \mathbf{1} - A \mathbf{x} \leq n \mathbf{1} \\
   & \mathbf{1}^\intercal \mathbf{x} > 0 \\
   & \mathbf{0} \leq \mathbf{x} \leq \mathbf{1} \\
