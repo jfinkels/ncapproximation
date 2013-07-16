@@ -206,6 +206,7 @@ The instance set, solution relation, and measure function of optimization proble
 \begin{figure}
   \caption{%
     The structure of classes of optimization problems that have both efficiently computable exact solutions and highly parallel approximate solutions, the subclasses of $\PO \cap \NNCO$.
+    Many of these inclusions are strict under some widely-held complexity-theoretic assumptions; see \autoref{sec:hierarchies}.
     \label{fig:inclusions}}
   \begin{center}
     \begin{tikzpicture}
@@ -609,15 +610,19 @@ Now let us define this in the language of an optimization problem.
   \textsc{Special Linear Programming} is complete for $\ApxNCO \cap \PO$ under logarithmic space AP reductions.
 \end{conjecture}
 
-\subsection{Hierarchies}
+\subsection{Hierarchies}\label{sec:hierarchies}
 
-The classes of approximable optimization problems are also likely distinct.
-The theorem below is the natural analog of a similar result for the polynomial time approximation classes; see \cite[Exercise~8.1]{acgkmp99}, for example.
+The classes of approximable optimization problems are also likely distinct; this is well-known for polynomial time approximability.
+
+\begin{theorem}[{\cite[Exercise~8.1]{acgkmp99}}]
+  If $\P \neq \NP$ then $\PO \subsetneq \PTAS \subsetneq \ApxPO \subsetneq \NPO$.
+\end{theorem}
+
+A natural analog holds for \NC{} approximation classes.
 
 \begin{theorem}\label{thm:hierarchy}
   If $\NC \neq \NP$ then $\NCO \subsetneq \NCAS \subsetneq \ApxNCO \subsetneq \NNCO$.
 \end{theorem}
-
 \begin{proof}
   We begin by showing that $\ApxNCO = \NNCO$ implies $\NC = \NNC(\poly)$, and hence $\NC = \NP$.
   Let $L$ be a decision problem complete for \NNC(\poly) under logarithmic space many-one reductions (for example, \textsc{Satisfiability}).
@@ -687,7 +692,7 @@ The hierarchy theorem also provides a simple proof of a result of \cite{dsst97} 
   By \autoref{thm:hierarchy2}, we conclude that $\NC = \P$.
 \end{proof}
 
-In fact, this result is true for any equality that implies $\PO \subseteq \NNCO$.
+This result is true if we replace the first equality with $\NCAS = \PTAS$, or, indeed, any equality that implies $\PO \subseteq \NNCO$.
 
 \section{Syntactic characterization of \texorpdfstring{\ApxNCO}{ApxNCO}}
 
