@@ -610,6 +610,40 @@ Now let us define this in the language of an optimization problem.
   \textsc{Special Linear Programming} is complete for $\PO \cap \ApxNCO$ under logarithmic space AP reductions.
 \end{conjecture}
 
+\subsubsection{Approximable problems in \texorpdfstring{$\NNC(\polylog)$}{NNC(polylog)}}
+
+In the previous sections we sought a problem complete for $\PO \cap \ApxNCO$.
+Perhaps we can find a problem complete for $\NNCO(\polylog) \cap \ApxNCO$.
+
+\begin{definition}[\textsc{Partial Satisfiability}]
+  \mbox{} \\
+  \begin{tabular}{r p{9.5cm}}
+    \textbf{Instance:} & Boolean formula $\phi$ on variables $x_1, \dotsc, x_n$, non-negative rational weights $w_1, \dotsc, w_n$ such that $W \leq \Sigma_{i = 1}^n w_i \leq 2W$ for some positive rational $W$, partial truth assignment $\alpha$ to the first $n - \log^k n$ of the variables. \\
+    \textbf{Solution:} & partial truth assignment $\beta$ to the remaining $\log^k n$ variables. \\
+    \textbf{Measure:} & $\max(1, \Sigma_{i = 1}^n (\alpha \cup \beta)(x_i) w_i)$ if $\alpha \cup \beta$ satisfies $\phi$, otherwise $W$. \\
+    \textbf{Type:} & maximization.
+  \end{tabular}
+\end{definition}
+
+For each fixed positive integer $k$, the budget problem for \textsc{Partial Satisfiability} is complete for $\NNC^1(\log^k n)$.
+
+\begin{theorem}
+  For every positive integer $k$, $\textsc{Partial Satisfiability}_{opt>}$ is complete for $\NNC^1(\log^k n)$ under logarithmic space many-one reductions.
+\end{theorem}
+\begin{proof}
+  \begin{todo}
+    Fill me in.
+  \end{todo}
+\end{proof}
+
+The optimization problem is trivially 2-approximable (each assignment has measure at least $W$, and the optimal assignment has measure at most $2W$) so the problem is in \ApxNCO.
+
+\begin{conjecture}
+  \textsc{Partial Satisfiability} is complete for \ApxNCO{} under logarithmic space AP reductions.
+\end{conjecture}
+
+This would be surprising if true because the optimization problem ... is also complete for \ApxNCO, and therefore any optimization problem that permits a highly parallel approximation but requires a large solution can be transformed into a problem that requires a much smaller solution.
+
 \subsection{Hierarchies}\label{sec:hierarchies}
 
 The classes of approximable optimization problems are also likely distinct; this is well-known for polynomial time approximability.
