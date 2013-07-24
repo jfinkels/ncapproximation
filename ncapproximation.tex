@@ -504,9 +504,9 @@ We suspect this family of problems is complete for $\PO \cap \ApxNCO$ under loga
 
 \subsubsection{Restrictions of linear programming}
 
-Although \textsc{Linear Programming} is \P-complete and admits no \NC{} approximation algorithm, \textsc{Positive Linear Programming}, the restriction of \textsc{Linear Programming} to inputs in which all entries of $A$, $\mathbf{b}$, and $\mathbf{c}$ are non-negative, admits a fully \NC{} approximation scheme \cite{ln93}, even though the corresponding budget problem remains \P-complete \cite[Theorem~4]{tx98}.
+Although \textsc{Linear Programming} is \P-complete and admits no \NC{} approximation algorithm, \textsc{Positive Linear Programming}, the restriction of \textsc{Linear Programming} to inputs in which all entries of $A$, $\mathbf{b}$, and $\mathbf{c}$ are non-negative, admits a \NC{} approximation scheme \cite{ln93}, even though the corresponding budget problem remains \P-complete \cite[Theorem~4]{tx98}.
 These results beg the question ``is there some restriction of \textsc{Linear Programming} less strict than \textsc{Positive Linear Programming} that exhibits the properties of a complete problem for $\PO \cap \ApxNCO$ as defined above?''
-If we relax the non-negativity requirement and allow a small number of equality constraints that can be violated by a small amount, then there is still a fully NC approximation scheme \cite[Theorem~5.2]{tx98}.
+If we relax the non-negativity requirement and allow a small number of equality constraints that can be violated by a small amount, then there is still an NC approximation scheme \cite[Theorem~5.2]{tx98}.
 On the other hand, if we have even just one equality constraint and don't allow the equality violations, the problem becomes hard to approximate again (to within a constant factor) \cite[Theorem~3.1]{es99} \cite[Remark~2]{tx98}.
 Similarly, if we allow $A$ to have negative entries, the problem is hard to approximate \cite[Corollary~2]{efraimidis08}.
 The $(\gamma, \kappa)$ form of \textsc{Linear Programming} is hard to approximate \cite[Proposition~1]{efraimidis08}; the $k$-normal form reduces to \textsc{Positive Linear Programming} and so has an approximation scheme \cite[Theorem~2]{trevisan00}.
