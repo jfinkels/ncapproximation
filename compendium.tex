@@ -1,32 +1,69 @@
-- NNCO:
-  - Maximum Variable Weighted Satisfiability \cite[Theorem~3.1]{om87} \cite[Theorem~8.3]{acgkmp99}
-- ApxNCO:
-  - Maximum $k$-CNF Satisfiability \cite[Theorem~8.6]{acgkmp99}
-  - Maximum Acyclic Subgraph \cite[Section~7.4]{dsst97}
-  - Minimum $k$-Center \cite[Section~7.4]{dsst97}
-  - $k$-Switching Network \cite[Section~7.4]{dsst97}
-  - Maximum Bounded Weighted Satisfiability \cite[Theorem~4]{sx95}
-- RNCAS:
-  - Minimum Metric Traveling Salesperson \cite[Theorem~7.1.1]{dsst97}
-- NCAS:
-  - Maximum $k$-Constraint Satisfaction Problem \cite[Corollary~13]{trevisan98}
-  - Maximum Independent Set for Planar Graphs \cite[Theorem 6.4.1]{dsst97}
-- FNCAS:
-  - Subset Sum \cite[Theorem~4.1.4]{dsst97}
-  - Maximum Clause Weighted CNF Satisfiability \cite[Theorem~8]{trevisan98}
-  - Minimum Weight Vertex Cover \cite[Theorem~5.3.6]{dsst97}
-  - 0-1 Knapsack \cite[Theorem~2]{mayr88}
-  - Bin Packing \cite[Theorem~3]{mayr88}
-- PO \cap NNCO:
-  - Linear Programming
-- PO \cap ApxNCO:
-  - Induced Subgraph of High Weight for Linear Extremal Properties \cite{dsst97}
-- PO \cap NCAS:
-  - Maximum Matching \cite[Theorem~5.2.1]{dsst97}
-  - Maximum Weight Matching \cite[Theorem~5.2.2]{dsst97}
-  - Positive Linear Programming \cite[Theorem~5.1.11]{dsst97} \cite{tx98}
-  - Maximum Flow \cite[Theorem~5.2.2]{dsst97}
-- PO \cap FRNCAS:
-  - Maximum Flow \cite[Theorem~4.5.2]{dsst97}
-  - Maximum Weight Perfect Matching \cite[Theorem~4.5.2]{dsst97}
-  - Maximum Weight Matching \cite[Theorem~4.5.2]{dsst97}
+\documentclass{article}
+\usepackage{complexity}
+
+\title{Compendium of optimization problems admitting highly parallel approximations}
+\author{Jeffrey Finkelstein}
+
+\begin{document}
+\maketitle
+
+This is a listing of classes of optimization problems and known optimization problems which are members of those classes.
+See Section 2 of the corresponding paper for definitions of the complexity classes.
+
+\begin{itemize}
+\item \NNCO:
+  \begin{itemize}
+  \item \textsc{Maximum Variable Weighted Satisfiability} \cite[Theorem~3.1]{om87} \cite[Theorem~8.3]{acgkmp99}
+  \end{itemize}
+\item \ApxNCO:
+  \begin{itemize}
+  \item \textsc{Maximum $k$-CNF Satisfiability} \cite[Theorem~8.6]{acgkmp99}
+  \item \textsc{Maximum Acyclic Subgraph} \cite[Section~7.4]{dsst97}
+  \item \textsc{Minimum $k$-Center} \cite[Section~7.4]{dsst97}
+  \item \textsc{$k$-Switching Network} \cite[Section~7.4]{dsst97}
+  \item \textsc{Maximum Bounded Weighted Satisfiability} \cite[Theorem~4]{sx95}
+  \end{itemize}
+\item \RNCAS:
+  \begin{itemize}
+  \item \textsc{Minimum Metric Traveling Salesperson} \cite[Theorem~7.1.1]{dsst97}
+  \end{itemize}
+\item \NCAS:
+  \begin{itemize}
+  \item \textsc{Maximum $k$-CSP} \cite[Corollary~13]{trevisan98}
+  \item \textsc{Maximum Independent Set for Planar Graphs} \cite[Theorem 6.4.1]{dsst97}
+  \end{itemize}
+\item \FNCAS:
+  \begin{itemize}
+  \item \textsc{Subset Sum} \cite[Theorem~4.1.4]{dsst97}
+  \item \textsc{Maximum Clause Weighted CNF Satisfiability} \cite[Theorem~8]{trevisan98}
+  \item \textsc{Minimum Weight Vertex Cover} \cite[Theorem~5.3.6]{dsst97}
+  \item \textsc{0-1 Knapsack} \cite[Theorem~2]{mayr88}
+  \item \textsc{Bin Packing} \cite[Theorem~3]{mayr88}
+  \end{itemize}
+\item $\PO \cap \NNCO$:
+  \begin{itemize}
+  \item \textsc{Linear Programming}
+  \end{itemize}
+\item $\PO \cap \ApxNCO$:
+  \begin{itemize}
+  \item \textsc{Induced Subgraph of High Weight for Linear Extremal Properties} \cite{dsst97}
+  \end{itemize}
+\item $\PO \cap \NCAS$:
+  \begin{itemize}
+  \item \textsc{Maximum Matching} \cite[Theorem~5.2.1]{dsst97}
+  \item \textsc{Maximum Weight Matching} \cite[Theorem~5.2.2]{dsst97}
+  \item \textsc{Positive Linear Programming} \cite[Theorem~5.1.11]{dsst97} \cite{tx98}
+  \item \textsc{Maximum Flow} \cite[Theorem~5.2.2]{dsst97}
+  \end{itemize}
+\item $\PO \cap \FRNCAS$:
+  \begin{itemize}
+  \item \textsc{Maximum Flow} \cite[Theorem~4.5.2]{dsst97}
+  \item \textsc{Maximum Weight Perfect Matching} \cite[Theorem~4.5.2]{dsst97}
+  \item \textsc{Maximum Weight Matching} \cite[Theorem~4.5.2]{dsst97}
+  \end{itemize}
+\end{itemize}
+
+\bibliographystyle{plain}
+\bibliography{references}
+
+\end{document}
