@@ -1,16 +1,62 @@
-\documentclass[]{article}
-
-% Package `amsthm` and `thmtools` must come before package `hyperref`.
-\usepackage{amsthm}
-\usepackage{thmtools}
-% Package `hyperref` must come before package `complexity`.
-\usepackage[pdftitle={Highly parallel approximations for inherently sequential problems}, pdfauthor={Jeffrey Finkelstein}]{hyperref}
+%% ncapproximation.tex - parallel approximations for sequential problems
+%%
+%% Copyright 2012, 2013, 2014 Jeffrey Finkelstein.
+%%
+%% This LaTeX markup document is made available under the terms of the Creative
+%% Commons Attribution-ShareAlike 4.0 International License,
+%% https://creativecommons.org/licenses/by-sa/4.0/.
+\documentclass{article}
 \usepackage{amsmath}
 \usepackage{amssymb}
+%% This must come before hyperref.
+\usepackage{amsthm}
+%% This is strongly recommended by biblatex.
+\usepackage[english]{babel}
+\usepackage[backend=biber]{biblatex}
+\usepackage[T1]{fontenc}
+%% This must come before csquotes.
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+%% This is strongly recommended by biblatex.
+\usepackage{csquotes}
+%% This must come before hyperref.
+\usepackage{thmtools}
+%% This must come before complexity.
+\usepackage{hyperref}
 \usepackage{complexity}
-\usepackage{mathtools}
+\usepackage[firstpage]{draftwatermark}
+\usepackage{microtype}
+\usepackage{textcomp}
 \usepackage{tikz}
 
+\LoadMicrotypeFile{cmr}
+\SetProtrusion
+    [load=lmr-T1]
+    {encoding=T1, family=lmr}
+    {
+      \textquotedblright = {,1000},
+      \textquotedblleft = {1000,},
+      {'} = {,1000},
+      {[} = {1000,},
+      {]} = {,1000},
+      {,} = {,1000},
+      {:} = {,1000},
+      {;} = {,1000},
+      {.} = {,1000}
+    }
+
+%% Set the ``work-in-progress'' watermark for the first page.
+\SetWatermarkLightness{0.9}
+\SetWatermarkText{Work-in-progress}
+\SetWatermarkFontSize{3.5cm}
+
+%% Set the title and author of the PDF file.
+\hypersetup{pdftitle={Highly parallel approximations for inherently sequential problems}, pdfauthor={Jeffrey Finkelstein}}
+
+%% Declare the bibliography file.
+\addbibresource{ncapproximation.bib}
+
+%% Declare theorem-like environments.
 \declaretheorem[numberwithin=section]{theorem}
 \declaretheorem[numberlike=theorem]{conjecture}
 \declaretheorem[numberlike=theorem]{corollary}
@@ -20,11 +66,12 @@
 \declaretheorem[numberlike=theorem, style=definition]{definition}
 \declaretheorem[numberlike=theorem, style=definition, name=Open question]{openquestion}
 
+%% Custom commands are declared here.
+\newcommand{\email}[1]{\textlangle\href{mailto:#1}{\nolinkurl{#1}}\textrangle}
+%\newcommand{\todo}[1]{\textbf{TODO #1}}
 \newenvironment{justification}{\begin{proof}[Justification]}{\end{proof}}
-
 \newcommand{\Er}{\leq_E^{L}}
 \newcommand{\APr}{\leq_{AP}^{L}}
-\newcommand{\email}[1]{\href{mailto:#1}{\nolinkurl{#1}}}
 \newcommand{\lb}{\left\{}
 \newcommand{\rb}{\right\}}
 \newcommand{\st}{\,\middle|\,}
@@ -44,13 +91,25 @@
 #1\)}}
 \newcommand{\backup}{\hskip-\myleftlen\mkern-7mu}
 
-\author{Jef{}frey Finkelstein}
-\date{\today}
+%% Redefine the footnote environment so it has no reference and no number.
+\long\def\symbolfootnote#1{\begingroup%
+\def\thefootnote{\fnsymbol{footnote}}\footnotetext{#1}\endgroup}
+
+%% Define the author, title, and date for the document.
+\author{Jeffrey~Finkelstein\\ Computer Science Department, Boston University}
 \title{Highly parallel approximations for inherently sequential problems}
 
 \begin{document}
 
 \maketitle
+
+\symbolfootnote{%
+  Copyright 2012, 2013, 2014 Jeffrey~Finkelstein \email{jeffreyf@bu.edu}.
+
+  This document is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License, which is available at \mbox{\url{https://creativecommons.org/licenses/by-sa/4.0/}}.
+  The \LaTeX{} markup that generated this document can be downloaded from its website at \mbox{\url{https://github.com/jfinkels/ncapproximation}}.
+  The markup is distributed under the same license.
+}
 
 \section{Introduction}
 
@@ -203,53 +262,53 @@ Therefore we consider the classes $\PO \cap \NNCO$, $\PO \cap \ApxNCO$, etc. in 
 The instance set, solution relation, and measure function of optimization problems in these classes are computable in \NC{}, and furthermore, there is a polynomial time algorithm that produces optimal solutions.
 
 \autoref{fig:inclusions} shows the inclusions among some of the complexity classes defined in this section.
-\begin{figure}
-  \caption{%
-    The structure of classes of optimization problems that have both efficiently computable exact solutions and highly parallel approximate solutions, the subclasses of $\PO \cap \NNCO$.
-    Many of these inclusions are strict under some widely-held complexity-theoretic assumptions; see \autoref{sec:hierarchies}.
-    \label{fig:inclusions}}
-  \begin{center}
-    \begin{tikzpicture}
+%% \begin{figure}
+%%   \caption{%
+%%     The structure of classes of optimization problems that have both efficiently computable exact solutions and highly parallel approximate solutions, the subclasses of $\PO \cap \NNCO$.
+%%     Many of these inclusions are strict under some widely-held complexity-theoretic assumptions; see \autoref{sec:hierarchies}.
+%%     \label{fig:inclusions}}
+%%   \begin{center}
+%%     \begin{tikzpicture}
 
-      \draw (0, 7) node(NPO) {\NPO};
+%%       \draw (0, 7) node(NPO) {\NPO};
 
-      \draw (1, 5) node(NNCO) {\NNCO};
-      \draw (1, 4) node(ApxNCO) {\ApxNCO};
-      \draw (1, 3) node(NCAS) {\NCAS};
+%%       \draw (1, 5) node(NNCO) {\NNCO};
+%%       \draw (1, 4) node(ApxNCO) {\ApxNCO};
+%%       \draw (1, 3) node(NCAS) {\NCAS};
 
-      \draw (-2, 6) node(ApxPO) {\ApxPO};
-      \draw (-2, 5) node(PTAS) {\PTAS};
-      \draw (-2, 4) node(PO) {\PO};
-      \draw (-2, 3) node(POp) {$\PO \cap \NNCO$};
-      \draw (-2, 2) node(ApxNCOp) {$\PO \cap \ApxNCO$};
-      \draw (-2, 1) node(NCASp) {$\PO \cap \NCAS$};
+%%       \draw (-2, 6) node(ApxPO) {\ApxPO};
+%%       \draw (-2, 5) node(PTAS) {\PTAS};
+%%       \draw (-2, 4) node(PO) {\PO};
+%%       \draw (-2, 3) node(POp) {$\PO \cap \NNCO$};
+%%       \draw (-2, 2) node(ApxNCOp) {$\PO \cap \ApxNCO$};
+%%       \draw (-2, 1) node(NCASp) {$\PO \cap \NCAS$};
 
-      \draw (0, 0) node(NCO) {\NCO};
+%%       \draw (0, 0) node(NCO) {\NCO};
 
-      \path[->]
-      (NCO) edge (NCASp)
-      (NCO) edge (NCAS)
+%%       \path[->]
+%%       (NCO) edge (NCASp)
+%%       (NCO) edge (NCAS)
 
-      (NCASp) edge (ApxNCOp)
-      (ApxNCOp) edge (POp)
-      (POp) edge (PO)
-      (PO) edge (PTAS)
-      (PTAS) edge (ApxPO)
-      (ApxPO) edge (NPO)
+%%       (NCASp) edge (ApxNCOp)
+%%       (ApxNCOp) edge (POp)
+%%       (POp) edge (PO)
+%%       (PO) edge (PTAS)
+%%       (PTAS) edge (ApxPO)
+%%       (ApxPO) edge (NPO)
 
-      (NCAS) edge (ApxNCO)
-      (ApxNCO) edge (NNCO)
+%%       (NCAS) edge (ApxNCO)
+%%       (ApxNCO) edge (NNCO)
 
-      (NCASp) edge (NCAS)
-      (ApxNCOp) edge (ApxNCO)
-      (POp) edge (NNCO)
+%%       (NCASp) edge (NCAS)
+%%       (ApxNCOp) edge (ApxNCO)
+%%       (POp) edge (NNCO)
 
-      (NCAS) edge (PTAS)
-      (ApxNCO) edge (ApxPO)
-      (NNCO) edge (NPO);
-    \end{tikzpicture}
-  \end{center}
-\end{figure}
+%%       (NCAS) edge (PTAS)
+%%       (ApxNCO) edge (ApxPO)
+%%       (NNCO) edge (NPO);
+%%     \end{tikzpicture}
+%%   \end{center}
+%% \end{figure}
 
 \subsection{Reductions among approximation problems}
 
@@ -757,19 +816,7 @@ It may help to know that if $P$ is complete for $\MaxSNP$ under $\leq^L_L$ reduc
   \STP-complete problems?
 \end{todo}
 
-\section{About this work}
-
-Copyright 2012, 2013 Jef{}frey Finkelstein.
-
-This work is licensed under the Creative Commons Attribution-ShareAlike License 3.0.
-Visit \mbox{\url{https://creativecommons.org/licenses/by-sa/3.0/}} to view a copy of this license.
-
-The \LaTeX{} markup which generated this document is available on the World Wide Web at \mbox{\url{https://github.com/jfinkels/ncapproximation}}.
-It is also licensed under the Creative Commons Attribution-ShareAlike License.
-
-The author can be contacted via email at \email{jeffreyf@bu.edu}.
-
-\bibliographystyle{plain}
-\bibliography{references}
+%% Print the bibliography section here.
+\printbibliography
 
 \end{document}
