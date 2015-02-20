@@ -262,53 +262,53 @@ Therefore we consider the classes $\PO \cap \NNCO$, $\PO \cap \ApxNCO$, etc. in 
 The instance set, solution relation, and measure function of optimization problems in these classes are computable in \NC{}, and furthermore, there is a polynomial time algorithm that produces optimal solutions.
 
 \autoref{fig:inclusions} shows the inclusions among some of the complexity classes defined in this section.
-%% \begin{figure}
-%%   \caption{%
-%%     The structure of classes of optimization problems that have both efficiently computable exact solutions and highly parallel approximate solutions, the subclasses of $\PO \cap \NNCO$.
-%%     Many of these inclusions are strict under some widely-held complexity-theoretic assumptions; see \autoref{sec:hierarchies}.
-%%     \label{fig:inclusions}}
-%%   \begin{center}
-%%     \begin{tikzpicture}
+\begin{figure}
+  \caption{%
+    The structure of classes of optimization problems that have both efficiently computable exact solutions and highly parallel approximate solutions, the subclasses of $\PO \cap \NNCO$.
+    Many of these inclusions are strict under some widely-held complexity-theoretic assumptions; see \autoref{sec:hierarchies}.
+    \label{fig:inclusions}}
+  \begin{center}
+    \begin{tikzpicture}
 
-%%       \draw (0, 7) node(NPO) {\NPO};
+      \draw (0, 7) node(NPO) {\NPO};
 
-%%       \draw (1, 5) node(NNCO) {\NNCO};
-%%       \draw (1, 4) node(ApxNCO) {\ApxNCO};
-%%       \draw (1, 3) node(NCAS) {\NCAS};
+      \draw (1, 5) node(NNCO) {\NNCO};
+      \draw (1, 4) node(ApxNCO) {\ApxNCO};
+      \draw (1, 3) node(NCAS) {\NCAS};
 
-%%       \draw (-2, 6) node(ApxPO) {\ApxPO};
-%%       \draw (-2, 5) node(PTAS) {\PTAS};
-%%       \draw (-2, 4) node(PO) {\PO};
-%%       \draw (-2, 3) node(POp) {$\PO \cap \NNCO$};
-%%       \draw (-2, 2) node(ApxNCOp) {$\PO \cap \ApxNCO$};
-%%       \draw (-2, 1) node(NCASp) {$\PO \cap \NCAS$};
+      \draw (-2, 6) node(ApxPO) {\ApxPO};
+      \draw (-2, 5) node(PTAS) {\PTAS};
+      \draw (-2, 4) node(PO) {\PO};
+      \draw (-2, 3) node(POp) {$\PO \cap \NNCO$};
+      \draw (-2, 2) node(ApxNCOp) {$\PO \cap \ApxNCO$};
+      \draw (-2, 1) node(NCASp) {$\PO \cap \NCAS$};
 
-%%       \draw (0, 0) node(NCO) {\NCO};
+      \draw (0, 0) node(NCO) {\NCO};
 
-%%       \path[->]
-%%       (NCO) edge (NCASp)
-%%       (NCO) edge (NCAS)
+      \path[->]
+      (NCO) edge (NCASp)
+      (NCO) edge (NCAS)
 
-%%       (NCASp) edge (ApxNCOp)
-%%       (ApxNCOp) edge (POp)
-%%       (POp) edge (PO)
-%%       (PO) edge (PTAS)
-%%       (PTAS) edge (ApxPO)
-%%       (ApxPO) edge (NPO)
+      (NCASp) edge (ApxNCOp)
+      (ApxNCOp) edge (POp)
+      (POp) edge (PO)
+      (PO) edge (PTAS)
+      (PTAS) edge (ApxPO)
+      (ApxPO) edge (NPO)
 
-%%       (NCAS) edge (ApxNCO)
-%%       (ApxNCO) edge (NNCO)
+      (NCAS) edge (ApxNCO)
+      (ApxNCO) edge (NNCO)
 
-%%       (NCASp) edge (NCAS)
-%%       (ApxNCOp) edge (ApxNCO)
-%%       (POp) edge (NNCO)
+      (NCASp) edge (NCAS)
+      (ApxNCOp) edge (ApxNCO)
+      (POp) edge (NNCO)
 
-%%       (NCAS) edge (PTAS)
-%%       (ApxNCO) edge (ApxPO)
-%%       (NNCO) edge (NPO);
-%%     \end{tikzpicture}
-%%   \end{center}
-%% \end{figure}
+      (NCAS) edge (PTAS)
+      (ApxNCO) edge (ApxPO)
+      (NNCO) edge (NPO);
+    \end{tikzpicture}
+  \end{center}
+\end{figure}
 
 \subsection{Reductions among approximation problems}
 
