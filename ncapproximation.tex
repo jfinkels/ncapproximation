@@ -403,7 +403,7 @@ So the classes of decision problems are equal whereas the classes of correspondi
 
 \subsection{Completeness in classes of polynomal time solvable problems}
 
-This section shows results nearly analagous to those in the previous section, but in the intersection of both \NPO{} and \NNCO{} with \PO.
+This section shows results nearly analogous to those in the previous section, but in the intersection of both \NPO{} and \NNCO{} with \PO.
 The results here show completeness with respect to maximization problems only; we conjecture that both of the problems defined below are also complete with respect to minimization problems.
 
 \begin{definition}[\textsc{Maximum Double Circuit Value}]
@@ -508,7 +508,7 @@ This yields the following corollaries.
   \textsc{Linear Programming} is complete for the class of maximization problems in $\PO \cap \NNCO$ under logarithmic space AP reductions.
 \end{corollary}
 
-An equivalence analagous to that of \autoref{thm:nnconpo} also holds in the intersection with \PO.
+An equivalence analogous to that of \autoref{thm:nnconpo} also holds in the intersection with $\PO$.
 
 \begin{theorem}\label{thm:poppo}
   $\PO \cap \NNCO = \PO$ if and only if $\NC = \P$.
@@ -711,7 +711,10 @@ This would be surprising if true because the optimization problem ... is also co
 The classes of approximable optimization problems are also likely distinct; this is well-known for polynomial time approximability.
 
 \begin{theorem}[{\cite[Exercise~8.1]{acgkmp99}}]
-  If $\P \neq \NP$ then $\PO \subsetneq \PTAS \subsetneq \ApxPO \subsetneq \NPO$.
+  If $\P \neq \NP$ then
+  \[
+  \PO \subsetneq \PTAS \subsetneq \ApxPO \subsetneq \NPO.
+  \]
 \end{theorem}
 
 A natural analog holds for \NC{} approximation classes.
@@ -772,6 +775,21 @@ As a corollary to this theorem, since \textsc{Maximum Variable-Weighted Satisfia
   This problem is in \PO{} (because it is a restriction of \textsc{Linear Programming}) and in \NCAS{} \cite{ln93}.
   However, its budget problem remains \P-complete \cite{tx98}.
   If $\NCO = \PO \cap \NCAS$, then there is an \NC{} algorithm that solves this \P-complete problem exactly, and hence $\NC = \P$.
+\end{proof}
+
+A similar proof shows that, for example, $\PO \cap \ApxNCO = \ApxNCO$ if and only if $\P = \NP$.
+It can be extended to $\PO \cap \NCAS$ as well.
+Compare this theorem with \autoref{thm:poppo}.
+
+\begin{theorem}
+  $\PO \cap \ApxNCO = \ApxNCO$ if and only if $\P = \NP$.
+\end{theorem}
+\begin{proof}
+  The equation $\PO \cap \ApxNCO = \ApxNCO$ is equivalent to the inclusion $\ApxNCO \subseteq \PO$.
+  For the reverse implication, $\P = \NP$ implies $\PO = \NPO$ by definition, and therefore $\ApxNCO \subseteq \NNCO \subseteq \NPO = \PO$.
+  For the forward implication, the problem $\textsc{Maximum } k\textnormal{-}\textsc{CNF Satisfiability}$ problem is in $\ApxNCO$ by \cite[Theorem~8.6]{acgkmp99}.
+  By hypothesis, it is now in $\PO$ as well.
+  Since its budget problem is $\NP$-complete, we conclude that $\P = \NP$.
 \end{proof}
 
 Since \textsc{Linear Programming} is complete for the class of maximization problems in $\PO \cap \NNCO$ under logarithmic space AP reductions, it admits no \NC{} approximation algorithm unless $\NC = \P$.
