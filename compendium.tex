@@ -1,14 +1,164 @@
+%% compendium.tex - compendium of parallel approximable optimization problems
+%%
+%% Copyright 2013, 2016 Jeffrey Finkelstein.
+%%
+%% This LaTeX markup document is made available under the terms of the Creative
+%% Commons Attribution-ShareAlike 4.0 International License,
+%% https://creativecommons.org/licenses/by-sa/4.0/.
 \documentclass{article}
-\usepackage{complexity}
 
+\usepackage{amsmath}
+\usepackage{amssymb}
+%% This must come before hyperref.
+\usepackage{amsthm}
+%% This is strongly recommended by biblatex.
+\usepackage[english]{babel}
+\usepackage[backend=biber]{biblatex}
+\usepackage[T1]{fontenc}
+%% This must come before csquotes.
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+%% This is strongly recommended by biblatex.
+\usepackage{csquotes}
+%% This must come before hyperref.
+\usepackage{thmtools}
+%% This must come before complexity.
+\usepackage{hyperref}
+\usepackage{complexity}
+\usepackage[firstpage]{draftwatermark}
+\usepackage[final]{microtype}
+\usepackage{textcomp}
+
+%% Set the amount by which certain characters protrude into the margins.
+%%
+%% \LoadMicrotypeFile{cmr}
+%%
+%%     This command forces the built-in protrusion settings for the Computer
+%%     Modern Roman (cmr) font family to become available at this point, so
+%%     that we can override these settings on the next line. Even though we are
+%%     really using the Latin Modern Roman (lmr) fonts, microtype uses the cmr
+%%     configuration file.
+%%
+%% \SetProtrusion
+%%
+%%     This instructs the microtype package that we are going to modify the
+%%     protrusion settings.
+%%
+%% [load=lmr-T1]
+%%
+%%     Loads the Type 1 (T1) encoding of the lmr font family, thereby setting
+%%     the default protrusion values for all the characters. This is only
+%%     possible after the \LoadMicrotypeFile{cmr} command (microtype
+%%     essentially considers lmr to be an alias for cmr).
+%%
+%% {encoding=T1, family=lmr}
+%%
+%%     Indicates that we are going to modify the protrusion values for the T1
+%%     encoding of the lmr font family.
+%%
+%% \textquotedblright = {,1000} (and similar commands)
+%%
+%%     Force the character given by \textquotedblright to have default
+%%     protrusion on the left margin (given by an empty string before the
+%%     comma) and full protrusion (that is, protrusion value 1000) on the right
+%%     margin.
+\LoadMicrotypeFile{cmr}
+\SetProtrusion
+    [load=lmr-T1]
+    {encoding=T1, family=lmr}
+    {
+      \textquotedblright = {,1000},
+      \textquotedblleft = {1000,},
+      {'} = {,1000},
+      {,} = {,1000},
+      {:} = {,1000},
+      {;} = {,1000},
+      {.} = {,1000}
+    }
+
+%% Set the ``work-in-progress'' watermark for the first page.
+\SetWatermarkLightness{0.9}
+\SetWatermarkText{Work-in-progress}
+\SetWatermarkFontSize{3.5cm}
+
+%% Set the title and author of the PDF file.
+\hypersetup{pdftitle={Compendium of optimization problems admitting highly parallel approximations}, pdfauthor={Jeffrey Finkelstein}}
+
+%% Declare the bibliography file.
+\addbibresource{ncapproximation.bib}
+
+%% Declare theorem-like environments.
+\declaretheorem[numberwithin=section]{theorem}
+
+%% Custom commands are declared here.
+\newcommand{\email}[1]{\textlangle\href{mailto:#1}{\nolinkurl{#1}}\textrangle}
+\newcommand{\todo}[1]{\textbf{TODO #1}}
+
+%% Redefine the footnote environment so it has no reference and no number.
+\long\def\symbolfootnote#1{\begingroup%
+\def\thefootnote{\fnsymbol{footnote}}\footnotetext{#1}\endgroup}
+
+%% Define the author, title, and date for the document.
+\author{Jeffrey~Finkelstein\\ Computer Science Department, Boston University}
 \title{Compendium of optimization problems admitting highly parallel approximations}
-\author{Jeffrey Finkelstein}
 
 \begin{document}
+
 \maketitle
 
+\symbolfootnote{%
+  Copyright 2013, 2016 Jeffrey~Finkelstein \email{jeffreyf@bu.edu}.
+
+  This document is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License, which is available at \mbox{\url{https://creativecommons.org/licenses/by-sa/4.0/}}.
+  The \LaTeX{} markup that generated this document can be downloaded from its website at \mbox{\url{https://github.com/jfinkels/ncapproximation}}.
+  The markup is distributed under the same license.
+}
+
+%% Document content goes here.
+%
+% Global components at each level must follow this structure.
+%
+% % Foreword %
+%
+% %% Context (anyone - why now?) %%
+%
+% What is the current situation, and why is the need so important?
+%
+%
+% %% Need (readers - why you?) %%
+%
+% Why is this relevant to the reader, and why does something need to be done?
+% (Also reference relevant existing work.)
+%
+%
+% %% Task (author - why me?) %%
+%
+% What was undertaken to address the need?
+%
+%
+% %% Object (document - why this document?) %%
+%
+% What does this document cover?
+%
+%
+% % Summary %
+%
+% %% Findings (author - what?)
+%
+% What did the work reveal when performing the task?
+%
+%
+% %% Conclusion (readers - so what?)
+%
+% What did the findings mean for the audience?
+%
+%
+% %% Perspective (anyone - what now?)
+%
+% What should be done next?
+
 This is a listing of classes of optimization problems and known optimization problems which are members of those classes.
-See Section 2 of the corresponding paper for definitions of the complexity classes.
+See Section~2 of the corresponding paper for definitions of the complexity classes.
 
 \emph{Warning: some of these may not be correctly classified and need verification!}
 
@@ -65,7 +215,7 @@ See Section 2 of the corresponding paper for definitions of the complexity class
   \end{itemize}
 \end{itemize}
 
-\bibliographystyle{plain}
-\bibliography{references}
+%% Print the bibliography section here.
+\printbibliography
 
 \end{document}
